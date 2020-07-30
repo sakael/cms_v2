@@ -1,0 +1,269 @@
+//----------------------------------------------------------------------------
+//
+//  $Id: PrintMeThatLabel.js 38773 2015-09-17 11:45:41Z nmikalko $
+//
+// Project -------------------------------------------------------------------
+//
+//  DYMO Label Framework
+//
+// Content -------------------------------------------------------------------
+//
+//  Web SDK print label sample
+//
+//----------------------------------------------------------------------------
+//
+//  Copyright (c), 2011, Sanford, L.P. All Rights Reserved.
+//
+//----------------------------------------------------------------------------
+    var dymo450;
+    var dymo4xl='';
+
+function global_print(json)
+{
+    // utility functions from goog.dom
+    /**
+     * Enumeration for DOM node types (for reference)
+     * @enum {number}
+     */
+    var NodeType = {
+        ELEMENT: 1,
+        ATTRIBUTE: 2,
+        TEXT: 3,
+        CDATA_SECTION: 4,
+        ENTITY_REFERENCE: 5,
+        ENTITY: 6,
+        PROCESSING_INSTRUCTION: 7,
+        COMMENT: 8,
+        DOCUMENT: 9,
+        DOCUMENT_TYPE: 10,
+        DOCUMENT_FRAGMENT: 11,
+        NOTATION: 12
+    };
+
+    var result=false;
+
+var currentPrinterModelName='';
+
+    /**
+     * Removes all the child nodes on a DOM node.
+     * @param {Node} node Node to remove children from.
+     */
+    var removeChildren = function(node) {
+        // Note: Iterations over live collections can be slow, this is the fastest
+        // we could find. The double parenthesis are used to prevent JsCompiler and
+        // strict warnings.
+        var child;
+        while ((child = node.firstChild)) {
+            node.removeChild(child);
+        }
+    };
+
+    /**
+     * Returns the owner document for a node.
+     * @param {Node|Window} node The node to get the document for.
+     * @return {!Document} The document owning the node.
+     */
+    var getOwnerDocument = function(node) {
+        // TODO(user): Remove IE5 code.
+        // IE5 uses document instead of ownerDocument
+        return /** @type {!Document} */ (
+            node.nodeType == NodeType.DOCUMENT ? node :
+                node.ownerDocument || node.document);
+    };
+
+    /**
+     * Cross-browser function for setting the text content of an element.
+     * @param {Element} element The element to change the text content of.
+     * @param {string} text The string that should replace the current element
+     *     content.
+     */
+    var setTextContent = function(element, text) {
+        if ('textContent' in element) {
+            element.textContent = text;
+        } else if (element.firstChild &&
+            element.firstChild.nodeType == NodeType.TEXT) {
+            // If the first child is a text node we just change its data and remove the
+            // rest of the children.
+            while (element.lastChild != element.firstChild) {
+                element.removeChild(element.lastChild);
+            }
+            element.firstChild.data = text;
+        } else {
+            removeChildren(element);
+            var doc = getOwnerDocument(element);
+            element.appendChild(doc.createTextNode(text));
+        }
+    };
+
+    // app settings stored between sessions
+    var Settings = function()
+    {
+        this.currentPrinterName = "";
+        this.printerUris = [];
+    }
+
+    // loads settings
+    Settings.prototype.load = function()
+    {
+        var currentPrinterName = Cookie.get('currentPrinterName');
+        var printerUris = Cookie.get('printerUris');
+
+        if (currentPrinterName)
+            this.currentPrinterName = currentPrinterName;
+
+        if (printerUris)
+            this.printerUris = printerUris.split('|');
+    }
+
+    Settings.prototype.save = function()
+    {
+        Cookie.set('currentPrinterName', this.currentPrinterName, 24*365);
+        Cookie.set('printerUris', this.printerUris.join('|'), 24*365);
+    }
+
+        var printersComboBox = document.getElementById('printersComboBox');
+        var settings = new Settings();
+
+        // save settings to cookies
+
+        function saveSettings(printer)
+        {
+            settings.currentPrinterName = printer;
+            settings.currentPrinterModel= printer;
+            settings.save();
+        }
+
+        // caches a list of printers
+        var printers = [];
+
+        // loads all supported printers into a combo box
+        function updatePrinters()
+        {
+            printers = dymo.label.framework.getPrinters();
+        };
+
+
+
+        // load settings from cookies
+        function loadSettings()
+        {
+            settings.load();
+            // update printer uris
+            for (var i = 0; i < settings.printerUris.length; ++i)
+            {
+                var printerUri = settings.printerUris[i];
+                dymo.label.framework.addPrinterUri(printerUri, '',
+                    updatePrinters,
+                    function() {alert('Unable to contact "' + printerUri + '"');});
+            }
+        }
+
+        $.get("/js/labels/reseller.label", function(labelXml)
+        {
+          dymo450 = dymo.label.framework.openLabelXml(labelXml);
+          goPrint(json,dymo450);
+        }, "text");
+
+        function goPrint(json,dymo450)
+        {
+
+            loadSettings();
+            updatePrinters();  // for local printers
+
+            if (json.printer == "4xl"){
+                printers.forEach(function(printer) {
+                    if(printer.modelName=="DYMO LabelWriter 4XL"){settings.currentPrinterName = printer.name;currentPrinterModelName="DYMO LabelWriter 4XL";}
+                });
+            }else if(json.printer == "450"){
+                printers.forEach(function(printer) {
+                    if(printer.modelName=="DYMO LabelWriter 450"){settings.currentPrinterName = printer.name;currentPrinterModelName="DYMO LabelWriter 450";}
+                });
+            }
+            var printer=printers[settings.currentPrinterName];
+            try
+            {
+               // settings.currentPrinterName = printersComboBox.value;
+                var text = json.name;
+                var shcont = json.TotalWeight+'|'+json.count+'|'+json.date;
+                var barcode = json.barcode;
+                var barcode_int = json.order_id;
+                var totalvalue = json.total;
+
+                var bl2 = false;
+                if (totalvalue > 4000){
+                    bl2 = true;
+                }
+
+                var shcont = shcont.replace(/\|/g,'\n');
+                if(!json.printer){
+                    var printer = printers[settings.currentPrinterName];
+                    if (!printer)
+                        throw new Error("Select printer");
+                }
+
+                // determine what label to print based on printer type
+                var label = null;
+                var objName = "";
+               // loadLabels();
+                if (json.printer == "4xl"){
+                    label = dymo4xl;
+                    objName = "Address";
+                    settings.currentPrinterName == "DYMO LabelWriter 4XL";
+                    var printer = printers[settings.currentPrinterName];
+                }else{
+                    label = dymo450;
+                    objName = "Address";
+                    settings.currentPrinterName == "DYMO LabelWriter 450";
+                    var printer = printers[settings.currentPrinterName];
+                }
+                if (!label)
+                    throw new Error("Label is not loaded. Wait until is loaded or reload the page");
+
+                // set data
+                // Because Android does not support XPath (that is needed for setObjectText)
+                // we will use LabelSet instead
+                //label.setObjectText(objName, text);
+                var labelSet = new dymo.label.framework.LabelSetBuilder();
+                labelSet.addRecord().setText(objName, text);
+                if (currentPrinterModelName == "DYMO LabelWriter 4XL"){
+                    label.setObjectText("CONTENTS", shcont);
+                    label.setObjectText("BARCODE", barcode);
+                    label.setObjectText("BARCODE_INT", barcode_int);
+                    var sbarcode = 'Order: ' + barcode_int;
+                    label.setObjectText("ORDERNUMBER", sbarcode);
+                    label.setObjectText("BLOCK1", "");
+                    label.setObjectText("BLOCK2", "");
+                    label.setObjectText("BLOCK3", "");
+
+                    if (bl2 == true){
+                        label.setObjectText("BLOCK2", "HANDT");
+                    }
+                }
+
+                if (settings.currentPrinterName == "DYMO LabelWriter 450"){
+                  alert(settings.currentPrinterName);
+                  //  label.setObjectText("CONTENTS", shcont);
+                  //  label.setObjectText("BARCODE", barcode);
+                }
+
+                // print
+                //label.print(printer.name, null, labelSet.toString());
+                // print and get status
+                var printJob = label.printAndPollStatus(printer.name, null, labelSet.toString(), function(printJob, printJobStatus)
+                {
+                    // output status
+                    var statusStr = 'Job Status: ' + printJobStatus.statusMessage;
+                    result = (printJobStatus.status != dymo.label.framework.PrintJobStatus.ProcessingError
+                    && printJobStatus.status != dymo.label.framework.PrintJobStatus.Finished);
+                    return result;
+                }, 1000);
+
+console.log(printJob);
+            }
+            catch(e)
+            {
+              //  alert(e.message || e);
+            }
+        }
+        return result;
+}

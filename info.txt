@@ -1,0 +1,86 @@
+///Validation
+
+    //Inlcude this in any controller
+     use Respect\Validation\Validator as v;
+
+    //post
+         $validation= $this->validator->validate($request,[
+            'id'=> v::notEmpty(),  //full list http://respect.github.io/Validation/docs/validators.html
+          ]);
+
+    //Get
+          $validation= $this->validator->validateGet($args,[
+             'id'=> v::notEmpty(),  //full list http://respect.github.io/Validation/docs/validators.html
+          ]);
+
+    //checking after validated
+           if($validation->failed()){
+              dd($validation);
+           }
+
+
+//PermissionMiddleware
+
+    ->add(new Permission($container))
+
+//Authentication
+
+    ->add(new Auth($container));
+    add this to any route to make it not accessible without log in
+
+//Global variable in View
+
+    auth.user: is an array of current user data
+    auth.check: is true or false to check if the current user is signed in
+    auth.user.super: is true or false to check if a user is super
+
+
+//GeneralController
+    For All small action like home page | search etc.
+
+
+//SuperController
+    For all action which requires super permission like user rights
+
+
+
+////////////////////////////////////////////////////////////////
+////////////////Includes Libraries and packges///////////////////
+////////////////////////////////////////////////////////////////
+
+//Composer Packages
+
+    "respect/validation" // For input fields Validations
+    "slim/flash" // For giving a flash message
+    "nesbot/carbon": //For getting the date it is a useful package
+
+
+// JS libraries
+    https://github.com/axios/axios   //For Ajax <script type="text/javascript" src="/js/axios.min.js"></script>
+
+    https://github.com/CodeSeven/toastr // For popup messages , it is included in the base.tpl
+
+
+////////////////////////////////////////////////////////////////
+///////////////         Global Functions          //////////////
+////////////////////////////////////////////////////////////////
+
+// Activity Logs
+    use App\Classes\UserActivity;
+    UserActivity::Record($task,$subject_id,$subject_type);//$subject_id : is product id or attribute id; $subject_type: is the class name like Product Attribute or AttributeGroup
+
+
+// Upload files to s3
+    Upload($model,$model_id, $file); $model is the model name like brands for the folder name; the model_id is the id of the brand; return the file directory to be stored in database
+
+
+// User
+    user. //any function from auth class for example check permissions of a user user.checkPermissionByRouteName('Route Name')
+
+// composer generate-thumbs 
+    parameter 1\type: all, from, one
+    parameter 2\model: Type, Product, Brand, Category
+    parameter 3\thumb name: name of the thumb to be generated
+    parameter 4\number\id: number from or id
+    parameter 5\number: number to
+    composer generate-thumbs -- from type 123bestdealcom 2 10

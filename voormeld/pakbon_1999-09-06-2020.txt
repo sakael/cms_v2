@@ -1,0 +1,20 @@
+A030 BDL                      info@123bestdeal.nl
+V010 X
+V011 1
+V020 3SBDL1449
+V173 01
+V176 mvankreij@ziggo.nl
+V180 63
+V190 2215XT
+V800 79099100
+V999 Z
+V010 X
+V011 1
+V020 3SBDL1450
+V173 01
+V176 johan.stoffer@kpnmail.nl
+V180 7
+V190 6363EA
+V800 79099100
+V999 Z
+Z999 Z

@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DieCutLabel Version="8.0" Units="twips">
+	<PaperOrientation>Portrait</PaperOrientation>
+	<Id>Shipping4x6</Id>
+	<PaperName>1744907 4 in x 6 in</PaperName>
+	<DrawCommands>
+		<RoundRectangle X="0" Y="0" Width="5918.4" Height="9038.4" Rx="270" Ry="270" />
+	</DrawCommands>
+	<ObjectInfo>
+		<BarcodeObject>
+			<Name>BARCODE</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>True</IsVariable>
+			<Text>3SBDL8131142220</Text>
+			<Type>Code128A</Type>
+			<Size>Large</Size>
+			<TextPosition>Bottom</TextPosition>
+			<TextFont Family="Arial" Size="8" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+			<CheckSumFont Family="Arial" Size="8" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+			<TextEmbedding>None</TextEmbedding>
+			<ECLevel>0</ECLevel>
+			<HorizontalAlignment>Center</HorizontalAlignment>
+			<QuietZonesPadding Left="0" Top="0" Right="0" Bottom="0" />
+		</BarcodeObject>
+		<Bounds X="82" Y="6288.2568359375" Width="5760" Height="2117.80102539063" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<AddressObject>
+			<Name>Adres2</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>True</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>ONTVANGER</String>
+					<Attributes>
+						<Font Family="Arial" Size="12" Bold="True" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+			<ShowBarcodeFor9DigitZipOnly>True</ShowBarcodeFor9DigitZipOnly>
+			<BarcodePosition>Suppress</BarcodePosition>
+			<LineFonts>
+				<Font Family="Arial" Size="12" Bold="True" Italic="False" Underline="False" Strikeout="False" />
+			</LineFonts>
+		</AddressObject>
+		<Bounds X="1399.490234375" Y="2137.89453125" Width="4061.61279296875" Height="270" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ShapeObject>
+			<Name>Vorm1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<ShapeType>HorizontalLine</ShapeType>
+			<LineWidth>15</LineWidth>
+			<LineAlignment>Center</LineAlignment>
+			<FillColor Alpha="0" Red="255" Green="255" Blue="255" />
+		</ShapeObject>
+		<Bounds X="343.638732910156" Y="2003.5546875" Width="5220" Height="15" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ShapeObject>
+			<Name>Vorm2</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<ShapeType>HorizontalLine</ShapeType>
+			<LineWidth>15</LineWidth>
+			<LineAlignment>Center</LineAlignment>
+			<FillColor Alpha="0" Red="255" Green="255" Blue="255" />
+		</ShapeObject>
+		<Bounds X="328.638732910156" Y="3867.66455078125" Width="5220" Height="15" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>TEKST</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>True</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>inhoud</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="309.52880859375" Y="4013.19165039063" Width="600" Height="210" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ImageObject>
+			<Name>AFBEELDING</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<Image>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</Image>
+			<ScaleMode>Uniform</ScaleMode>
+			<BorderWidth>0</BorderWidth>
+			<BorderColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<HorizontalAlignment>Center</HorizontalAlignment>
+			<VerticalAlignment>Center</VerticalAlignment>
+		</ImageObject>
+		<Bounds X="3589.43872070313" Y="480.636352539063" Width="2008.72448730469" Height="223.394393920898" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>TEKST_1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>123BestDeal BV</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="1408.92626953125" Y="889.292907714844" Width="1422.87805175781" Height="242.644104003906" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>TEKST_2</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>afzender</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="362.879364013672" Y="885.156860351563" Width="697.801574707031" Height="324.476531982422" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>TEKST__1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>123BestDeal
+</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="True" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+				<Element>
+					<String>Molenstraat 24 - 7491 BG Delden
+support@123bestdeal.nl</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="1417.09387207031" Y="1284.89477539063" Width="2671.5703125" Height="616.361267089844" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ShapeObject>
+			<Name>Vorm_1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<ShapeType>HorizontalLine</ShapeType>
+			<LineWidth>15</LineWidth>
+			<LineAlignment>Center</LineAlignment>
+			<FillColor Alpha="0" Red="255" Green="255" Blue="255" />
+		</ShapeObject>
+		<Bounds X="338.167572021484" Y="1162.03662109375" Width="5220" Height="15" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>TEKST__2</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>retour</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="366.592224121094" Y="1276.49353027344" Width="697.801574707031" Height="324.476531982422" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>TEKST___1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>aan</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="365.552642822266" Y="2140.255859375" Width="697.801574707031" Height="324.476531982422" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ShapeObject>
+			<Name>Vorm_2</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<ShapeType>HorizontalLine</ShapeType>
+			<LineWidth>15</LineWidth>
+			<LineAlignment>Center</LineAlignment>
+			<FillColor Alpha="0" Red="255" Green="255" Blue="255" />
+		</ShapeObject>
+		<Bounds X="328.638732910156" Y="4782.66455078125" Width="5220" Height="15" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>TEKST_3</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>Gewicht (gr):
+Aantal artikelen:
+Verzenddatum:</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="1402" Y="4020" Width="2508.38037109375" Height="697.87451171875" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ShapeObject>
+			<Name>Vorm__1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<ShapeType>HorizontalLine</ShapeType>
+			<LineWidth>15</LineWidth>
+			<LineAlignment>Center</LineAlignment>
+			<FillColor Alpha="0" Red="255" Green="255" Blue="255" />
+		</ShapeObject>
+		<Bounds X="335.416412353516" Y="5666.34130859375" Width="5220" Height="15" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<AddressObject>
+			<Name>Address</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>True</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>123BestDeal
+T.a.v.
+Molenstraat 24
+7491 BG Delden
+The Netherlands</String>
+					<Attributes>
+						<Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+			<ShowBarcodeFor9DigitZipOnly>False</ShowBarcodeFor9DigitZipOnly>
+			<BarcodePosition>AboveAddress</BarcodePosition>
+			<LineFonts>
+				<Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+				<Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+				<Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+				<Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+				<Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+			</LineFonts>
+		</AddressObject>
+		<Bounds X="1410" Y="2490" Width="3975" Height="1260" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<BarcodeObject>
+			<Name>BARCODE_INT</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<Text>70334</Text>
+			<Type>QRCode</Type>
+			<Size>Large</Size>
+			<TextPosition>None</TextPosition>
+			<TextFont Family="Arial" Size="8" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+			<CheckSumFont Family="Arial" Size="8" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+			<TextEmbedding>None</TextEmbedding>
+			<ECLevel>0</ECLevel>
+			<HorizontalAlignment>Center</HorizontalAlignment>
+			<QuietZonesPadding Left="0" Top="0" Right="0" Bottom="0" />
+		</BarcodeObject>
+		<Bounds X="4837" Y="1290" Width="795" Height="630" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ShapeObject>
+			<Name>VORM</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<ShapeType>VerticalLine</ShapeType>
+			<LineWidth>15</LineWidth>
+			<LineAlignment>Center</LineAlignment>
+			<FillColor Alpha="0" Red="255" Green="255" Blue="255" />
+		</ShapeObject>
+		<Bounds X="1395" Y="4864.69970703125" Width="15" Height="738.701293945313" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<ShapeObject>
+			<Name>VORM_1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<ShapeType>VerticalLine</ShapeType>
+			<LineWidth>15</LineWidth>
+			<LineAlignment>Center</LineAlignment>
+			<FillColor Alpha="0" Red="255" Green="255" Blue="255" />
+		</ShapeObject>
+		<Bounds X="3069.740234375" Y="4864.89453125" Width="15" Height="738.701293945313" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>BLOCK1</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Middle</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>BR</String>
+					<Attributes>
+						<Font Family="Arial" Size="20" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="375" Y="4883.40087890625" Width="930" Height="720" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>BLOCK2</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Middle</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>HANDT</String>
+					<Attributes>
+						<Font Family="Arial" Size="20" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="1530" Y="4883.40087890625" Width="1489.12084960938" Height="720" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>BLOCK3</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Middle</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>BR</String>
+					<Attributes>
+						<Font Family="Arial" Size="20" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="3195" Y="4883.40087890625" Width="930" Height="720" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>CONTENTS</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Left</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>500
+1
+20-02-2013</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="2882.02294921875" Y="4030.96801757813" Width="2640" Height="642" />
+	</ObjectInfo>
+	<ObjectInfo>
+		<TextObject>
+			<Name>ORDERNUMBER</Name>
+			<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+			<BackColor Alpha="0" Red="255" Green="255" Blue="255" />
+			<LinkedObjectName></LinkedObjectName>
+			<Rotation>Rotation0</Rotation>
+			<IsMirrored>False</IsMirrored>
+			<IsVariable>False</IsVariable>
+			<HorizontalAlignment>Right</HorizontalAlignment>
+			<VerticalAlignment>Top</VerticalAlignment>
+			<TextFitMode>None</TextFitMode>
+			<UseFullFontHeight>True</UseFullFontHeight>
+			<Verticalized>False</Verticalized>
+			<StyledText>
+				<Element>
+					<String>70334</String>
+					<Attributes>
+						<Font Family="Arial" Size="9" Bold="False" Italic="False" Underline="False" Strikeout="False" />
+						<ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
+					</Attributes>
+				</Element>
+			</StyledText>
+		</TextObject>
+		<Bounds X="3035.48681640625" Y="890.44677734375" Width="2509.47143554688" Height="242.644104003906" />
+	</ObjectInfo>
+</DieCutLabel>

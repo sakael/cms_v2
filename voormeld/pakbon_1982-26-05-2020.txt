@@ -1,0 +1,12 @@
+A030 BDL                      info@123bestdeal.nl
+V010 X
+V011 1
+V020 3SBDL1425
+V173 01
+V176 sam@123bestdeal.nl
+V180 30
+V181 A
+V190 7544LC
+V800 79099100
+V999 Z
+Z999 Z

@@ -1,0 +1,11 @@
+A030 BDL                      info@123bestdeal.nl
+V010 X
+V011 1
+V020 3SBDL1442
+V173 01
+V176 maschamichel@ziggo.nl
+V180 22
+V190 1755PN
+V800 79099100
+V999 Z
+Z999 Z

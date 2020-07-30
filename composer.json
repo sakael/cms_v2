@@ -1,0 +1,100 @@
+{
+  "name": "slim/slim-skeleton",
+  "description": "A Slim Framework skeleton application for rapid development",
+  "keywords": [
+    "microframework",
+    "rest",
+    "router",
+    "psr7"
+  ],
+  "homepage": "http://github.com/slimphp/Slim-Skeleton",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Remo in het Veld - 123BestDeal BV",
+      "email": "remo@123bestdeal.nl",
+      "homepage": "https://www.123bestdeal.nl"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/sendinblue/APIv3-php-library.git"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "slim/slim": "^3.1",
+    "slim/php-view": "^2.0",
+    "monolog/monolog": "^1.17",
+    "slim/twig-view": "^2.2",
+    "sergeytsalkov/meekrodb": "^2.3",
+    "aws/aws-sdk-php": "3.*",
+    "php-telegram-bot/telegram-bot-manager": "^1.2",
+    "symfony/var-dumper": "^4.0",
+    "respect/validation": "^1.1",
+    "slim/flash": "^0.4.0",
+    "nesbot/carbon": "^2.16.3",
+    "sendinblue/api-v3-sdk": "^6.1.0",
+    "phive/twig-extensions-deferred": "^2.0",
+    "phpfastcache/phpfastcache": "^8.0",
+    "mpdf/mpdf": "^8.0",
+    "nextimage/nextimage": "^1.0",
+    "multisafepay/api": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tests\\": "tests/",
+      "App\\": "app/"
+    },
+    "files": [
+      "app/helpers.php"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=4.8 < 6.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/",
+      "App\\": "app/"
+    },
+    "files": [
+      "app/helpers.php"
+    ]
+  },
+  "scripts": {
+    "routes-update": "App\\Controllers\\GeneralController::postUpdate",
+    "run-dev": [
+      "rm -rf vendor",
+      "rm -rf node_modules",
+      "composer update",
+      "cp db.class.php vendor/sergeytsalkov/meekrodb/db.class.php",
+      "yarn install",
+      "yarn upgrade",
+      "gulp"
+    ],
+    "run-prod": [
+      "rm -rf vendor",
+      "rm -rf node_modules",
+      "composer update",
+      "cp db.class.php vendor/sergeytsalkov/meekrodb/db.class.php",
+      "yarn install",
+      "yarn upgrade",
+      "gulp build"
+    ],
+    "generate-thumbs": [
+      "@php commands/generate_thumbs.php"
+    ]
+  },
+  "scripts-descriptions": {
+    "routes-update": "to update the routes database",
+    "run-dev": "to start the app in dev mode from null, you can use start-dev.sh instead",
+    "run-prod": "to start the app in prod mode from null, you can use start-prod.sh instead",
+    "generate-thumbs": "generate thumb for model or specfic id composer for more information check info.txt"
+  },
+  "extra": {
+    "composer-npm-timeout": 9000,
+    "composer-npm-optional": true
+  }
+}
