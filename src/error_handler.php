@@ -16,7 +16,7 @@ $container['notAllowedHandler'] = function ($container) {
         ]);
     };
 };
-
+*/
 $container['notFoundHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
         return $container['view']->render($response->withStatus(404), 'errors/404.tpl', [
@@ -24,4 +24,3 @@ $container['notFoundHandler'] = function ($container) {
         ]);
     };
 };
-*/

@@ -1,4 +1,4 @@
-{% extends "base.tpl" %}
+{% extends "layouts/base.tpl" %}
 {% block cssfiles %}{% endblock %}
 {% block content %}
 <!-- start page title -->

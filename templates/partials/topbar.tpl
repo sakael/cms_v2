@@ -124,9 +124,7 @@
                   <span class="account-user-avatar">
                     <img src="dist/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle" />
                   </span>
-                  <span>
-                    <span class="account-user-name">{{auth.user.name}} {{auth.user.lastname}}</span>
-                  </span>
+                  <span class="account-user-name text-capitalize pt-1" >{{auth.user.name}} {{auth.user.lastname}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
                   <!-- item-->
@@ -135,31 +133,13 @@
                   </div>
 
                   <!-- item-->
-                  <a href="javascript:void(0);" class="dropdown-item notify-item">
+                  <a href="{{path_for('auth.account')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-circle mr-1"></i>
                     <span>My Account</span>
                   </a>
 
                   <!-- item-->
-                  <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="mdi mdi-account-edit mr-1"></i>
-                    <span>Settings</span>
-                  </a>
-
-                  <!-- item-->
-                  <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="mdi mdi-lifebuoy mr-1"></i>
-                    <span>Support</span>
-                  </a>
-
-                  <!-- item-->
-                  <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="mdi mdi-lock-outline mr-1"></i>
-                    <span>Lock Screen</span>
-                  </a>
-
-                  <!-- item-->
-                  <a href="javascript:void(0);" class="dropdown-item notify-item">
+                  <a href="{{path_for('auth.logout')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-logout mr-1"></i>
                     <span>Logout</span>
                   </a>
