@@ -38,6 +38,7 @@ class Auth
         if (isset($_SESSION['user_id'])) {
             return DB::queryFirstRow("SELECT id,name,lastname,email,super FROM users WHERE id=%i", $_SESSION['user_id']);
         } else return false;
+        
     }
 
     static function user_id()
