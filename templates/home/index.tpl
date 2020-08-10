@@ -3,556 +3,416 @@
 {% block content %}
 <!-- start page title -->
 <div class="row">
-  <div class="col-12">
-    <div class="page-title-box">
-      <div class="page-title-right">
-        <form class="form-inline">
-          <div class="form-group">
-            <div class="input-group">
-              <input type="text" class="form-control form-control-light" id="dash-daterange" />
-              <div class="input-group-append">
-                <span class="input-group-text bg-primary border-primary text-white">
-                  <i class="mdi mdi-calendar-range font-13"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-          <a href="javascript: void(0);" class="btn btn-primary ml-2">
-            <i class="mdi mdi-autorenew"></i>
-          </a>
-          <a href="javascript: void(0);" class="btn btn-primary ml-1">
-            <i class="mdi mdi-filter-variant"></i>
-          </a>
-        </form>
+   <div class="col-12">
+      <div class="page-title-box">
+         <h4 class="page-title">Dashboard</h4>
       </div>
-      <h4 class="page-title">Dashboard</h4>
-    </div>
-  </div>
+   </div>
 </div>
 <!-- end page title -->
-
-<div class="row">
-  <div class="col-xl-5 col-lg-6">
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="card widget-flat">
-          <div class="card-body">
-            <div class="float-right">
-              <i class="mdi mdi-account-multiple widget-icon"></i>
-            </div>
-            <h5 class="text-muted font-weight-normal mt-0" title="Number of Customers">Customers</h5>
-            <h3 class="mt-3 mb-3">36,254</h3>
-            <p class="mb-0 text-muted">
-              <span class="text-success mr-2"><i class="mdi mdi-arrow-up-bold"></i> 5.27%</span>
-              <span class="text-nowrap">Since last month</span>
-            </p>
-          </div>
-          <!-- end card-body-->
-        </div>
-        <!-- end card-->
+<div class="row row-eq-height mb-3 home-page-top-cards">
+   <div class="col-xl-3 col-lg-3">
+      <!-- Messages-->
+      <div class="card mb-0">
+         <div class="card-body">
+            <h4 class="header-title mb-3">Totaaloverzicht</h4>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a class="text-secondary" href="{{path_for('OrdersIndex')}}?orderTab=newOrders">Nieuwe orders</a>
+                    <span class="badge badge-success badge-pill">{{(orders.newOrders | length)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                     <a class="text-secondary" href="{{path_for('OrdersIndex')}}?orderTab=claimedOrders">Inpakken</a>
+                    <span class="badge badge-primary badge-pill">{{(orders.claimedOrders | length)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                     <a class="text-secondary" href="{{path_for('OrdersIndex')}}?orderTab=returnOrders">Openstaande credits</a>
+                    <span class="badge badge-secondary badge-pill">{{(orders.returnOrders | length)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                     <a class="text-secondary" href="#">Retour | Omruil</a>
+                    <span class="badge badge-warning badge-pill">{{(orders.returnChange | length)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                     <a class="text-secondary" href="#">Retour | Credit</a>
+                    <span class="badge badge-danger badge-pill">{{(orders.returnCredite | length)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                     <a class="text-secondary" href="{{path_for('OrdersIndex')}}?orderTab=waitSupplierOrders">Wacht op leverancier</a>
+                    <span class="badge badge-info badge-pill">{{(orders.waitSupplierOrders | length)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                     <a class="text-secondary" href="#">Wacht op betaling</a>
+                    <span class="badge badge-info badge-pill">{{(orders.waitPaymentOrders | length)}}</span>
+                </li>
+            </ul>
+         </div>
+         <!-- end card-body-->
       </div>
-      <!-- end col-->
-
-      <div class="col-lg-6">
-        <div class="card widget-flat">
-          <div class="card-body">
-            <div class="float-right">
-              <i class="mdi mdi-cart-plus widget-icon"></i>
-            </div>
-            <h5 class="text-muted font-weight-normal mt-0" title="Number of Orders">Orders</h5>
-            <h3 class="mt-3 mb-3">5,543</h3>
-            <p class="mb-0 text-muted">
-              <span class="text-danger mr-2"><i class="mdi mdi-arrow-down-bold"></i> 1.08%</span>
-              <span class="text-nowrap">Since last month</span>
-            </p>
-          </div>
-          <!-- end card-body-->
-        </div>
-        <!-- end card-->
-      </div>
-      <!-- end col-->
-    </div>
-    <!-- end row -->
-
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="card widget-flat">
-          <div class="card-body">
-            <div class="float-right">
-              <i class="mdi mdi-currency-usd widget-icon"></i>
-            </div>
-            <h5 class="text-muted font-weight-normal mt-0" title="Average Revenue">Revenue</h5>
-            <h3 class="mt-3 mb-3">$6,254</h3>
-            <p class="mb-0 text-muted">
-              <span class="text-danger mr-2"><i class="mdi mdi-arrow-down-bold"></i> 7.00%</span>
-              <span class="text-nowrap">Since last month</span>
-            </p>
-          </div>
-          <!-- end card-body-->
-        </div>
-        <!-- end card-->
-      </div>
-      <!-- end col-->
-
-      <div class="col-lg-6">
-        <div class="card widget-flat">
-          <div class="card-body">
-            <div class="float-right">
-              <i class="mdi mdi-pulse widget-icon"></i>
-            </div>
-            <h5 class="text-muted font-weight-normal mt-0" title="Growth">Growth</h5>
-            <h3 class="mt-3 mb-3">+ 30.56%</h3>
-            <p class="mb-0 text-muted">
-              <span class="text-success mr-2"><i class="mdi mdi-arrow-up-bold"></i> 4.87%</span>
-              <span class="text-nowrap">Since last month</span>
-            </p>
-          </div>
-          <!-- end card-body-->
-        </div>
-        <!-- end card-->
-      </div>
-      <!-- end col-->
-    </div>
-    <!-- end row -->
-  </div>
-  <!-- end col -->
-
-  <div class="col-xl-7 col-lg-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="dropdown float-right">
-          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-            <i class="mdi mdi-dots-vertical"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-          </div>
-        </div>
-        <h4 class="header-title mb-3">Projections Vs Actuals</h4>
-
-        <div id="high-performing-product" class="apex-charts" data-colors="#727cf5,#e3eaef"></div>
-      </div>
-      <!-- end card-body-->
-    </div>
-    <!-- end card-->
-  </div>
-  <!-- end col -->
-</div>
-<!-- end row -->
-
-<div class="row">
-  <div class="col-lg-8">
-    <div class="card">
-      <div class="card-body">
-        <div class="dropdown float-right">
-          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-            <i class="mdi mdi-dots-vertical"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-          </div>
-        </div>
-        <h4 class="header-title mb-3">Revenue</h4>
-
-        <div class="chart-content-bg">
-          <div class="row text-center">
-            <div class="col-md-6">
-              <p class="text-muted mb-0 mt-3">Current Week</p>
-              <h2 class="font-weight-normal mb-3">
-                <small class="mdi mdi-checkbox-blank-circle text-primary align-middle mr-1"></small>
-                <span>$58,254</span>
-              </h2>
-            </div>
-            <div class="col-md-6">
-              <p class="text-muted mb-0 mt-3">Previous Week</p>
-              <h2 class="font-weight-normal mb-3">
-                <small class="mdi mdi-checkbox-blank-circle text-success align-middle mr-1"></small>
-                <span>$69,524</span>
-              </h2>
-            </div>
-          </div>
-        </div>
-
-        <div class="dash-item-overlay d-none d-md-block">
-          <h5>Today's Earning: $2,562.30</h5>
-          <p class="text-muted font-13 mb-3 mt-2">
-            Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus...
-          </p>
-          <a href="javascript: void(0);" class="btn btn-outline-primary"
-            >View Statements
-            <i class="mdi mdi-arrow-right ml-2"></i>
-          </a>
-        </div>
-
-        <div id="revenue-chart" class="apex-charts mt-3" data-colors="#727cf5,#0acf97"></div>
-      </div>
-      <!-- end card-body-->
-    </div>
-    <!-- end card-->
-  </div>
-  <!-- end col-->
-
-  <div class="col-lg-4">
-    <div class="card">
-      <div class="card-body">
-        <div class="dropdown float-right">
-          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-            <i class="mdi mdi-dots-vertical"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-          </div>
-        </div>
-        <h4 class="header-title">Revenue By Location</h4>
-        <div class="mb-4 mt-4">
-          <div id="world-map-markers" style="height: 224px;"></div>
-        </div>
-
-        <h5 class="mb-1 mt-0 font-weight-normal">New York</h5>
-        <div class="progress-w-percent">
-          <span class="progress-value font-weight-bold">72k </span>
-          <div class="progress progress-sm">
-            <div class="progress-bar" role="progressbar" style="width: 72%;" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        </div>
-
-        <h5 class="mb-1 mt-0 font-weight-normal">San Francisco</h5>
-        <div class="progress-w-percent">
-          <span class="progress-value font-weight-bold">39k </span>
-          <div class="progress progress-sm">
-            <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        </div>
-
-        <h5 class="mb-1 mt-0 font-weight-normal">Sydney</h5>
-        <div class="progress-w-percent">
-          <span class="progress-value font-weight-bold">25k </span>
-          <div class="progress progress-sm">
-            <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        </div>
-
-        <h5 class="mb-1 mt-0 font-weight-normal">Singapore</h5>
-        <div class="progress-w-percent mb-0">
-          <span class="progress-value font-weight-bold">61k </span>
-          <div class="progress progress-sm">
-            <div class="progress-bar" role="progressbar" style="width: 61%;" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        </div>
-      </div>
-      <!-- end card-body-->
-    </div>
-    <!-- end card-->
-  </div>
-  <!-- end col-->
-</div>
-<!-- end row -->
-
-<div class="row">
-  <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
-    <div class="card">
-      <div class="card-body">
-        <a href="" class="btn btn-sm btn-link float-right mb-3"
-          >Export
-          <i class="mdi mdi-download ml-1"></i>
-        </a>
-        <h4 class="header-title mt-2">Top Selling Products</h4>
-
-        <div class="table-responsive">
-          <table class="table table-centered table-nowrap table-hover mb-0">
-            <tbody>
-              <tr>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">ASOS Ridley High Waist</h5>
-                  <span class="text-muted font-13">07 April 2018</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$79.49</h5>
-                  <span class="text-muted font-13">Price</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">82</h5>
-                  <span class="text-muted font-13">Quantity</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$6,518.18</h5>
-                  <span class="text-muted font-13">Amount</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">Marco Lightweight Shirt</h5>
-                  <span class="text-muted font-13">25 March 2018</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$128.50</h5>
-                  <span class="text-muted font-13">Price</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">37</h5>
-                  <span class="text-muted font-13">Quantity</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$4,754.50</h5>
-                  <span class="text-muted font-13">Amount</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">Half Sleeve Shirt</h5>
-                  <span class="text-muted font-13">17 March 2018</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$39.99</h5>
-                  <span class="text-muted font-13">Price</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">64</h5>
-                  <span class="text-muted font-13">Quantity</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$2,559.36</h5>
-                  <span class="text-muted font-13">Amount</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">Lightweight Jacket</h5>
-                  <span class="text-muted font-13">12 March 2018</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$20.00</h5>
-                  <span class="text-muted font-13">Price</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">184</h5>
-                  <span class="text-muted font-13">Quantity</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$3,680.00</h5>
-                  <span class="text-muted font-13">Amount</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">Marco Shoes</h5>
-                  <span class="text-muted font-13">05 March 2018</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$28.49</h5>
-                  <span class="text-muted font-13">Price</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">69</h5>
-                  <span class="text-muted font-13">Quantity</span>
-                </td>
-                <td>
-                  <h5 class="font-14 my-1 font-weight-normal">$1,965.81</h5>
-                  <span class="text-muted font-13">Amount</span>
-                </td>
-              </tr>
-            </tbody>
+      <!-- end card-->
+   </div>
+   <!-- end col -->
+   <div class="col-xl-3 col-lg-3">
+      <div class="card mb-0">
+         <div class="card-body">
+            <h4 class="header-title mb-2">Totaaloverzicht</h4>
+            <table class="table table-hover table-centered mb-0 ">
+              <thead>
+                  <tr>
+                      <th></th>
+                      <th>nl</th>
+                      <th>com</th>
+                      <th>bol</th>
+                      <th>LVB</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr >
+                      <td class="mb-5">Afgelopen 10 dagen</td>
+                      <td><span class="badge badge-dark">{{orders.tenDays | length}}</span></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>Vandaag</td>
+                      <td><span class="badge badge-success">{{orders.nlToday | length}}</span></td>
+                      <td><span class="badge badge-success">{{orders.comToday | length}}</span></td>
+                      <td><span class="badge badge-success">0</span></td>
+                      <td><span class="badge badge-success">0</span></td>
+                  </tr>
+                  <tr>
+                      <td>Gisteren</td>
+                      <td><span class="badge badge-primary">{{orders.nlYesterday | length}}</span></td>
+                      <td><span class="badge badge-primary">{{orders.comYesterday | length}}</span></td>
+                      <td><span class="badge badge-primary">0</td>
+                      <td><span class="badge badge-primary">0</td>
+                  </tr>
+                  <tr>
+                      <td>Eergisteren</td>
+                      <td><span class="badge badge-info">{{orders.nlBeforeYesterday | length}}</span></td>
+                      <td><span class="badge badge-info">{{orders.comBeforeYesterday | length}}</span></td>
+                      <td><span class="badge badge-info">0</span></td>
+                      <td><span class="badge badge-info">0</span></td>
+                  </tr>
+              </tbody>
           </table>
-        </div>
-        <!-- end table-responsive-->
+         </div>
+         <!-- end card-body-->
       </div>
-      <!-- end card-body-->
-    </div>
-    <!-- end card-->
-  </div>
-  <!-- end col-->
-
-  <div class="col-xl-3 col-lg-6 order-lg-1">
-    <div class="card">
-      <div class="card-body">
-        <div class="dropdown float-right">
-          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-            <i class="mdi mdi-dots-vertical"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-          </div>
-        </div>
-        <h4 class="header-title">Total Sales</h4>
-
-        <div id="average-sales" class="apex-charts mb-4 mt-4" data-colors="#727cf5,#0acf97,#fa5c7c,#ffbc00"></div>
-
-        <div class="chart-widget-list">
-          <p>
-            <i class="mdi mdi-square text-primary"></i> Direct
-            <span class="float-right">$300.56</span>
-          </p>
-          <p>
-            <i class="mdi mdi-square text-danger"></i> Affilliate
-            <span class="float-right">$135.18</span>
-          </p>
-          <p>
-            <i class="mdi mdi-square text-success"></i> Sponsored
-            <span class="float-right">$48.96</span>
-          </p>
-          <p class="mb-0">
-            <i class="mdi mdi-square text-warning"></i> E-mail
-            <span class="float-right">$154.02</span>
-          </p>
-        </div>
+      <!-- end card-->
+   </div>
+   <!-- end col -->
+   <div class="col-xl-6 col-lg-6 ">
+      <div class="card mb-0">
+         <div class="card-body">
+            <h4 class="header-title mb-3">Bestellingen per maand</h4>
+            <div id="high-performing-orders" class="apex-charts" data-colors="#727cf5,#e3eaef"></div>
+         </div>
+         <!-- end card-body-->
       </div>
-      <!-- end card-body-->
-    </div>
-    <!-- end card-->
-  </div>
-  <!-- end col-->
-
-  <div class="col-xl-3 col-lg-6 order-lg-1">
-    <div class="card">
-      <div class="card-body">
-        <div class="dropdown float-right">
-          <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-            <i class="mdi mdi-dots-vertical"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-            <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-          </div>
-        </div>
-        <h4 class="header-title mb-2">Recent Activity</h4>
-
-        <div data-simplebar style="max-height: 424px;">
-          <div class="timeline-alt pb-0">
-            <div class="timeline-item">
-              <i class="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
-              <div class="timeline-item-info">
-                <a href="#" class="text-info font-weight-bold mb-1 d-block">You sold an item</a>
-                <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
-                <p class="mb-0 pb-2">
-                  <small class="text-muted">5 minutes ago</small>
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <i class="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
-              <div class="timeline-item-info">
-                <a href="#" class="text-primary font-weight-bold mb-1 d-block">Product on the Bootstrap Market</a>
-                <small
-                  >Dave Gamache added
-                  <span class="font-weight-bold">Admin Dashboard</span>
-                </small>
-                <p class="mb-0 pb-2">
-                  <small class="text-muted">30 minutes ago</small>
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <i class="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
-              <div class="timeline-item-info">
-                <a href="#" class="text-info font-weight-bold mb-1 d-block">Robert Delaney</a>
-                <small
-                  >Send you message
-                  <span class="font-weight-bold">"Are you there?"</span>
-                </small>
-                <p class="mb-0 pb-2">
-                  <small class="text-muted">2 hours ago</small>
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <i class="mdi mdi-upload bg-primary-lighten text-primary timeline-icon"></i>
-              <div class="timeline-item-info">
-                <a href="#" class="text-primary font-weight-bold mb-1 d-block">Audrey Tobey</a>
-                <small
-                  >Uploaded a photo
-                  <span class="font-weight-bold">"Error.jpg"</span>
-                </small>
-                <p class="mb-0 pb-2">
-                  <small class="text-muted">14 hours ago</small>
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <i class="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
-              <div class="timeline-item-info">
-                <a href="#" class="text-info font-weight-bold mb-1 d-block">You sold an item</a>
-                <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
-                <p class="mb-0 pb-2">
-                  <small class="text-muted">16 hours ago</small>
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <i class="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
-              <div class="timeline-item-info">
-                <a href="#" class="text-primary font-weight-bold mb-1 d-block">Product on the Bootstrap Market</a>
-                <small
-                  >Dave Gamache added
-                  <span class="font-weight-bold">Admin Dashboard</span>
-                </small>
-                <p class="mb-0 pb-2">
-                  <small class="text-muted">22 hours ago</small>
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <i class="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
-              <div class="timeline-item-info">
-                <a href="#" class="text-info font-weight-bold mb-1 d-block">Robert Delaney</a>
-                <small
-                  >Send you message
-                  <span class="font-weight-bold">"Are you there?"</span>
-                </small>
-                <p class="mb-0 pb-2">
-                  <small class="text-muted">2 days ago</small>
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- end timeline -->
-        </div>
-        <!-- end slimscroll -->
-      </div>
-      <!-- end card-body -->
-    </div>
-    <!-- end card-->
-  </div>
-  <!-- end col -->
+      <!-- end card-->
+   </div>
+   <!-- end col -->
 </div>
 <!-- end row -->
-{% endblock %} {% block javascript %} {% endblock %}
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-body">
+            <ul class="nav nav-tabs nav-justified nav-bordered mb-3">
+              <li class="nav-item">
+                  <a href="#latest-50" data-toggle="tab" aria-expanded="true" class="nav-link active">
+                      <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                      <span class="d-none d-md-block">Laatste 50 webshop orders</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="#a2" data-toggle="tab" aria-expanded="false" class="nav-link">
+                      <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                      <span class="d-none d-md-block">Nog enkele voorradig</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="#a3" data-toggle="tab" aria-expanded="false" class="nav-link">
+                      <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                      <span class="d-none d-md-block">Binnenkort weer leverbaar</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="#a4" data-toggle="tab" aria-expanded="false" class="nav-link">
+                      <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                      <span class="d-none d-md-block">Niet op voorraad</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="#a5" data-toggle="tab" aria-expanded="false" class="nav-link">
+                      <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                      <span class="d-none d-md-block">Niet gepubliceerd</span>
+                  </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane show active" id="latest-50">
+                <h4 class="header-title mb-3">Laatste 50 webshop orders</h4>
+                <table class="table table-sm table-centered mb-0">
+                  <thead>
+                    <tr>
+                      <th>Tijdstip</th>
+                      <th>ID</th>
+                      <th>Kanaal</th>
+                      <th>Klant</th>
+                      <th>Bedrag</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders.latestOrders | slice(0,49)%}
+                      <tr>
+                        <td class="mb-2">{{order.created_at}}</td>
+                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
+                        <td>{{order.shop_name}}</td>
+                        <td>{{order.firstname}} {{order.lastname}}</td>
+                        <td>{{order.gross_price}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end tab-content-->
+            <div class="tab-content">
+              <div class="tab-pane" id="a2">
+                <h4 class="header-title mb-3">Nog enkele voorradig</h4>
+                <table class="table table-sm table-centered mb-0">
+                  <thead>
+                    <tr>
+                      <th>Tijdstip</th>
+                      <th>ID</th>
+                      <th>Kanaal</th>
+                      <th>Klant</th>
+                      <th>Bedrag</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders.latestOrders | slice(0,49)%}
+                      <tr>
+                        <td class="mb-2">{{order.created_at}}</td>
+                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
+                        <td>{{order.shop_name}}</td>
+                        <td>{{order.firstname}} {{order.lastname}}</td>
+                        <td>{{order.gross_price}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end tab-content-->
+            <div class="tab-content">
+              <div class="tab-pane" id="a3">
+                <h4 class="header-title mb-3">Binnenkort weer leverbaar</h4>
+                <table class="table table-sm table-centered mb-0">
+                  <thead>
+                    <tr>
+                      <th>Tijdstip</th>
+                      <th>ID</th>
+                      <th>Kanaal</th>
+                      <th>Klant</th>
+                      <th>Bedrag</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders.latestOrders | slice(0,49)%}
+                      <tr>
+                        <td class="mb-2">{{order.created_at}}</td>
+                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
+                        <td>{{order.shop_name}}</td>
+                        <td>{{order.firstname}} {{order.lastname}}</td>
+                        <td>{{order.gross_price}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end tab-content-->
+            <div class="tab-content">
+              <div class="tab-pane" id="a4">
+                <h4 class="header-title mb-3">Niet op voorraad</h4>
+                <table class="table table-sm table-centered mb-0">
+                  <thead>
+                    <tr>
+                      <th>Tijdstip</th>
+                      <th>ID</th>
+                      <th>Kanaal</th>
+                      <th>Klant</th>
+                      <th>Bedrag</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders.latestOrders | slice(0,49)%}
+                      <tr>
+                        <td class="mb-2">{{order.created_at}}</td>
+                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
+                        <td>{{order.shop_name}}</td>
+                        <td>{{order.firstname}} {{order.lastname}}</td>
+                        <td>{{order.gross_price}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end tab-content-->
+            <div class="tab-content">
+              <div class="tab-pane" id="a5">
+                <h4 class="header-title mb-3">Niet gepubliceerd</h4>
+                <table class="table table-sm table-centered mb-0">
+                  <thead>
+                    <tr>
+                      <th>Tijdstip</th>
+                      <th>ID</th>
+                      <th>Kanaal</th>
+                      <th>Klant</th>
+                      <th>Bedrag</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders.latestOrders | slice(0,49)%}
+                      <tr>
+                        <td class="mb-2">{{order.created_at}}</td>
+                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
+                        <td>{{order.shop_name}}</td>
+                        <td>{{order.firstname}} {{order.lastname}}</td>
+                        <td>{{order.gross_price}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end tab-content-->
+         </div>
+         <!-- end card-body-->
+      </div>
+      <!-- end card-->
+   </div>
+   <!-- end col-->
+</div>
+<!-- end row -->
+<div class="row">
+  <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+              <h4 class="header-title mb-3">Revenue</h4>
+              <div class="chart-content-bg">
+                <div class="row text-center">
+                    <div class="col-md-6">
+                      <p class="text-muted mb-0 mt-3">Current Week</p>
+                      <h2 class="font-weight-normal mb-3">
+                          <small class="mdi mdi-checkbox-blank-circle text-primary align-middle mr-1"></small>
+                          <span>$58,254</span>
+                      </h2>
+                    </div>
+                    <div class="col-md-6">
+                      <p class="text-muted mb-0 mt-3">Previous Week</p>
+                      <h2 class="font-weight-normal mb-3">
+                          <small class="mdi mdi-checkbox-blank-circle text-success align-middle mr-1"></small>
+                          <span>$69,524</span>
+                      </h2>
+                    </div>
+                </div>
+              </div>
+              <div class="dash-item-overlay d-none d-md-block">
+                <h5>Today's Earning: $2,562.30</h5>
+              </div>
+              <div id="revenue-chart" class="apex-charts mt-3" data-colors="#727cf5,#0acf97"></div>
+          </div>
+          <!-- end card-body-->
+        </div>
+        <!-- end card-->
+    </div>
+    <!-- end col-->
+</div>
+
+{% endblock %} 
+{% block javascript %} 
+<script type="text/javascript">
+   $(document).ready(function(){
+         var monthlyOrder = {{monthlyOrders | json_encode|raw }};
+         var monthes = [];
+   
+         Object.keys(monthlyOrder).forEach(function(key) {
+             monthes.push(monthlyOrder[key]);
+         });
+   
+         var colors = ["#727cf5", "#e3eaef"];
+         var dataColors = $("#high-performing-orders").data('colors');
+         if (dataColors) {
+             colors = dataColors.split(",");
+         }
+         var options = {
+             chart: {
+                 height: 323,
+                 type: 'bar',
+                 stacked: true
+             },
+             plotOptions: {
+                 bar: {
+                     horizontal: false,
+                     columnWidth: '20%'
+                 },
+             },
+             dataLabels: {
+                 enabled: false
+             },
+             stroke: {
+                 show: true,
+                 width: 2,
+                 colors: ['transparent']
+             },
+             series: [{
+                 name: 'Orders',
+                 data: monthes
+             }],
+             zoom: {
+                 enabled: false
+             },
+             legend: {
+                 show: false
+             },
+             colors: colors,
+             xaxis: {
+                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                 axisBorder: {
+                     show: false
+                 },
+             },
+             yaxis: {
+                 labels: {
+                     formatter: function (val) {
+                         return val + ""
+                     },
+                     offsetX: -15
+                 }
+             },
+             fill: {
+                 opacity: 1
+             },
+             tooltip: {
+                 y: {
+                     formatter: function (val) {
+                         return val
+                     }
+                 },
+             },
+         }
+   
+         var chart = new ApexCharts(
+             document.querySelector("#high-performing-orders"),
+             options
+         );
+         chart.render();
+   });
+</script>
+{% endblock %}

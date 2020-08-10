@@ -16,10 +16,88 @@ use App\Auth\Auth;
 
 class GeneralController extends Controller
 {
+    /**
+     * homeIndexNew function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array
+     */
+    public function homeIndex($request, $response, $args)
+    {
+        $orders['newOrders'] = Order::allOrdersCount(1);
+        $orders['claimedOrders'] = Order::allOrdersCount(10);
+        $orders['readyForShippingOrders'] = Order::allOrdersCount(15);
+        $orders['returnOrders'] = Order::allOrdersCount(5);
+        $orders['returnCredite'] = Order::allOrdersCount(4);
+        $orders['returnChange'] = Order::allOrdersCount(14);
+        $orders['waitSupplierOrders'] = Order::allOrdersCount(9);
+        $orders['waitExternalSupplierOrders'] = Order::allOrdersCount(19);
+        $orders['waitCustomerOrders'] = Order::allOrdersCount(11);
+        $orders['creditOrders'] = Order::allOrdersCount(16);
+        $orders['waitPaymentOrders'] = Order::allOrdersCount(13);
+
+        //latestTenDays
+        $today = date('Y-m-d');
+        $time = strtotime($today);
+        $yesterday = date('Y-m-d', strtotime('-1 day', $time));
+        $yesterday1 = date('Y-m-d', strtotime('-2 days', $time));
+        $yesterday3 = date('Y-m-d', strtotime('-3 days', $time));
+        $yesterday4 = date('Y-m-d', strtotime('-4 days', $time));
+        $yesterday5 = date('Y-m-d', strtotime('-5 days', $time));
+        $yesterday6 = date('Y-m-d', strtotime('-6 days', $time));
+        $orders['nlToday'] = Order::allPaidOrdersCountByDateShop(1, $today, 'LIKE');
+        $orders['comToday'] = Order::allPaidOrdersCountByDateShop(2, $today, 'LIKE');
+        //yesterda
+        $orders['nlYesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday, 'LIKE');
+        $orders['comYesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday, 'LIKE');
+        //day before yesterday
+        $orders['nlBeforeYesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday1, 'LIKE');
+        $orders['comBeforeYesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday1, 'LIKE');
+        //day before 3
+        $orders['nlBefore3Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday3, 'LIKE');
+        $orders['comBefore3Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday3, 'LIKE');
+        //day before 4
+        $orders['nlBefore4Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday4, 'LIKE');
+        $orders['comBefore4Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday4, 'LIKE');
+        //day before 5
+        $orders['nlBefore5Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday5, 'LIKE');
+        $orders['comBefore5Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday5, 'LIKE');
+        //day before 6
+        $orders['nlBefore6Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday6, 'LIKE');
+        $orders['comBefore6Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday6, 'LIKE');
+        //latestTenDays
+        $tenDays = Carbon::today()->subDays(1000);
+        $orders['tenDays'] = Order::allPaidOrdersCountByDateShop('shop_id', $tenDays, '>=');
+        $orders['sevenDaysCount'] = count($orders['nlToday']) + count($orders['comToday']) + count($orders['nlYesterday']) + count($orders['comYesterday']) + count($orders['nlBeforeYesterday']) + count($orders['comBeforeYesterday']) + count($orders['nlBefore3Yesterday']) + count($orders['comBefore3Yesterday']) + count($orders['nlBefore4Yesterday']) + count($orders['comBefore4Yesterday']) + count($orders['nlBefore5Yesterday']) + count($orders['comBefore5Yesterday']) + count($orders['nlBefore6Yesterday']) + count($orders['comBefore6Yesterday']);
+        $orders['todayCount'] = count($orders['nlToday']) + count($orders['comToday']);
+        $orders['yesterdayCount'] = count($orders['nlYesterday']) + count($orders['comYesterday']);
+        $orders['beforeYesterdayCount'] = count($orders['nlBeforeYesterday']) + count($orders['comBeforeYesterday']);
+
+        //yearly
+        $monthlyOrders = DB::query("SELECT count(*) as orders,DATE_FORMAT(created_at,'%m') as date from " . Order::$table . "
+        where DATE_FORMAT(created_at,'%Y') = 2020
+        GROUP BY DATE_FORMAT(created_at,'%m') order by DATE_FORMAT(created_at,'%m')");
+        $monthlyOrdersTemp = array( '01' => 0 , '02' => 0 , '03' => 0 , '04' => 0 , '05' => 0 , '06' => 0 , '07' => 0 , '08' => 0 , '09' => 0 , '10' => 0 , '11' => 0 , '12' => 0);
+        foreach ($monthlyOrders as $monthlyOrder){
+            $monthlyOrdersTemp[$monthlyOrder['date']] = $monthlyOrder['orders'];
+        }
+        //latest orders 
+        $orders['latestOrders'] = DB::query('SELECT ' . Order::$table . '.id,' . Order::$table . '.shop_id,' . Order::$table . '.gross_price,
+        ' . Order::$table . '.status_id,JSON_UNQUOTE(' . Order::$table . '.payment) as payment,
+        ' . Order::$table . ".order_details->>'$.address.payment.firstname' as firstname," . Order::$table . ".order_details->>'$.address.payment.lastname' as lastname,
+        " . Order::$table . '.created_at,' . Order::$table_status . '.title as status_title, ' . Order::$table_shops . '.domain as shop_name  from ' . Order::$table . '
+        LEFT JOIN ' . Order::$table_status . ' on ' . Order::$table_status . '.id=' . Order::$table . '.status_id
+        LEFT JOIN ' . Order::$table_shops . ' on ' . Order::$table_shops . '.id=' . Order::$table . '.shop_id
+        order by created_at DESC');
+        return $this->view->render($response, 'home/index.tpl', ['page_title' => 'Dashboard',
+        'monthlyOrders' => $monthlyOrdersTemp, 'orders' => $orders]);
+    }
     /**************************************************************************************************************************************************
      ***************************************************************(Home Page Get)********************************************************************
      **************************************************************************************************************************************************/
-    public function homeIndex($request, $response, $args)
+    public function shomeIndex($request, $response, $args)
     {
         //orders
         $orders['newOrders'] = Order::allOrdersCount(1);
@@ -74,15 +152,33 @@ class GeneralController extends Controller
         $orders['todayCount'] = count($orders['nlToday']) + count($orders['comToday']);
         $orders['yesterdayCount'] = count($orders['nlYesterday']) + count($orders['comYesterday']);
         $orders['beforeYesterdayCount'] = count($orders['nlBeforeYesterday']) + count($orders['comBeforeYesterday']);
+
         //Products
         $someInStock = DB::query("SELECT id,sku,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE stocklevel = 2 AND location != '0,0,0'");
         $soonDeliver = DB::query("SELECT id,sku,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE stocklevel = 3 AND location != '0,0,0'");
         $outStock = DB::query("SELECT id,sku,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE stocklevel = 4 AND location != '0,0,0' AND `location` != 'x,x,x'");
         $notGranted = DB::query("SELECT id,sku,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE location != '0,0,0' AND location != 'x,x,x' AND location != ',,' AND active=0 ORDER BY sku ASC");
         $shops = General::getShops();
-        return $this->view->render($response, 'home/index.tpl', ['page_title' => 'Dashboard',
-        'orders' => $orders, 'someInStock' => $someInStock, 'soonDeliver' => $soonDeliver,
-        'outStock' => $outStock, 'notGranted' => $notGranted, 'shops' => $shops]);
+
+        //COunt orders
+        $orders['latestOrders'] = DB::query('SELECT ' . Order::$table . '.id,' . Order::$table . '.shop_id,' . Order::$table . '.gross_price,
+        ' . Order::$table . '.status_id,JSON_UNQUOTE(' . Order::$table . '.payment) as payment,
+        ' . Order::$table . ".order_details->>'$.address.payment.firstname' as firstname," . Order::$table . ".order_details->>'$.address.payment.lastname' as lastname,
+        " . Order::$table . '.created_at,' . Order::$table_status . '.title as status_title, ' . Order::$table_shops . '.domain as shop_name  from ' . Order::$table . '
+        LEFT JOIN ' . Order::$table_status . ' on ' . Order::$table_status . '.id=' . Order::$table . '.status_id
+        LEFT JOIN ' . Order::$table_shops . ' on ' . Order::$table_shops . '.id=' . Order::$table . '.shop_id
+        order by created_at DESC');
+        if ($this->auth->super()) {
+            
+            return $this->view->render($response, 'home/index-deluxe.tpl', ['page_title' => 'Dashboard',
+            'orders' => $orders, 'someInStock' => $someInStock, 'soonDeliver' => $soonDeliver,
+            'outStock' => $outStock, 'notGranted' => $notGranted, 'shops' => $shops]);
+        }
+        else {
+            return $this->view->render($response, 'home/index.tpl', ['page_title' => 'Dashboard',
+            'orders' => $orders, 'someInStock' => $someInStock, 'soonDeliver' => $soonDeliver,
+            'outStock' => $outStock, 'notGranted' => $notGranted, 'shops' => $shops]);
+        }
     }
 
     /**************************************************************************************************************************************************
