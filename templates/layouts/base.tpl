@@ -56,9 +56,6 @@
     </div>
     <!-- END wrapper -->
 
-    <!-- Right Sidebar -->
-        {% include 'partials/rightsidebar.tpl' %}
-    <!-- /Right-bar -->
 
     <!-- bundle -->
     <script src="dist/assets/js/vendor.min.js"></script>

@@ -121,175 +121,133 @@
       <div class="card">
          <div class="card-body">
             <ul class="nav nav-tabs nav-justified nav-bordered mb-3">
-              <li class="nav-item">
+               <li class="nav-item">
                   <a href="#latest-50" data-toggle="tab" aria-expanded="true" class="nav-link active">
-                      <i class="mdi mdi-home-variant d-md-none d-block"></i>
-                      <span class="d-none d-md-block">Laatste 50 webshop orders</span>
+                  <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                  <span class="d-none d-md-block">Laatste 50 webshop orders</span>
                   </a>
-              </li>
-              <li class="nav-item">
+               </li>
+               <li class="nav-item">
                   <a href="#a2" data-toggle="tab" aria-expanded="false" class="nav-link">
-                      <i class="mdi mdi-account-circle d-md-none d-block"></i>
-                      <span class="d-none d-md-block">Nog enkele voorradig</span>
+                  <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                  <span class="d-none d-md-block">Nog enkele voorradig</span>
                   </a>
-              </li>
-              <li class="nav-item">
+               </li>
+               <li class="nav-item">
                   <a href="#a3" data-toggle="tab" aria-expanded="false" class="nav-link">
-                      <i class="mdi mdi-settings-outline d-md-none d-block"></i>
-                      <span class="d-none d-md-block">Binnenkort weer leverbaar</span>
+                  <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                  <span class="d-none d-md-block">Binnenkort weer leverbaar</span>
                   </a>
-              </li>
-              <li class="nav-item">
+               </li>
+               <li class="nav-item">
                   <a href="#a4" data-toggle="tab" aria-expanded="false" class="nav-link">
-                      <i class="mdi mdi-settings-outline d-md-none d-block"></i>
-                      <span class="d-none d-md-block">Niet op voorraad</span>
+                  <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                  <span class="d-none d-md-block">Niet op voorraad</span>
                   </a>
-              </li>
-              <li class="nav-item">
+               </li>
+               <li class="nav-item">
                   <a href="#a5" data-toggle="tab" aria-expanded="false" class="nav-link">
-                      <i class="mdi mdi-settings-outline d-md-none d-block"></i>
-                      <span class="d-none d-md-block">Niet gepubliceerd</span>
+                  <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                  <span class="d-none d-md-block">Niet gepubliceerd</span>
                   </a>
-              </li>
+               </li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane show active" id="latest-50">
-                <h4 class="header-title mb-3">Laatste 50 webshop orders</h4>
-                <table class="table table-sm table-centered mb-0">
-                  <thead>
-                    <tr>
-                      <th>Tijdstip</th>
-                      <th>ID</th>
-                      <th>Kanaal</th>
-                      <th>Klant</th>
-                      <th>Bedrag</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for order in orders.latestOrders | slice(0,49)%}
-                      <tr>
-                        <td class="mb-2">{{order.created_at}}</td>
-                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
-                        <td>{{order.shop_name}}</td>
-                        <td>{{order.firstname}} {{order.lastname}}</td>
-                        <td>{{order.gross_price}}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <!-- end tab-content-->
-            <div class="tab-content">
-              <div class="tab-pane" id="a2">
-                <h4 class="header-title mb-3">Nog enkele voorradig</h4>
-                <table class="table table-sm table-centered mb-0">
-                  <thead>
-                    <tr>
-                      <th>Tijdstip</th>
-                      <th>ID</th>
-                      <th>Kanaal</th>
-                      <th>Klant</th>
-                      <th>Bedrag</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for order in orders.latestOrders | slice(0,49)%}
-                      <tr>
-                        <td class="mb-2">{{order.created_at}}</td>
-                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
-                        <td>{{order.shop_name}}</td>
-                        <td>{{order.firstname}} {{order.lastname}}</td>
-                        <td>{{order.gross_price}}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <!-- end tab-content-->
-            <div class="tab-content">
-              <div class="tab-pane" id="a3">
-                <h4 class="header-title mb-3">Binnenkort weer leverbaar</h4>
-                <table class="table table-sm table-centered mb-0">
-                  <thead>
-                    <tr>
-                      <th>Tijdstip</th>
-                      <th>ID</th>
-                      <th>Kanaal</th>
-                      <th>Klant</th>
-                      <th>Bedrag</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for order in orders.latestOrders | slice(0,49)%}
-                      <tr>
-                        <td class="mb-2">{{order.created_at}}</td>
-                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
-                        <td>{{order.shop_name}}</td>
-                        <td>{{order.firstname}} {{order.lastname}}</td>
-                        <td>{{order.gross_price}}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <!-- end tab-content-->
-            <div class="tab-content">
-              <div class="tab-pane" id="a4">
-                <h4 class="header-title mb-3">Niet op voorraad</h4>
-                <table class="table table-sm table-centered mb-0">
-                  <thead>
-                    <tr>
-                      <th>Tijdstip</th>
-                      <th>ID</th>
-                      <th>Kanaal</th>
-                      <th>Klant</th>
-                      <th>Bedrag</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for order in orders.latestOrders | slice(0,49)%}
-                      <tr>
-                        <td class="mb-2">{{order.created_at}}</td>
-                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
-                        <td>{{order.shop_name}}</td>
-                        <td>{{order.firstname}} {{order.lastname}}</td>
-                        <td>{{order.gross_price}}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <!-- end tab-content-->
-            <div class="tab-content">
-              <div class="tab-pane" id="a5">
-                <h4 class="header-title mb-3">Niet gepubliceerd</h4>
-                <table class="table table-sm table-centered mb-0">
-                  <thead>
-                    <tr>
-                      <th>Tijdstip</th>
-                      <th>ID</th>
-                      <th>Kanaal</th>
-                      <th>Klant</th>
-                      <th>Bedrag</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for order in orders.latestOrders | slice(0,49)%}
-                      <tr>
-                        <td class="mb-2">{{order.created_at}}</td>
-                        <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
-                        <td>{{order.shop_name}}</td>
-                        <td>{{order.firstname}} {{order.lastname}}</td>
-                        <td>{{order.gross_price}}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
+               <div class="tab-pane show active" id="latest-50">
+                  <h4 class="header-title mb-3">Laatste 50 webshop orders</h4>
+                  <table class="table table-sm table-centered mb-0">
+                     <thead>
+                        <tr>
+                           <th>Tijdstip</th>
+                           <th>ID</th>
+                           <th>Kanaal</th>
+                           <th>Klant</th>
+                           <th>Bedrag</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for order in orders.latestOrders | slice(0,49)%}
+                        <tr>
+                           <td class="mb-2">{{order.created_at}}</td>
+                           <td><a href="{{ path_for('OrdersGetSingle',{'id': order.id}) }}" target="_blank">{{order.id}}</a></td>
+                           <td>{{order.shop_name}}</td>
+                           <td>{{order.firstname}} {{order.lastname}}</td>
+                           <td>{{order.gross_price}}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+               <div class="tab-pane" id="a2">
+                  <table class="table table-sm table-centered mb-0">
+                     <thead>
+                        <tr>
+                           <th>Product</th>
+                           <th></th>
+                     </thead>
+                     <tbody>
+                        {% for product in someInStock %}
+                        <tr>
+                           <td class="mb-2"><a href="{{ path_for('ProductGet',{'id': product.id}) }}" target="_blank">{{product.sku}}</a> </td>
+                           <td>{{product.title}}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+               <div class="tab-pane" id="a3">
+                  <table class="table table-sm table-centered mb-0">
+                     <thead>
+                        <tr>
+                           <th>Product</th>
+                           <th>Leverdatum</th>
+                           <th></th>
+                     </thead>
+                     <tbody>
+                        {% for product in soonDeliver %}
+                        <tr>
+                           <td class="mb-2"><a href="{{ path_for('ProductGet',{'id': product.id}) }}" target="_blank">{{product.sku}}</a> </td>
+                           <td>{{product.delivery_at}}</td>
+                           <td>{{product.title}}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+               <div class="tab-pane" id="a4">
+                  <table class="table table-sm table-centered mb-0">
+                     <thead>
+                        <tr>
+                           <th>Product</th>
+                           <th></th>
+                     </thead>
+                     <tbody>
+                        {% for product in outStock %}
+                        <tr>
+                           <td class="mb-2"><a href="{{ path_for('ProductGet',{'id': product.id}) }}" target="_blank">{{product.sku}}</a> </td>
+                           <td>{{product.title}}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
+               <div class="tab-pane" id="a5">
+                  <table class="table table-sm table-centered mb-0">
+                     <thead>
+                        <tr>
+                           <th>Product</th>
+                           <th></th>
+                     </thead>
+                     <tbody>
+                        {% for product in notGranted %}
+                        <tr>
+                           <td class="mb-2"><a href="{{ path_for('ProductGet',{'id': product.id}) }}" target="_blank">{{product.sku}}</a> </td>
+                           <td>{{product.title}}</td>
+                        </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               </div>
             </div>
             <!-- end tab-content-->
          </div>
@@ -300,6 +258,7 @@
    <!-- end col-->
 </div>
 <!-- end row -->
+{{ dump(weeklyRevenue) }}
 <div class="row">
   <div class="col-lg-12">
         <div class="card">
@@ -311,7 +270,7 @@
                       <p class="text-muted mb-0 mt-3">Current Week</p>
                       <h2 class="font-weight-normal mb-3">
                           <small class="mdi mdi-checkbox-blank-circle text-primary align-middle mr-1"></small>
-                          <span>$58,254</span>
+                          <span>€ {{weeklyRevenue[0] | raw}}</span>
                       </h2>
                     </div>
                     <div class="col-md-6">

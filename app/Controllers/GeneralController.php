@@ -67,6 +67,7 @@ class GeneralController extends Controller
         //day before 6
         $orders['nlBefore6Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday6, 'LIKE');
         $orders['comBefore6Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday6, 'LIKE');
+
         //latestTenDays
         $tenDays = Carbon::today()->subDays(1000);
         $orders['tenDays'] = Order::allPaidOrdersCountByDateShop('shop_id', $tenDays, '>=');
@@ -77,12 +78,13 @@ class GeneralController extends Controller
 
         //yearly
         $monthlyOrders = DB::query("SELECT count(*) as orders,DATE_FORMAT(created_at,'%m') as date from " . Order::$table . "
-        where DATE_FORMAT(created_at,'%Y') = 2020
+        where DATE_FORMAT(created_at,'%Y') = 2020 and ispaid =1 and status_id != 8 AND status_id != 12 AND status_id != 13
         GROUP BY DATE_FORMAT(created_at,'%m') order by DATE_FORMAT(created_at,'%m')");
         $monthlyOrdersTemp = array( '01' => 0 , '02' => 0 , '03' => 0 , '04' => 0 , '05' => 0 , '06' => 0 , '07' => 0 , '08' => 0 , '09' => 0 , '10' => 0 , '11' => 0 , '12' => 0);
         foreach ($monthlyOrders as $monthlyOrder){
             $monthlyOrdersTemp[$monthlyOrder['date']] = $monthlyOrder['orders'];
         }
+        
         //latest orders 
         $orders['latestOrders'] = DB::query('SELECT ' . Order::$table . '.id,' . Order::$table . '.shop_id,' . Order::$table . '.gross_price,
         ' . Order::$table . '.status_id,JSON_UNQUOTE(' . Order::$table . '.payment) as payment,
@@ -91,8 +93,23 @@ class GeneralController extends Controller
         LEFT JOIN ' . Order::$table_status . ' on ' . Order::$table_status . '.id=' . Order::$table . '.status_id
         LEFT JOIN ' . Order::$table_shops . ' on ' . Order::$table_shops . '.id=' . Order::$table . '.shop_id
         order by created_at DESC');
+
+        //Products
+        $someInStock = DB::query("SELECT id,sku,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE stocklevel = 2 AND location != '0,0,0'");
+        $soonDeliver = DB::query("SELECT id,sku,delivery_at,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE stocklevel = 3 AND location != '0,0,0'");
+        $outStock = DB::query("SELECT id,sku,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE stocklevel = 4 AND location != '0,0,0' AND `location` != 'x,x,x'");
+        $notGranted = DB::query("SELECT id,sku,JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title FROM product WHERE location != '0,0,0' AND location != 'x,x,x' AND location != ',,' AND active=0 ORDER BY sku ASC");
+        
+        //weekly revenue
+
+        $weeklyRevenue = DB::query("SELECT CONCAT('week ',WEEK(created_at)) weeks,SUM(gross_price)
+        FROM orders 
+        WHERE created_at > DATE_SUB(NOW(), INTERVAL 10 WEEK)
+        GROUP BY weeks
+        ORDER BY weeks ASC;");
         return $this->view->render($response, 'home/index.tpl', ['page_title' => 'Dashboard',
-        'monthlyOrders' => $monthlyOrdersTemp, 'orders' => $orders]);
+        'monthlyOrders' => $monthlyOrdersTemp,'someInStock' => $someInStock, 'soonDeliver' => $soonDeliver,
+        'outStock' => $outStock, 'notGranted' => $notGranted, 'weeklyRevenue' => $weeklyRevenue,'orders' => $orders]);
     }
     /**************************************************************************************************************************************************
      ***************************************************************(Home Page Get)********************************************************************
