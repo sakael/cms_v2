@@ -56,6 +56,7 @@ $container['notes'] = function ($cotainer) {
 $container['view'] = function ($container) {
     $view = new Views\Twig(__DIR__ . '/../templates', [
         //'cache' => __DIR__.'/../cache'    // cache is not needed for tpl files
+        'debug' => true,
     ]);
     $view->addExtension(new Views\TwigExtension(
         $container->router,
@@ -80,6 +81,10 @@ $container['view'] = function ($container) {
     }
     if (IMAGE_PATH) {
         $view->getEnvironment()->addGlobal('IMAGE_PATH', IMAGE_PATH);
+    }
+
+    if (SITE_URL) {
+        $view->getEnvironment()->addGlobal('SITE_URL', SITE_URL);
     }
     $view->getEnvironment()->addGlobal('presecret', 'gg39^*&T(#@ewb^(#');
 

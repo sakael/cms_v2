@@ -44,7 +44,8 @@ define('ROOT_DIR', __DIR__);
 //Set Image URL
 define('IMAGE_PATH', 'https://ams3.cdn.123bestdeal.nl');
 
-//
+define('SITE_URL','https://beta.123bestdeal.nl');
+
 //Set Zebra printers
 define('ZEBRA_IP_1', '10.0.0.24:6101');
 define('ZEBRA_IP_2', '10.0.0.25:6100');

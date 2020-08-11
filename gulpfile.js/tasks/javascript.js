@@ -12,6 +12,7 @@ const compileJs = function () {
   const baseAssets = vars.getBaseAssetsPath();
 
   //copying demo pages related assets
+  /*
   var appPagesAssets = {
     js: [
       baseAssets + "js/pages/demo.dashboard.js",
@@ -63,7 +64,7 @@ const compileJs = function () {
       })
       .pipe(gulp.dest(out + "pages"));
   });
-
+*/
   // optional components
   var componentsAssets = {
     js: [

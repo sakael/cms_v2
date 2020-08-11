@@ -11,11 +11,33 @@ use Slim\Exception\NotFoundException;
 
 class ProductController extends Controller
 {
+    /**
+     * index page for products function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return view
+     */
+
     public function index($request, $response, $args)
     {
-        return $this->view->render($response, 'product/all.tpl', ['active_menu' => 'products', 'page_title' => 'Alle artikelen']);
+        $products = DB::query("
+        SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title,
+        url
+        FROM product 
+        left join product_meta on product_meta.product_id = product.id
+        where  product_meta.main = 1 order by id limit 100");
+        return $this->view->render($response, 'product/index.tpl', ['products' => $products, 'active_menu' => 'products', 'page_title' => 'Alle artikelen']);
     }
-
+    /**
+     * getAll product datatable function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return json datatable type
+     */
     public function getAll($request, $response, $args)
     {
         if ($request->getParam('active') == 'all') {

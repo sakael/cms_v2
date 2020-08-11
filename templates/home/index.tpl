@@ -258,46 +258,13 @@
    <!-- end col-->
 </div>
 <!-- end row -->
-{{ dump(weeklyRevenue) }}
-<div class="row">
-  <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-              <h4 class="header-title mb-3">Revenue</h4>
-              <div class="chart-content-bg">
-                <div class="row text-center">
-                    <div class="col-md-6">
-                      <p class="text-muted mb-0 mt-3">Current Week</p>
-                      <h2 class="font-weight-normal mb-3">
-                          <small class="mdi mdi-checkbox-blank-circle text-primary align-middle mr-1"></small>
-                          <span>€ {{weeklyRevenue[0] | raw}}</span>
-                      </h2>
-                    </div>
-                    <div class="col-md-6">
-                      <p class="text-muted mb-0 mt-3">Previous Week</p>
-                      <h2 class="font-weight-normal mb-3">
-                          <small class="mdi mdi-checkbox-blank-circle text-success align-middle mr-1"></small>
-                          <span>$69,524</span>
-                      </h2>
-                    </div>
-                </div>
-              </div>
-              <div class="dash-item-overlay d-none d-md-block">
-                <h5>Today's Earning: $2,562.30</h5>
-              </div>
-              <div id="revenue-chart" class="apex-charts mt-3" data-colors="#727cf5,#0acf97"></div>
-          </div>
-          <!-- end card-body-->
-        </div>
-        <!-- end card-->
-    </div>
-    <!-- end col-->
-</div>
+
 
 {% endblock %} 
 {% block javascript %} 
 <script type="text/javascript">
    $(document).ready(function(){
+        /// yearly
          var monthlyOrder = {{monthlyOrders | json_encode|raw }};
          var monthes = [];
    
@@ -372,6 +339,9 @@
              options
          );
          chart.render();
+
+
+
    });
 </script>
 {% endblock %}
