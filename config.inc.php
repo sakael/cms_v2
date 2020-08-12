@@ -9,13 +9,21 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Aws\S3\S3Client;
 
+//DB 
+define('READ_HOST','dbcluster-ams3-123bestdeal-nl-read-only-do-user-3545834-0.db.ondigitalocean.com');
+define('WRITE_HOST','dbcluster-ams3-123bestdeal-nl-do-user-3545834-0.db.ondigitalocean.com');
+define('USER','doadmin');
+define('PASSWORD','m54q3939jzhzwj5e');
+define('DB_NAME','cms');
+define('PORT','25060');
+
 // DigitalOcean Cluster
-DB::$read_host = 'dbcluster-ams3-123bestdeal-nl-read-only-do-user-3545834-0.db.ondigitalocean.com';
-DB::$write_host = 'dbcluster-ams3-123bestdeal-nl-do-user-3545834-0.db.ondigitalocean.com';
-DB::$user = 'doadmin';
-DB::$password = 'm54q3939jzhzwj5e';
-DB::$dbName = 'cms';
-DB::$port = '25060';
+DB::$read_host = READ_HOST;
+DB::$write_host = WRITE_HOST;
+DB::$user = USER;
+DB::$password = PASSWORD;
+DB::$dbName = DB_NAME;
+DB::$port = PORT;
 DB::$encoding = 'utf8';
 
 //Set language variable globally

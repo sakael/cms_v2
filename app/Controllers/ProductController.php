@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Slim\View\Twig as View;
-use App\Classes\{Product, EAN, UserActivity, Brand, Attribute, Event};
+use App\Classes\{Product, EAN, UserActivity, Brand, Attribute, Event, DataTableHelper};
 use DB;
 use Respect\Validation\Validator as v;
 use Carbon\Carbon as Carbon;
@@ -27,7 +27,7 @@ class ProductController extends Controller
         url
         FROM product 
         left join product_meta on product_meta.product_id = product.id
-        where  product_meta.main = 1 order by id limit 100");
+        where  product_meta.main = 1 order by id");
         return $this->view->render($response, 'product/index.tpl', ['products' => $products, 'active_menu' => 'products', 'page_title' => 'Alle artikelen']);
     }
     /**
@@ -40,29 +40,127 @@ class ProductController extends Controller
      */
     public function getAll($request, $response, $args)
     {
-        if ($request->getParam('active') == 'all') {
-            $products = DB::query("
-            SELECT id,sku,active,updated_at,contents->>'$." . language . ".title' as title
-            FROM product order by id ");
-        } elseif ($request->getParam('active') == 'bol') {
-            $products = DB::query("
-              SELECT product.id,sku,active,updated_at,contents->>'$." . language . ".title' as title
-              FROM product,product_shop
-              where product_shop.product_id=product.id and product_shop.shop_id=3  order by product.id ");
-        } else {
-            $products = DB::query("
-            SELECT id,sku,active,updated_at,contents->>'$." . language . ".title' as title
-            FROM product where active = 0 order by id ");
+        //dd($request->getParams());
+        //columns name to know which one to use to order
+        $columns = array('0' => 'product.id', '1' => 'product.SKU','3' => 'product.active', '4' => 'bol', '5' => 'product.updated_at');
+        
+        //get order by and order direction 
+        $orderBy = $columns[$request->getParam('order')[0]['column']];
+        $orderDir = strtoupper($request->getParam('order')[0]['dir']);
+        
+        //get limit and offset
+        $limit = $request->getParam('length');
+        $offset = $request->getParam('start');
+
+        //get search value
+        $search = $request->getParam('search')['value'];
+        
+        //check if search value not empty add it to the uery
+        if ($search !='' && !empty($search)) {
+            //get count of all products in table
+            $productsCount = DB::query("SELECT COUNT(*) as count 
+            FROM product 
+            where (product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)
+            ", $search, '%'.$search.'%', '%'.$search.'%');
+            $productsCount = $productsCount[0]['count'];
+
+            switch ($request->getParam('order')[0]['column']){
+                case 4 :
+                    //get all products in specific limit 
+                    $products = DB::query("
+                    SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
+                    FROM product 
+                    where (product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)
+                    limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit,$offset);
+                    break;
+                default :
+                    //get all products in specific limit 
+                    $products = DB::query("
+                    SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
+                    FROM product 
+                    where (product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)
+                    order by $orderBy $orderDir limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit,$offset);
+            } 
+           
+        }
+        else {
+            //get count of all products in table
+            $productsCount = DB::query("SELECT COUNT(*) as count FROM product");
+            $productsCount = $productsCount[0]['count'];
+            switch ($request->getParam('order')[0]['column']){
+                case 4 :
+                    //get all products in specific limit 
+                    $products = DB::query("
+                    SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
+                    FROM product 
+                    limit %i offset %i", $limit,$offset);
+                    break;
+                default :
+                    //get all products in specific limit 
+                    $products = DB::query("
+                    SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
+                    FROM product 
+                    order by $orderBy $orderDir limit %i offset %i", $limit,$offset);
+            }
         }
 
+        
+        $productIds = array();
+        $productsTmp = array();
+        foreach($products as $product){
+            $productIds[] = $product['id'];
+            $productsTmp[$product['id']] = $product;
+            $productsTmp[$product['id']]['product_url'] = $this->container->get('router')->pathFor('ProductGet',array('id' => $product['id']));
+            $productsTmp[$product['id']]['image'] ='/assets/images/no-image.png';
+            $productsTmp[$product['id']]['bol'] = false;
+        }
+        $products = $productsTmp;
+
+        if($products){
+            //get all images for selected products
+            $productImages = DB::query("SELECT product_id,url FROM product_meta where product_id IN (" . implode(',', array_map('intval', $productIds)) . ") and main = 1 ORDER BY product_id DESC");
+            foreach($productImages as $key => $image){
+                $products[$image['product_id']]['image'] = IMAGE_PATH .'/'. getThumb($image['url'],'cart');
+            }
+        
+            //get bol shop
+            $productShops = DB::query("select * from product_shop where product_id IN (" . implode(',', array_map('intval', $productIds)) . ") ORDER BY product_id DESC");
+            foreach($productShops as $key => $shop){
+                if ($shop['shop_id'] == 3) {
+                    $products[$shop['product_id']]['bol'] = 3;
+                }
+                
+            }
+            $productsTmp = array();
+            foreach($products as $key => $product){
+                $productsTmp[] = $product;
+            }
+        }
+        //sort for bol active
+        if($request->getParam('order')[0]['column'] == 4){
+            switch ($orderDir){
+                case 'ASC' :
+                    usort($productsTmp,function($a,$b){
+                        return ($a['bol']==false);
+                    });
+                    break;
+                case 'DESC' :
+                    usort($productsTmp,function($a,$b){
+                        return ($a['bol']==3);
+                    });
+                break;
+            }
+        }
+       
+
         $returndata = array(
-          'draw' => null,
-          'cached' => null,
-          'recordsTotal' => count($products),
-          'recordsFiltered' => count($products),
-          'data' => $products
-        );
-        return json_encode($returndata);
+            'draw' => $request->getParam('draw'),
+            'cached' => null,
+            'recordsTotal' => count($productsTmp),
+            'recordsFiltered' => $productsCount,
+            'data' => $productsTmp
+          );
+          return json_encode($returndata);
     }
 
     public function getLatestChangedProducts()
