@@ -55,7 +55,7 @@
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                       <div class="notify-icon">
-                        <img src="dist/assets/images/users/avatar-2.jpg" class="img-fluid rounded-circle" alt="" />
+                        <img src="/dist/assets/images/users/avatar-2.jpg" class="img-fluid rounded-circle" alt="" />
                       </div>
                       <p class="notify-details">Cristina Pride</p>
                       <p class="text-muted mb-0 user-msg">
@@ -77,7 +77,7 @@
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                       <div class="notify-icon">
-                        <img src="dist/assets/images/users/avatar-4.jpg" class="img-fluid rounded-circle" alt="" />
+                        <img src="/dist/assets/images/users/avatar-4.jpg" class="img-fluid rounded-circle" alt="" />
                       </div>
                       <p class="notify-details">Karen Robinson</p>
                       <p class="text-muted mb-0 user-msg">
@@ -114,7 +114,7 @@
                   aria-expanded="false"
                 >
                   <span class="account-user-avatar">
-                    <img src="dist/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle" />
+                    <img src="/dist/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle" />
                   </span>
                   <span class="account-user-name text-capitalize pt-1" >{{auth.user.name}} {{auth.user.lastname}}</span>
                 </a>
@@ -185,7 +185,7 @@
                   <!-- item-->
                   <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <div class="media">
-                      <img class="d-flex mr-2 rounded-circle" src="dist/assets/images/users/avatar-2.jpg" alt="Generic placeholder image" height="32" />
+                      <img class="d-flex mr-2 rounded-circle" src="/dist/assets/images/users/avatar-2.jpg" alt="Generic placeholder image" height="32" />
                       <div class="media-body">
                         <h5 class="m-0 font-14">Erwin Brown</h5>
                         <span class="font-12 mb-0">UI Designer</span>
@@ -196,7 +196,7 @@
                   <!-- item-->
                   <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <div class="media">
-                      <img class="d-flex mr-2 rounded-circle" src="dist/assets/images/users/avatar-5.jpg" alt="Generic placeholder image" height="32" />
+                      <img class="d-flex mr-2 rounded-circle" src="/dist/assets/images/users/avatar-5.jpg" alt="Generic placeholder image" height="32" />
                       <div class="media-body">
                         <h5 class="m-0 font-14">Jacob Deo</h5>
                         <span class="font-12 mb-0">Developer</span>

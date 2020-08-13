@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="" name="description" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="dist/assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="/dist/assets/images/favicon.ico" />
     <!-- third party css -->
-    <link href="dist/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <link href="/dist/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
     <!-- third party css end -->
 
     <!-- App css -->
-    <link href="dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="dist/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
-    <link href="dist/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" />
+    <link href="/dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/dist/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
+    <link href="/dist/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
     {% block cssfiles %}{% endblock %}
@@ -60,19 +60,19 @@
 
 
     <!-- bundle -->
-    <script src="dist/assets/js/vendor.min.js"></script>
-    <script src="dist/assets/js/app.min.js"></script>
+    <script src="/dist/assets/js/vendor.min.js"></script>
+    <script src="/dist/assets/js/app.min.js"></script>
     <!-- third party js -->
-    <script src="dist/assets/js/vendor/apexcharts.min.js"></script>
-    <script src="dist/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="dist/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/dist/assets/js/vendor/apexcharts.min.js"></script>
+    <script src="/dist/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="/dist/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
     <!-- third party js ends -->
 
     <!-- demo app -->
-    <script src="dist/assets/js/pages/demo.dashboard.js"></script>
+    <script src="/dist/assets/js/pages/demo.dashboard.js"></script>
     <!-- end demo js-->
     <!-- custom -->
-    <script src="dist/assets/js/custom.min.js"></script>
+    <script src="/dist/assets/js/custom.min.js"></script>
     <!-- end custom js-->
     {% block javascript %}{% endblock %}
   </body>
