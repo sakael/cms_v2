@@ -15,6 +15,8 @@
     <link href="dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="dist/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
     <link href="dist/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
     {% block cssfiles %}{% endblock %}
   </head>
   <body

@@ -22,7 +22,7 @@
          <div class="card-body">
             <div class="row mb-2">
                <div class="col-sm-4">
-                  <a href="javascript:void(0);" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle mr-2"></i> Add Products</a>
+                  <a href="javascript:void(0);" class="btn btn-primary mb-2"><i class="mdi mdi-plus-circle mr-2"></i> Artikel toevoegen</a>
                </div>
                <div class="col-sm-8">
                   <div class="text-sm-right">
@@ -36,15 +36,15 @@
 
             <div class="table-responsive">
                <table class="table table-centered w-100 dt-responsive nowrap" id="products-datatable">
-                  <thead class="thead-light">
+                  <thead class="thead-light text-sm">
                      <tr>
-                        <th>Id</th>
-                        <th class="all">SKU</th>
-                        <th>Titel</th>
-                        <th>Actief</th>
-                        <th>Bol Actief</th>
-                        <th>Laatst gewijzigd</th>
-                        <th>Action</th>
+                        <th>id</th>
+                        <th class="all">sku</th>
+                        <th>titel</th>
+                        <th>actief</th>
+                        <th>bol</th>
+                        <th>laatst gewijzigd</th>
+                        <th><i class="fa fa-cog"></i></th>
                      </tr>
                   </thead>
                   {#
