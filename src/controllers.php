@@ -15,6 +15,9 @@ $container['SuperController'] = function ($container) {
 $container['ProductInfoController'] = function ($container) {
     return new App\Controllers\ProductInfoController($container);
 };
+$container['AttributeController'] = function ($container) {
+    return new App\Controllers\AttributeController($container);
+};
 $container['ProductBrandController'] = function ($container) {
     return new App\Controllers\ProductBrandController($container);
 };

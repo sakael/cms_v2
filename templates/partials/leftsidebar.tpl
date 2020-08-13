@@ -39,27 +39,20 @@
                   <a href="{{path_for('ProductsIndex')}}">Alle Artikelen</a>
                </li>
                {% endif %}
-               <li>
-                  <a href="apps-ecommerce-products-details.html">Products Details</a>
-               </li>
-               <li>
-                  <a href="apps-ecommerce-orders.html">Orders</a>
-               </li>
-               <li>
-                  <a href="apps-ecommerce-orders-details.html">Order Details</a>
-               </li>
-               <li>
-                  <a href="apps-ecommerce-customers.html">Customers</a>
-               </li>
-               <li>
-                  <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-               </li>
-               <li>
-                  <a href="apps-ecommerce-checkout.html">Checkout</a>
-               </li>
-               <li>
-                  <a href="apps-ecommerce-sellers.html">Sellers</a>
-               </li>
+            </ul>
+         </li>
+         <li class="side-nav-item">
+            <a href="javascript: void(0);" class="side-nav-link">
+            <i class="uil-store"></i>
+            <span> Attributen </span>
+            <span class="menu-arrow"></span>
+            </a>
+            <ul class="side-nav-second-level" aria-expanded="false">
+              {% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
+                <li>
+                    <a href="{{path_for('Attributes.GetIndex')}}">Alle Attributen</a>
+                </li>
+               {% endif %}
             </ul>
          </li>
       </ul>

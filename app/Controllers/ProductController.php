@@ -42,8 +42,8 @@ class ProductController extends Controller
     {
         //dd($request->getParams());
         //columns name to know which one to use to order
-        $columns = array('0' => 'product.id', '1' => 'product.SKU','3' => 'product.active', '4' => 'bol', '5' => 'product.updated_at');
-        
+        $columns = array('0' => 'product.id', '1' => 'product.SKU', '2' => 'title', '3' => 'product.active', '4' => 'bol', '5' => 'product.updated_at');
+  
         //get order by and order direction 
         $orderBy = $columns[$request->getParam('order')[0]['column']];
         $orderDir = strtoupper($request->getParam('order')[0]['dir']);

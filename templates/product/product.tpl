@@ -1,6 +1,6 @@
 {% extends "layouts/base.tpl" %}
 
-{% block cssfiles %}
+{% block cssfiles_before %}
 <!-- third party css -->
 <link href="/dist/assets/css/vendor/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
 <link href="/dist/assets/css/vendor/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />

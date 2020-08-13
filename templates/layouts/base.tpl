@@ -10,7 +10,7 @@
     <!-- third party css -->
     <link href="/dist/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
     <!-- third party css end -->
-
+    {% block cssfiles_before %}{% endblock %}
     <!-- App css -->
     <link href="/dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="/dist/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
@@ -68,8 +68,6 @@
     <script src="/dist/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
     <!-- third party js ends -->
 
-    <!-- demo app -->
-    <script src="/dist/assets/js/pages/demo.dashboard.js"></script>
     <!-- end demo js-->
     <!-- custom -->
     <script src="/dist/assets/js/custom.min.js"></script>

@@ -105,7 +105,6 @@
     <script src="dist/assets/js/vendor/dataTables.bootstrap4.js"></script>
     <script src="dist/assets/js/vendor/dataTables.responsive.min.js"></script>
     <script src="dist/assets/js/vendor/responsive.bootstrap4.min.js"></script>
-    <script src="dist/assets/js/vendor/dataTables.checkboxes.min.js"></script>
 
     <!-- specific page js file -->
     <script src="assets/js/pages/products.js"></script>

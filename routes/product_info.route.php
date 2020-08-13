@@ -8,27 +8,27 @@ $app->group('/product-info', function () use ($app) {
     ////////////////////////////////////////////////////////////////////////
     ///////////////            Attributes Groups           /////////////////
     ////////////////////////////////////////////////////////////////////////
-    $app->get('/attribute-groups', 'ProductInfoController:attributeGroupsGetIndex')->setName('AttributeGroups.GetIndex');
-    $app->get('/attribute-groups/data', 'ProductInfoController:attributeGroupsGetData')->setName('AttributeGroups.GetData');
+    $app->get('/attribute-groups', 'AttributeController:attributeGroupsGetIndex')->setName('AttributeGroups.GetIndex');
+    $app->get('/attribute-groups/data', 'AttributeController:attributeGroupsGetData')->setName('AttributeGroups.GetData');
 
-    $app->get('/attribute-groups/attribute/{id}', 'ProductInfoController:attributeGroupsGetSingle')->setName('AttributeGroups.GetSingle');
-    $app->put('/attribute-groups/attribute/update', 'ProductInfoController:attributeGroupsUpdateSingle')->setName('AttributeGroups.UpdateSingle');
+    $app->get('/attribute-groups/attribute/{id}', 'AttributeController:attributeGroupsGetSingle')->setName('AttributeGroups.GetSingle');
+    $app->put('/attribute-groups/attribute/update', 'AttributeController:attributeGroupsUpdateSingle')->setName('AttributeGroups.UpdateSingle');
 
-    $app->get('/attribute-groups/add/attribute', 'ProductInfoController:attributeGroupsAddGet')->setName('AttributeGroups.GetAdd');
-    $app->post('/attribute-groups/add/attribute', 'ProductInfoController:attributeGroupsAddPost')->setName('AttributeGroups.PostAdd');
+    $app->get('/attribute-groups/add/attribute', 'AttributeController:attributeGroupsAddGet')->setName('AttributeGroups.GetAdd');
+    $app->post('/attribute-groups/add/attribute', 'AttributeController:attributeGroupsAddPost')->setName('AttributeGroups.PostAdd');
 
     ////////////////////////////////////////////////////////////////////////
     ///////////////               Attributes               /////////////////
     ////////////////////////////////////////////////////////////////////////
-    $app->get('/attributes', 'ProductInfoController:attributesGetIndex')->setName('Attributes.GetIndex');
-    $app->get('/attributes/data', 'ProductInfoController:attributesGetData')->setName('Attributes.GetData');
+    $app->get('/attributes', 'AttributeController:attributesGetIndex')->setName('Attributes.GetIndex');
+    $app->get('/attributes/data', 'AttributeController:attributesGetData')->setName('Attributes.GetData');
 
-    $app->get('/attributes/attribute/{id}', 'ProductInfoController:attributesGetSingle')->setName('Attributes.GetSingle');
-    $app->put('/attributes/attribute/update', 'ProductInfoController:attributesUpdateSingle')->setName('Attributes.UpdateSingle');
+    $app->get('/attributes/attribute/{id}', 'AttributeController:attributesGetSingle')->setName('Attributes.GetSingle');
+    $app->put('/attributes/attribute/update', 'AttributeController:attributesUpdateSingle')->setName('Attributes.UpdateSingle');
 
-    $app->get('/attributes/add/attribute/{id}', 'ProductInfoController:attributesAddGet')->setName('Attributes.GetAdd');
-    $app->post('/attributes/add/attribute', 'ProductInfoController:attributesAddPost')->setName('Attributes.PostAdd');
-    $app->delete('/attributes/delete/attribute', 'ProductInfoController:attributesDelete')->setName('Attributes.Delete');
+    $app->get('/attributes/add/attribute/{id}', 'AttributeController:attributesAddGet')->setName('Attributes.GetAdd');
+    $app->post('/attributes/add/attribute/post', 'AttributeController:attributesAddPost')->setName('Attributes.PostAdd');
+    $app->delete('/attributes/delete/attribute', 'AttributeController:attributesDelete')->setName('Attributes.Delete');
 
     ////////////////////////////////////////////////////////////////////////
     /////////////////                Brands                /////////////////

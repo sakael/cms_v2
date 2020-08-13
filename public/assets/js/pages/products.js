@@ -32,14 +32,14 @@ $(document).ready(function () {
         orderable: true,
         data: "active",
         render: function (data, type, row) {
-            return (row.active == 1 ? '<i class="fa fa-check text-success"></i>' : '<span class="badge badge-danger"></span>');
+          return row.active == 1 ? '<i class="uil uil-check fs-26 text-success "></i>' : '<span class="badge badge-danger"></span>';
         },
       },
       {
         orderable: true,
         data: "bol",
         render: function (data, type, row) {
-            return (row.bol == 3 ? '<i class="fa fa-check text-success"></i>' : '<span class="badge badge-danger"></span>');
+          return row.bol == 3 ? '<i class="uil uil-check fs-26 text-success"></i>' : '<span class="badge badge-danger"></span>';
         },
       },
       { orderable: true, data: "updated_at" },

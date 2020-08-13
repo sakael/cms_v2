@@ -66,6 +66,7 @@
   "scripts": {
     "routes-update": "App\\Controllers\\GeneralController::postUpdate",
     "run-dev": [
+      "export COMPOSER_PROCESS_TIMEOUT=1200",
       "rm -rf vendor",
       "rm -rf node_modules",
       "composer update",
@@ -75,6 +76,7 @@
       "gulp"
     ],
     "run-prod": [
+      "export COMPOSER_PROCESS_TIMEOUT=1200",
       "rm -rf vendor",
       "rm -rf node_modules",
       "composer update",
