@@ -23,10 +23,11 @@ class AttributeController extends Controller
      **************************************************************************************************************************************************/
     public function attributeGroupsGetIndex($request, $response, $args)
     {
+        $attributeGroup = AttributeGroup::All();
         return $this->view->render(
             $response,
-            'attributes/attribute_group_all.tpl',
-            ['active_menu' => 'products', 'page_title' => 'Attribuut groepen']
+            'attributes_group/index.tpl',
+            ['active_menu' => 'products', 'page_title' => 'Attribuut groepen','attributeGroups' => $attributeGroup]
         );
     }
     /**************************************************************************************************************************************************

@@ -447,12 +447,15 @@ function gereateEanForType($typeId, $productId)
  * @param [string] $thumb thumb name
  * @return string image url
  */
-function getThumb($image, $thumb) {
+function getThumb($image, $thumb)
+{
     $path=dirname($image);
     $imageName = pathinfo($image, PATHINFO_FILENAME);
     $ext = pathinfo($image, PATHINFO_EXTENSION);
     $imageThumb=$path.'/thumbs/'.$imageName.'_'.$thumb.'.'.$ext;
     $check = $GLOBALS['s3']->doesObjectExist('cms', $imageThumb);
-    if (!$check) return $image;
+    if (!$check) {
+        return $image;
+    }
     return $imageThumb;
 }
