@@ -17,28 +17,33 @@ class AttributeController extends Controller
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////                     Attributes Groups                        //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
     /**************************************************************************************************************************************************
      *************************************************************(Attribute Groups Index Get)*********************************************************
      **************************************************************************************************************************************************/
     public function attributeGroupsGetIndex($request, $response, $args)
     {
-        return $this->view->render($response, 'attributes/attribute_group_all.tpl', ['active_menu' => 'products', 'page_title' => 'Attribuut groepen']);
+        return $this->view->render(
+            $response,
+            'attributes/attribute_group_all.tpl',
+            ['active_menu' => 'products', 'page_title' => 'Attribuut groepen']
+        );
     }
     /**************************************************************************************************************************************************
      **************************************************************(Attribute Groups Get Data)*********************************************************
      **************************************************************************************************************************************************/
     public function attributeGroupsGetData($request, $response, $args)
     {
-        $AttributeGroup = AttributeGroup::All();
+        $attributeGroup = AttributeGroup::All();
 
-        $returndata = [
+        $returnData = [
             'draw' => null,
             'cached' => null,
-            'recordsTotal' => count($AttributeGroup),
-            'recordsFiltered' => count($AttributeGroup),
-            'data' => $AttributeGroup
+            'recordsTotal' => count($attributeGroup),
+            'recordsFiltered' => count($attributeGroup),
+            'data' => $attributeGroup
         ];
-        return json_encode($returndata);
+        return json_encode($returnData);
     }
 
     /**************************************************************************************************************************************************
@@ -142,12 +147,12 @@ class AttributeController extends Controller
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Undocumented function
+     * attributesGetIndex function
      *
      * @param [type] $request
      * @param [type] $response
      * @param [type] $args
-     * @return void
+     * @return void rendered template with attributes
      */
     public function attributesGetIndex($request, $response, $args)
     {

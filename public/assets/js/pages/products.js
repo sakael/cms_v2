@@ -21,7 +21,9 @@ $(document).ready(function () {
             row.image +
             '" alt="contact-img" title="contact-img" class="rounded mr-3" height="48" />' +
             '<p class="m-0 d-inline-block align-middle font-16">' +
-            '<a href="apps-ecommerce-products-details.html" class="text-body"> ' +
+            '<a href="' +
+            row.product_url +
+            '" class="text-body"> ' +
             row.title +
             " </a>" +
             "</p>"
