@@ -25,7 +25,7 @@
 				<div class="card-body">
 					<div class="row mb-2">
 						<div class="col-sm-4">
-							<a href="" class="btn btn-primary mb-2">
+							<a href="{{path_for('AttributeGroups.GetAdd')}}" class="btn btn-primary mb-2">
 								<i class="mdi mdi-plus-circle mr-2"></i>
 								Attribuut Groep toevoegen</a>
 						</div>

@@ -35,8 +35,7 @@ $app->group('/product-info', function () use ($app) {
     ////////////////////////////////////////////////////////////////////////
 
     $app->get('/brands', 'ProductBrandController:brandsGetIndex')->setName('Brands.GetIndex');
-    $app->get('/brands/data', 'ProductBrandController:brandsGetData')->setName('Brands.GetData');
-
+    
     $app->get('/brands/brand/{id}', 'ProductBrandController:brandsGetSingle')->setName('Brands.GetSingle');
     $app->get('/brands/brand/types/data', 'ProductBrandController:brandsGetTypesInBrand')->setName('Brands.GetTypesInBrandDataTable');
     $app->put('/brands/brand/{id}', 'ProductBrandController:brandsUpdateSingle')->setName('Brands.UpdateSingle');

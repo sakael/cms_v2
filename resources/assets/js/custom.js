@@ -29,3 +29,5 @@ axios.defaults.headers.common = {
   "X-Requested-With": "XMLHttpRequest",
   "X-CSRFToken": "example-of-custom-header",
 };
+
+var SITE = "https://beta.123bestdeal.nl/";

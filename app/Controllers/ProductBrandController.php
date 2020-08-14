@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use Slim\View\Twig as View;
-use App\Classes\{Brand, UserActivity, Event};
+use App\Classes\Brand;
+use App\Classes\UserActivity;
+use App\Classes\Event;
 use DB;
 use Respect\Validation\Validator as v;
 use Slim\Exception\NotFoundException;
@@ -15,27 +17,9 @@ class ProductBrandController extends Controller
      **************************************************************************************************************************************************/
     public function brandsGetIndex($request, $response, $args)
     {
-        return $this->view->render($response, 'brands/brand_all.tpl', ['active_menu' => 'products', 'page_title' => 'Alle Merken']);
-    }
-
-    /**************************************************************************************************************************************************
-     **************************************************************(Attribute Groups Get Data)*********************************************************
-     **************************************************************************************************************************************************/
-    public function brandsGetData($request, $response, $args)
-    {
         $Brands = Brand::All();
-
-        $returndata = [
-            'draw' => null,
-            'cached' => null,
-            'recordsTotal' => count($Brands),
-            'recordsFiltered' => count($Brands),
-            'data' => $Brands
-        ];
-
-        return json_encode($returndata);
+        return $this->view->render($response, 'brand/index.tpl', ['active_menu' => 'products', 'page_title' => 'Alle Merken', 'brands' => $Brands]);
     }
-
     /**************************************************************************************************************************************************
      ************************************************************(Attribute Groups Get Single)*********************************************************
      **************************************************************************************************************************************************/

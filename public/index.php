@@ -1,7 +1,9 @@
 <?php
 
 use Respect\Validation\Validator as v;
-use Slim\{App, Flash, Views};
+use Slim\App;
+use Slim\Flash;
+use Slim\Views;
 use App\Auth\Auth;
 use App\Validation\Validator;
 use App\Classes\Note;
@@ -89,30 +91,30 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('presecret', 'gg39^*&T(#@ewb^(#');
 
 
-    $function = new TwigFunction('getThumb', function ($image,$thumb) {
+    $function = new TwigFunction('getThumb', function ($image, $thumb) {
         global $GLOBALS;
         $path=dirname($image);
         $imageName = pathinfo($image, PATHINFO_FILENAME);
         $ext = pathinfo($image, PATHINFO_EXTENSION);
         $imageThumb=$path.'/thumbs/'.$imageName.'_'.$thumb.'.'.$ext;
         $check = $GLOBALS['s3']->doesObjectExist('cms', $imageThumb);
-        if (!$check) return $image;
+        if (!$check) {
+            return $image;
+        }
         return $imageThumb;
     });
-
     $view->getEnvironment()->addFunction($function);
 
     $function = new TwigFunction('dd', function () {
         $args = func_get_args();
         return call_user_func_array('dump', $args);
     });
-
     $view->getEnvironment()->addFunction($function);
 
     $filter = new TwigFilter('md5', function ($string) {
         return md5($string);
     });
-
+    
     $view->getEnvironment()->addFilter($filter);
     return $view;
 };

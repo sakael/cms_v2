@@ -31,9 +31,10 @@
 					</span>
 				</a>
 			</li>
+			<li class="side-nav-title side-nav-item  mt-3">Productgegevens</li>
 			<li class="side-nav-item">
 				<a href="javascript: void(0);" class="side-nav-link">
-					<i class="uil-store"></i>
+					<i class="uil uil-box"></i>
 					<span>
 						Artikelen
 					</span>
@@ -45,11 +46,21 @@
 							<a href="{{path_for('ProductsIndex')}}">Alle Artikelen</a>
 						</li>
 					{% endif %}
+					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
+						<li>
+							<a href="{{path_for('Products.Writeoff.GetIndex')}}">Afschrijvingen</a>
+						</li>
+					{% endif %}
+					{% if user.checkPermissionByRouteName('Reviews.Get.New') or auth.user.super%}
+						<li>
+							<a href="{{path_for('Reviews.Get.New')}}">Reviews</a>
+						</li>
+					{% endif %}
 				</ul>
 			</li>
 			<li class="side-nav-item">
 				<a href="javascript: void(0);" class="side-nav-link">
-					<i class="uil-store"></i>
+					<i class=" uil-dialpad-alt"></i>
 					<span>
 						Attributen
 					</span>
@@ -64,6 +75,44 @@
 					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
 						<li>
 							<a href="{{path_for('Attributes.GetIndex')}}">Alle Attributen</a>
+						</li>
+					{% endif %}
+				</ul>
+			</li>
+
+			<li class="side-nav-item">
+				<a href="javascript: void(0);" class="side-nav-link">
+					<i class="uil-store"></i>
+					<span>
+						Merken / Types
+					</span>
+					<span class="menu-arrow"></span>
+				</a>
+				<ul class="side-nav-second-level" aria-expanded="false">
+					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
+						<li>
+							<a href="{{path_for('Brands.GetIndex')}}">Alle Merken</a>
+						</li>
+					{% endif %}
+					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
+						<li>
+							<a href="{{path_for('Types.GetIndex')}}">Alle Types</a>
+						</li>
+					{% endif %}
+				</ul>
+			</li>
+			<li class="side-nav-item">
+				<a href="javascript: void(0);" class="side-nav-link">
+					<i class="dripicons-network-3"></i>
+					<span>
+						Categorieën
+					</span>
+					<span class="menu-arrow"></span>
+				</a>
+				<ul class="side-nav-second-level" aria-expanded="false">
+					{% if user.checkPermissionByRouteName('Categories.GetIndex') or auth.user.super%}
+						<li>
+							<a href="{{path_for('Categories.GetIndex')}}">Alle Categorieën</a>
 						</li>
 					{% endif %}
 				</ul>

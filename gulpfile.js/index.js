@@ -50,7 +50,7 @@ function watchFiles() {
   const baseAssets = vars.getBaseAssetsPath();
 
   gulp.watch(srcPath + "**", gulp.series("copyHtml", reloadBrowserSync));
-  gulp.watch(baseAssets + "images/**/*", gulp.series("copyImages", reloadBrowserSync));
+  //gulp.watch(baseAssets + "images/**/*", gulp.series("copyImages", reloadBrowserSync));
   gulp.watch(baseAssets + "fonts/**/*", gulp.series("copyFonts", reloadBrowserSync));
   gulp.watch(baseAssets + "scss/**/*", gulp.series("compileSaas", reloadBrowserSync));
   gulp.watch(baseAssets + "js/**/*", gulp.series("compileJs", reloadBrowserSync));
@@ -64,12 +64,12 @@ function watchFiles() {
 gulp.task("watch", gulp.parallel(watchFiles, initBrowserSync));
 
 // default
-gulp.task("default", gulp.series("copyAssets", "copyImages", "copyFonts", "compileSaas", "compileJs", "watch"), function (done) {
+gulp.task("default", gulp.series("copyAssets", "copyFonts", "compileSaas", "compileJs", "watch"), function (done) {
   done();
 });
 
 // build
-gulp.task("build", gulp.series("copyAssets", "copyImages", "copyFonts", "compileSaas", "compileJs"));
+gulp.task("build", gulp.series("copyAssets", "copyFonts", "compileSaas", "compileJs"));
 
 // doc
 gulp.task("docs", function () {

@@ -3,10 +3,8 @@
 namespace App\Controllers;
 
 use Slim\View\Twig as View;
-use App\Classes\{
-    UserActivity,
-    Category
-};
+use App\Classes\UserActivity;
+use App\Classes\Category;
 use DB;
 use Respect\Validation\Validator as v;
 
@@ -17,30 +15,20 @@ class CategoryController extends Controller
         $categories = Category::All();
         return $response->withJson(['status' => 'true', 'categories' => $categories]);
     }
-    /**************************************************************************************************************************************************
-     *************************************************************(Attribute Groups Index Get)*********************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * categoriesGetIndex function get rendered view with datatable data
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function categoriesGetIndex($request, $response, $args)
     {
-        return $this->view->render($response, 'categories/category_all.tpl', ['active_menu' => 'products', 'page_title' => 'Alle categorieën']);
+        $categories = Category::All();
+        return $this->view->render($response, 'category/index.tpl', ['active_menu' => 'products', 'page_title' => 'Alle categorieën', 'categories' => $categories]);
     }
-    /**************************************************************************************************************************************************
-     **************************************************************(Attribute Groups Get Data)*********************************************************
-     **************************************************************************************************************************************************/
-    public function categoriesGetData($request, $response, $args)
-    {
-        $Categories = Category::All();
 
-        $returndata = array(
-            'draw' => NULL,
-            'cached' => NULL,
-            'recordsTotal' => count($Categories),
-            'recordsFiltered' => count($Categories),
-            'data' => $Categories
-        );
-
-        return json_encode($returndata);
-    }
     /**************************************************************************************************************************************************
      ************************************************************(Attribute Groups Get Single)*********************************************************
      **************************************************************************************************************************************************/
@@ -74,8 +62,8 @@ class CategoryController extends Controller
         $types = Category::AllTypesIn($request->getParam('product_category_id'));
 
         $returndata = array(
-            'draw' => NULL,
-            'cached' => NULL,
+            'draw' => null,
+            'cached' => null,
             'recordsTotal' => count($types),
             'recordsFiltered' => count($types),
             'data' => $types
@@ -107,7 +95,9 @@ class CategoryController extends Controller
             $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
             if ($request->getParam('id')) {
                 return $response->withRedirect($this->router->pathFor('Categories.GetSingle', ['id' => $request->getParam('id')]));
-            } else return $response->withRedirect($this->router->pathFor('Categories.GetIndex'));
+            } else {
+                return $response->withRedirect($this->router->pathFor('Categories.GetIndex'));
+            }
         }
 
         $uploadedFiles = $request->getUploadedFiles();
@@ -193,7 +183,9 @@ class CategoryController extends Controller
         }
 
         //$check=DB::update('product_category_type', array('product_category_id' => NULL), "id=%i",$request->getParam('id'));
-        if (!$check) return $response->withJson(['status' => 'false', 'msg' => 'Heeft niet ontkoppeld !!']);
+        if (!$check) {
+            return $response->withJson(['status' => 'false', 'msg' => 'Heeft niet ontkoppeld !!']);
+        }
         return $response->withJson(['status' => 'true', 'msg' => 'Heeft ontkoppeld !!']);
     }
 }

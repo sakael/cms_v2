@@ -3,14 +3,12 @@
 namespace App\Controllers;
 
 use Slim\View\Twig as View;
-use App\Classes\{
-    Brand,
-    Type,
-    UserActivity,
-    Category,
-    Product,
-    General
-};
+use App\Classes\Brand;
+use App\Classes\Type;
+use App\Classes\UserActivity;
+use App\Classes\Category;
+use App\Classes\Product;
+use App\Classes\General;
 use DB;
 use Respect\Validation\Validator as v;
 use Slim\Exception\NotFoundException;
@@ -19,28 +17,88 @@ use Nextimage\Nextimage\Resize;
 class ProductTypeController extends Controller
 {
 
-    /**************************************************************************************************************************************************
-     *****************************************************************(Type s Index Get)***************************************************************
-     **************************************************************************************************************************************************/
+/**
+ * typesGetIndex function // render view
+ *
+ * @param [type] $request
+ * @param [type] $response
+ * @param [type] $args
+ * @return void rendered view
+ */
     public function typesGetIndex($request, $response, $args)
     {
-        return $this->view->render($response, 'types/type_all.tpl', ['active_menu' => 'products', 'page_title' => 'Types']);
+        return $this->view->render($response, 'type/index.tpl', ['active_menu' => 'products', 'page_title' => 'Types']);
     }
-
-    /**************************************************************************************************************************************************
-     ******************************************************************(Type s Get Data)***************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * typesGetData function get data for datatable of types list
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array datatable json
+     */
     public function typesGetData($request, $response, $args)
     {
+        $columns = array('0' => 'product_brand_type.id', '1' => 'product_brand_type.name', '2' => 'product_brand.brand_name', '3' => 'product_brand_type.popular_list',
+        '4' => 'product_brand_type.active_menu', '5' => 'product_brand_type.active_feed','6' => 'product_brand_type.updated_at', '7' => 'product_brand_type.created_at');
+  
+        //get order by and order direction
+        $orderBy = $columns[$request->getParam('order')[0]['column']];
+        $orderDir = strtoupper($request->getParam('order')[0]['dir']);
+        
+        //get limit and offset
+        $limit = $request->getParam('length');
+        $offset = $request->getParam('start');
 
-        $Types = Type::All();
+        //get search value
+        $search = $request->getParam('search')['value'];
+        
+        //check if search value not empty add it to the query
+        if ($search !='' && !empty($search)) {
+
+            //get count of all products in table
+            $typesCount = DB::query("SELECT COUNT(*) as count 
+            FROM product_brand_type 
+            LEFT JOIN product_brand ON product_brand.id = product_brand_type.product_brand_id
+            where (product_brand_type.id=%i) or (product_brand_type.name like %s) or (product_brand.name like %s)
+            ", $search, '%'.$search.'%', '%'.$search.'%');
+            $typesCount = $typesCount[0]['count'];
+
+            //get all types in specific limit
+            $types = DB::query("SELECT product_brand_type.id,product_brand_type.product_brand_id,product_brand_type.main_category_id,product_brand_type.name,
+            JSON_UNQUOTE(JSON_EXTRACT(product_brand_type.slug, '$." . language . "')) as slug,
+            product_brand_type.active_menu,product_brand_type.active_feed,product_brand_type.staff_pick,product_brand_type.kb_options,product_brand_type.created_at,
+            product_brand_type.updated_at,product_brand_type.popular_list,product_brand_type.photo,product_brand.name as brand_name FROM product_brand_type
+            LEFT JOIN product_brand ON product_brand.id = product_brand_type.product_brand_id
+            where (product_brand_type.id=%i) or (product_brand_type.name like %s) or (product_brand.name like %s)
+            order by $orderBy $orderDir limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit, $offset);
+        } else {
+            //get count of all types in table
+            $typesCount = DB::query("SELECT COUNT(*) as count FROM product_brand_type");
+            $typesCount = $typesCount[0]['count'];
+
+            //get all types in specific limit
+            $types = DB::query("SELECT product_brand_type.id,product_brand_type.product_brand_id,product_brand_type.main_category_id,product_brand_type.name,
+            JSON_UNQUOTE(JSON_EXTRACT(product_brand_type.slug, '$." . language . "')) as slug,
+            product_brand_type.active_menu,product_brand_type.active_feed,product_brand_type.staff_pick,product_brand_type.kb_options,product_brand_type.created_at,
+            product_brand_type.updated_at,product_brand_type.popular_list,product_brand_type.photo,product_brand.name as brand_name FROM product_brand_type
+            LEFT JOIN product_brand ON product_brand.id = product_brand_type.product_brand_id
+            order by $orderBy $orderDir limit %i offset %i", $limit, $offset);
+        }
+
+       
+        if ($types) {
+            foreach ($types as $key => $type) {
+                $types[$key]['photo'] = IMAGE_PATH .'/'. getThumb($type['photo'], '123bestdeal');
+            }
+        }
         $returndata = array(
-            'draw' => NULL,
-            'cached' => NULL,
-            'recordsTotal' => count($Types),
-            'recordsFiltered' => count($Types),
-            'data' => $Types
-        );
+            'draw' => $request->getParam('draw'),
+            'cached' => null,
+            'recordsTotal' => count($types),
+            'recordsFiltered' => $typesCount,
+            'data' => $types
+          );
         return json_encode($returndata);
     }
 
@@ -101,7 +159,9 @@ class ProductTypeController extends Controller
             $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
             if ($request->getParam('id')) {
                 return $response->withRedirect($this->router->pathFor('Types.GetSingle', ['id' => $request->getParam('id')]));
-            } else return $response->withRedirect($this->router->pathFor('Types.GetIndex'));
+            } else {
+                return $response->withRedirect($this->router->pathFor('Types.GetIndex'));
+            }
         }
 
         $uploadedFiles = $request->getUploadedFiles();
@@ -210,7 +270,6 @@ class ProductTypeController extends Controller
      **************************************************************************************************************************************************/
     public function typesGetProductsIdsAndNames($request, $response, $args)
     {
-
         $validation = $this->validator->validate($request, [
             'search' => v::notEmpty(),
         ]);
@@ -254,7 +313,9 @@ class ProductTypeController extends Controller
             return $response->withJson(['status' => 'false', 'msg' => 'Type data klopt niet !!']);
         }
         $check = DB::query('delete from product_brand_type where id =%i', $request->getParam('id'));
-        if (!$check) return $response->withJson(['status' => 'false', 'msg' => 'Heeft niet verwijderd!!']);
+        if (!$check) {
+            return $response->withJson(['status' => 'false', 'msg' => 'Heeft niet verwijderd!!']);
+        }
         return $response->withJson(['status' => 'true', 'msg' => 'Heeft verwijderd']);
     }
     /**************************************************************************************************************************************************
@@ -305,7 +366,6 @@ class ProductTypeController extends Controller
      **************************************************************************************************************************************************/
     public function getProductsGenerate($request, $response, $args)
     {
-
         $type = Type::Find($args['id']);
         if (!$type) {
             throw new NotFoundException($request, $response);
@@ -327,15 +387,16 @@ class ProductTypeController extends Controller
                 $yes = 1;
             }
             $possibleTmp['yes'] = $yes;
-            $possibleTmp['sku'] = $possible['sku'];;
+            $possibleTmp['sku'] = $possible['sku'];
+            ;
             $possibleTmp['title'] = $possible['title'];
             $possibleTmp['product_id'] = $possible['product_id'];
             $data[] = $possibleTmp;
         }
 
         $returndata = array(
-            'draw' => NULL,
-            'cached' => NULL,
+            'draw' => null,
+            'cached' => null,
             'recordsTotal' => count($data),
             'recordsFiltered' => count($data),
             'data' => $data
