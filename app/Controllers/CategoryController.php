@@ -51,7 +51,7 @@ class CategoryController extends Controller
             return $response->withRedirect($this->router->pathFor('Categories.GetIndex'));
         }
         $Category['contents'] = json_decode($Category['contents'], true);
-        return $this->view->render($response, 'categories/category_single.tpl', ['Category' => $Category,
+        return $this->view->render($response, 'category/edit.tpl', ['Category' => $Category,
         'active_menu' => 'products','page_title' => $Category['name'] . ' - ' . $Category['id']]);
     }
     /**************************************************************************************************************************************************
@@ -130,7 +130,7 @@ class CategoryController extends Controller
     public function categoriesAddGet($request, $response, $args)
     {
         LangToDefault();
-        return $this->view->render($response, 'categories/category_add.tpl', ['active_menu' => 'products','page_title' => 'Categorie toevoegen']);
+        return $this->view->render($response, 'category/add.tpl', ['active_menu' => 'products','page_title' => 'Categorie toevoegen']);
     }
     /**************************************************************************************************************************************************
      ************************************************************(Attribute Groups Post New)***********************************************************

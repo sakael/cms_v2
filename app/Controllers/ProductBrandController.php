@@ -42,7 +42,7 @@ class ProductBrandController extends Controller
         }
 
         $Brand['contents'] = json_decode($Brand['contents'], true);
-        return $this->view->render($response, 'brands/brand_single.tpl', ['Brand' => $Brand,
+        return $this->view->render($response, 'brand/edit.tpl', ['Brand' => $Brand,
             'active_menu' => 'products', 'page_title' => ucfirst($Brand['name']) . ' - ' . $Brand['id']]);
     }
 
@@ -127,7 +127,7 @@ class ProductBrandController extends Controller
     public function brandsAddGet($request, $response, $args)
     {
         LangToDefault();
-        return $this->view->render($response, 'brands/brand_add.tpl', ['active_menu' => 'products', 'page_title' => 'Merk toevoegen']);
+        return $this->view->render($response, 'brand/add.tpl', ['active_menu' => 'products', 'page_title' => 'Merk toevoegen']);
     }
 
     /**************************************************************************************************************************************************

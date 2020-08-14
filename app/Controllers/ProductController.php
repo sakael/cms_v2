@@ -3,7 +3,13 @@
 namespace App\Controllers;
 
 use Slim\View\Twig as View;
-use App\Classes\{Product, EAN, UserActivity, Brand, Attribute, Event, DataTableHelper};
+use App\Classes\Product;
+use App\Classes\EAN;
+use App\Classes\UserActivity;
+use App\Classes\Brand;
+use App\Classes\Attribute;
+use App\Classes\Event;
+use App\Classes\DataTableHelper;
 use DB;
 use Respect\Validation\Validator as v;
 use Carbon\Carbon as Carbon;
@@ -30,6 +36,7 @@ class ProductController extends Controller
         where  product_meta.main = 1 order by id");
         return $this->view->render($response, 'product/index.tpl', ['products' => $products, 'active_menu' => 'products', 'page_title' => 'Alle artikelen']);
     }
+
     /**
      * getAll product datatable function
      *
@@ -44,7 +51,7 @@ class ProductController extends Controller
         //columns name to know which one to use to order
         $columns = array('0' => 'product.id', '1' => 'product.SKU', '2' => 'title', '3' => 'product.active', '4' => 'bol', '5' => 'product.updated_at');
   
-        //get order by and order direction 
+        //get order by and order direction
         $orderBy = $columns[$request->getParam('order')[0]['column']];
         $orderDir = strtoupper($request->getParam('order')[0]['dir']);
         
@@ -64,88 +71,85 @@ class ProductController extends Controller
             ", $search, '%'.$search.'%', '%'.$search.'%');
             $productsCount = $productsCount[0]['count'];
 
-            switch ($request->getParam('order')[0]['column']){
-                case 4 :
-                    //get all products in specific limit 
+            switch ($request->getParam('order')[0]['column']) {
+                case 4:
+                    //get all products in specific limit
                     $products = DB::query("
                     SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
                     FROM product 
                     where (product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)
-                    limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit,$offset);
+                    limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit, $offset);
                     break;
-                default :
-                    //get all products in specific limit 
+                default:
+                    //get all products in specific limit
                     $products = DB::query("
                     SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
                     FROM product 
                     where (product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)
-                    order by $orderBy $orderDir limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit,$offset);
-            } 
-           
-        }
-        else {
+                    order by $orderBy $orderDir limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit, $offset);
+            }
+        } else {
             //get count of all products in table
             $productsCount = DB::query("SELECT COUNT(*) as count FROM product");
             $productsCount = $productsCount[0]['count'];
-            switch ($request->getParam('order')[0]['column']){
-                case 4 :
-                    //get all products in specific limit 
+            switch ($request->getParam('order')[0]['column']) {
+                case 4:
+                    //get all products in specific limit
                     $products = DB::query("
                     SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
                     FROM product 
-                    limit %i offset %i", $limit,$offset);
+                    limit %i offset %i", $limit, $offset);
                     break;
-                default :
-                    //get all products in specific limit 
+                default:
+                    //get all products in specific limit
                     $products = DB::query("
                     SELECT product.id,updated_at,sku,active,updated_at,contents->>'$." . language . ".title' as title
                     FROM product 
-                    order by $orderBy $orderDir limit %i offset %i", $limit,$offset);
+                    order by $orderBy $orderDir limit %i offset %i", $limit, $offset);
             }
         }
 
         
         $productIds = array();
         $productsTmp = array();
-        foreach($products as $product){
+        foreach ($products as $product) {
             $productIds[] = $product['id'];
             $productsTmp[$product['id']] = $product;
-            $productsTmp[$product['id']]['product_url'] = $this->container->get('router')->pathFor('ProductGet',array('id' => $product['id']));
+            $productsTmp[$product['id']]['product_url'] = $this->container->get('router')->pathFor('ProductGet', array('id' => $product['id']));
             $productsTmp[$product['id']]['image'] ='/assets/images/no-image.png';
             $productsTmp[$product['id']]['bol'] = false;
         }
         $products = $productsTmp;
 
-        if($products){
+        if ($products) {
             //get all images for selected products
             $productImages = DB::query("SELECT product_id,url FROM product_meta where product_id IN (" . implode(',', array_map('intval', $productIds)) . ") and main = 1 ORDER BY product_id DESC");
-            foreach($productImages as $key => $image){
-                $products[$image['product_id']]['image'] = IMAGE_PATH .'/'. getThumb($image['url'],'cart');
+            foreach ($productImages as $key => $image) {
+                $products[$image['product_id']]['image'] = IMAGE_PATH .'/'. getThumb($image['url'], 'cart');
             }
         
             //get bol shop
             $productShops = DB::query("select * from product_shop where product_id IN (" . implode(',', array_map('intval', $productIds)) . ") ORDER BY product_id DESC");
-            foreach($productShops as $key => $shop){
+            foreach ($productShops as $key => $shop) {
                 if ($shop['shop_id'] == 3) {
                     $products[$shop['product_id']]['bol'] = 3;
                 }
-                
             }
             $productsTmp = array();
-            foreach($products as $key => $product){
+            foreach ($products as $key => $product) {
                 $productsTmp[] = $product;
             }
         }
         //sort for bol active
-        if($request->getParam('order')[0]['column'] == 4){
-            switch ($orderDir){
-                case 'ASC' :
-                    usort($productsTmp,function($a,$b){
+        if ($request->getParam('order')[0]['column'] == 4) {
+            switch ($orderDir) {
+                case 'ASC':
+                    usort($productsTmp, function ($a, $b) {
                         return ($a['bol']==false);
                     });
                     break;
-                case 'DESC' :
-                    usort($productsTmp,function($a,$b){
+                case 'DESC':
+                    usort($productsTmp, function ($a, $b) {
                         return ($a['bol']==3);
                     });
                 break;
@@ -160,41 +164,17 @@ class ProductController extends Controller
             'recordsFiltered' => $productsCount,
             'data' => $productsTmp
           );
-          return json_encode($returndata);
-    }
-
-    public function getLatestChangedProducts()
-    {
-        $products = DB::queryOneColumn(
-            "subject_id",
-            "select * from activity_log where subject_type like 'Products%' and task like '%Update%' group by  subject_id order by created_at DESC limit 100 "
-        );
-        $products = implode("','", $products);
-        $products = DB::query("
-            SELECT id,sku,active,updated_at,contents->>'$." . language . ".title' as title
-            FROM product 
-            where id 
-            IN ('" . $products . "') ORDER BY field(id,'" . $products . "')");
-
-        $returndata = array(
-          'draw' => null,
-          'cached' => null,
-          'recordsTotal' => count($products),
-          'recordsFiltered' => count($products),
-          'data' => $products
-        );
         return json_encode($returndata);
     }
 
-    public function getAllBol()
-    {
-        $products = DB::query("
-          SELECT *,
-          JSON_UNQUOTE(JSON_EXTRACT(contents, '$." . language . ".title')) as title,
-          left join
-          FROM product order by id ");
-    }
-
+    /**
+     * getProduct function get single product data
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array rendered view product data
+     */
     public function getProduct($request, $response, $args)
     {
         // fetch productdata
@@ -230,7 +210,14 @@ class ProductController extends Controller
           'page_title' => $result['contents']['title'] . ' - ' . $result['id']
         ]);
     }
-
+    /**
+     * updateProduct function, update product function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function updateProduct($request, $response, $args)
     {
         $request = $request->getParsedBody();
@@ -240,7 +227,14 @@ class ProductController extends Controller
             return $response->withJson(['status' => 'true', 'msg' => 'De contents is bijgewerkt']);
         }
     }
-
+    /**
+     * addingImage function, a function which runs when a new image is added to product
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function addingImage($request, $response, $args)
     {
         $uploadedFiles = $request->getUploadedFiles();
@@ -250,7 +244,14 @@ class ProductController extends Controller
             Product::handleUpload($args['id'], $uploadedFile);
         }
     }
-
+    /**
+     * sortingImages function, a function which runs when the image orders is changed
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function sortingImages($request, $response, $args)
     {
         $request = $request->getParsedBody();
@@ -260,6 +261,14 @@ class ProductController extends Controller
         return false;
     }
 
+    /**
+     * getChildren function, get product children
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return json
+     */
     public function getChildren($request, $response, $args)
     {
         $children = DB::query("
@@ -269,6 +278,7 @@ class ProductController extends Controller
                     WHERE product_id=%i", $args['id']);
         return json_encode(array('data' => $children));
     }
+
     /**
      * getChildrenEan get the eans for this type and product function
      *
@@ -321,9 +331,14 @@ class ProductController extends Controller
         return $response->withJson(['status' => 'true', 'data' => $result]);
     }
     
-    /**************************************************************************************************************************************************
-     **************************************************************(Price Update)**********************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * priceUpdate function, update product price function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function priceUpdate($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
@@ -363,9 +378,14 @@ class ProductController extends Controller
         return $response->withJson(['status' => 'false', 'msg' => 'De prijs van het product  is niet gewijzigd !!']);
     }
 
-    /**************************************************************************************************************************************************
-     **************************************************************(Measurements Update)***************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * measurementsUpdate function, update product measurements function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function measurementsUpdate($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
@@ -405,9 +425,14 @@ class ProductController extends Controller
     }
 
 
-    /**************************************************************************************************************************************************
-     ***************************************************************(OtherInfo Update)*****************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * otherInfoUpdate function, update product otherInfo function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function otherInfoUpdate($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
@@ -433,9 +458,14 @@ class ProductController extends Controller
         return $response->withJson(['status' => 'false', 'msg' => 'Het product is niet gewijzigd !!']);
     }
 
-    /**************************************************************************************************************************************************
-     ***************************************************************(OtherInfo Update)*****************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * getProductUrls function, get products url
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array product_urls
+     */
     public function getProductUrls($request, $response, $args)
     {
         UserActivity::Record('Get Product urls', $request->getParam('product_id'), 'Products');
@@ -452,9 +482,14 @@ class ProductController extends Controller
         return $response->withJson(['status' => 'true', 'product_urls' => $result]);
     }
 
-    /**************************************************************************************************************************************************
-     ***************************************************************(OtherInfo Update)*****************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * urlsUpdate function, update product url
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function urlsUpdate($request, $response, $args)
     {
         UserActivity::Record('Update Product urls', $request->getParam('product_id'), 'Products');
@@ -492,9 +527,14 @@ class ProductController extends Controller
         return $response->withJson(['status' => 'false', 'msg' => 'De urls zijn niet gewijzigd !!']);
     }
 
-    /**************************************************************************************************************************************************
-     ***************************************************************(productChilds Update)*************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * productChildsUpdate function, update product children
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function productChildsUpdate($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
@@ -523,9 +563,15 @@ class ProductController extends Controller
         gereateEanForType($request->getParam('typeID'), $request->getParam('product_id'));
         return $response->withJson(['status' => 'true', 'msg' => 'Het is toegevoegd !!']);
     }
-    /**************************************************************************************************************************************************
-     ***************************************************************(productChilds Remove)*************************************************************
-     **************************************************************************************************************************************************/
+
+    /**
+     * productChildsRemove function, remove a product child
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function productChildsRemove($request, $response, $args)
     {
         UserActivity::Record('Delete Child', $request->getParam('product_id'), 'Products');
@@ -556,9 +602,14 @@ class ProductController extends Controller
         return $response->withJson(['status' => 'true', 'msg' => 'Heeft ontkoppeld']);
     }
 
-    /**************************************************************************************************************************************************
-     ***************************************************************(Get Combos Update)****************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * getProductCombos function, get product combos function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array product_combos
+     */
     public function getProductCombos($request, $response, $args)
     {
         UserActivity::Record('Get Product Combos', $request->getParam('product_id'), 'Products');
@@ -582,9 +633,14 @@ class ProductController extends Controller
         return $response->withJson(['status' => 'true', 'product_combos' => $result, 'products' => $products]);
     }
 
-    /**************************************************************************************************************************************************
-     **************************************************************(product Combos Update)*************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * combosUpdate function, update product combos function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function combosUpdate($request, $response, $args)
     {
         UserActivity::Record('Update Product Combos', $request->getParam('product_id'), 'Products');
@@ -633,9 +689,14 @@ class ProductController extends Controller
         }
     }
 
-    /**************************************************************************************************************************************************
-     *************************************************************( product Combos Remove )************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * combosDelete function, delete a combo from a product
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function combosDelete($request, $response, $args)
     {
         UserActivity::Record('Delete Combo', $request->getParam('product_id'), 'Products');
@@ -655,9 +716,15 @@ class ProductController extends Controller
         $event->productUpdated($request->getParam('product_id'), '', 'comboDeleted');
         return $response->withJson(['status' => 'true', 'msg' => 'Verwijderd !!']);
     }
-    /**************************************************************************************************************************************************
-     **************************************************************( product b2b Update )**************************************************************
-     **************************************************************************************************************************************************/
+
+    /**
+     * b_2_bUpdate function, update B2B info in product page
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function b_2_bUpdate($request, $response, $args)
     {
         UserActivity::Record('Update b2b ', $request->getParam('product_id'), 'Products');
@@ -671,16 +738,28 @@ class ProductController extends Controller
         }
         return $response->withJson(['status' => 'true', 'msg' => 'Gewijzigd !!']);
     }
-    /**************************************************************************************************************************************************
-     ******************************************************************( WriteOff )********************************************************************
-     **************************************************************************************************************************************************/
+
+    /**
+     * writeoffGet function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function writeoffGet($request, $response, $args)
     {
         return $this->view->render($response, 'product/writeoff.tpl', ['active_menu' => 'products','page_title' => '']);
     }
-    /**************************************************************************************************************************************************
-     **************************************************************( WriteOff Ajax )*******************************************************************
-     **************************************************************************************************************************************************/
+
+    /**
+     * writeoffGetData function, get data for datatable
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function writeoffGetData($request, $response, $args)
     {
         $dateFrom = $request->getParam('data_from');
@@ -713,17 +792,28 @@ class ProductController extends Controller
         return json_encode($returndata);
     }
 
-    /**************************************************************************************************************************************************
-     **************************************************************( Add new Product  )****************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * productAddGet function, add a new product
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function productAddGet($request, $response, $args)
     {
         LangToDefault();
         return $this->view->render($response, 'product/product_add.tpl', ['active_menu' => 'products','page_title' => 'Product toevoegen']);
     }
-    /**************************************************************************************************************************************************
-     *********************************************************( Add new Product Post  )****************************************************************
-     **************************************************************************************************************************************************/
+
+    /**
+     * productAddPost function, post data of the new product
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return bool
+     */
     public function productAddPost($request, $response, $args)
     {
         // insert a new account
@@ -744,9 +834,15 @@ class ProductController extends Controller
             return $response->withJson(['status' => 'false', 'msg' => 'Is niet Aangemaakt !!']);
         }
     }
-    /**************************************************************************************************************************************************
-    **************************************************************(Generate Types Update)**************************************************************
-    **************************************************************************************************************************************************/
+
+    /**
+     * getTypesGenerate function, check which type can be fit this product
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function getTypesGenerate($request, $response, $args)
     {
         $kb = Attribute::AllinAttributeGroup(9);

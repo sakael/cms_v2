@@ -66,7 +66,7 @@ class AttributeController extends Controller
         if (!$AttributeGroup) {
             throw new NotFoundException($request, $response);
         }
-        return $this->view->render($response, 'attributes/attribute_group_single.tpl', [
+        return $this->view->render($response, 'attributes_group/edit.tpl', [
             'AttributeGroup' => $AttributeGroup,
             'active_menu' => 'products', 'page_title' => $AttributeGroup['name'] . ' - ' . $AttributeGroup['id']
         ]);
@@ -110,7 +110,7 @@ class AttributeController extends Controller
     public function attributeGroupsAddGet($request, $response, $args)
     {
         LangToDefault();
-        return $this->view->render($response, 'attributes/attribute_group_add.tpl', [
+        return $this->view->render($response, 'attributes_group/add.tpl', [
             'active_menu' => 'products',
             'page_title' => 'Attribuut toevoegen'
         ]);
@@ -207,7 +207,7 @@ class AttributeController extends Controller
         }
 
         $AttributeGroups = AttributeGroup::All();
-        return $this->view->render($response, 'attributes/attribute_single.tpl', [
+        return $this->view->render($response, 'attributes/edit.tpl', [
             'Attribute' => $Attribute,
             'AttributeGroups' => $AttributeGroups, 'active_menu' => 'products',
             'page_title' => $Attribute['name'] . ' - ' . $Attribute['id']
@@ -255,7 +255,7 @@ class AttributeController extends Controller
         LangToDefault();
         $id = $args['id'];
         $AttributeGroup = AttributeGroup::Find($id);
-        return $this->view->render($response, 'attributes/attribute_add.tpl', [
+        return $this->view->render($response, 'attributes/add.tpl', [
             'AttributeGroup' => $AttributeGroup,
             'active_menu' => 'products', 'page_title' => 'Attribuut toevoegen aan ' . $AttributeGroup['name']
         ]);
