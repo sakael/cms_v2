@@ -110,6 +110,9 @@ const compileJs = function () {
       baseAssets + "js/vendor/axios.min.js",
       baseAssets + "js/vendor/vue.min.js",
       baseAssets + "js/vendor/toastr.min.js",
+      baseAssets + "js/vendor/jquery.validate.min.js",
+      baseAssets + "js/vendor/additional-methods.min.js",
+      baseAssets + "js/vendor/messages_nl.min.js",
     ])
     .pipe(sourcemaps.init())
     .pipe(concat("vendor.js"))

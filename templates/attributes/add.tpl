@@ -14,6 +14,47 @@
 			</div>
 		</div>
 	</div>
-
-{% endblock %}
-{% block javascript %}{% endblock %}
+	<!-- end page title -->
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+					<form role="form" method="POST" action="{{path_for('Attributes.PostAdd')}}" class="form-horizontal bg-white p-3 m-3">
+						<input type="hidden" name="_METHOD" value="POST">
+						<input type="hidden" name="attribute_group_id" value="{{ AttributeGroup.id }}">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group{{ errors.name ? ' has-danger': ''}}">
+									<label for="name" class="label-material">Naam</label>
+									<input id="name" type="text" name="name" class="form-control" value="{{Attribute.name}}">
+									{% if errors.name %}
+										<small class="form-control-feedback ml-2">{{errors.name |first}}</small>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group{{ errors.attribute_group ? ' has-danger': ''}}">
+									<label for="attribute_group" class="label-material">Attribuutgroep</label>
+									<select class="form-control select2" data-toggle="select2" name="attribute_group" id="attribute_group">
+										{% for AttributeGroup in AttributeGroups %}
+											<option value="{{ AttributeGroup.id }}" {% if AttributeGroup.id==Attribute.attribute_group_id %} selected {% endif %}>{{ AttributeGroup.name }}</option>
+										{% endfor %}
+									</select>
+									{% if errors.attribute_group %}
+										<small class="form-control-feedback ml-2">{{errors.attribute_group |first}}</small>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary pull-left ">
+										Bijwerken
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endblock %}
+		{% block javascript %}{% endblock %}

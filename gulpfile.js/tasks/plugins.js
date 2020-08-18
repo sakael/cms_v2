@@ -33,6 +33,9 @@ const copyAssets = function (done) {
       "./node_modules/axios/dist/axios.js",
       "./node_modules/vue/dist/vue.min.js",
       "./node_modules/toastr/build/toastr.min.js",
+      "./node_modules/jquery-validation/dist/jquery.validate.min.js",
+      "./node_modules/jquery-validation/dist/additional-methods.min.js",
+      "./node_modules/jquery-validation/dist/localization/messages_nl.min.js",
     ],
     scss: [
       "./node_modules/daterangepicker/daterangepicker.css",

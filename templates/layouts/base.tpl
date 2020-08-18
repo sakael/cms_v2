@@ -43,35 +43,37 @@
 						<!-- end Topbar -->
 
 						<!-- Start Content-->
-							<div class="container-fluid">{% block content %}{% endblock %} </div>
-							<!-- container -->
+							<div class="container-fluid"> {% include 'partials/flash.tpl' %}
+							{% block content %}{% endblock %}
 						</div>
-						<!-- content -->
-
-						<!-- Footer Start -->
-						{% include 'partials/footer.tpl' %}
-						<!-- end Footer -->
+						<!-- container -->
 					</div>
+					<!-- content -->
 
-					<!-- ============================================================== -->
-				<!-- End Page content -->
-					<!-- ============================================================== -->
+					<!-- Footer Start -->
+					{% include 'partials/footer.tpl' %}
+					<!-- end Footer -->
 				</div>
-				<!-- END wrapper -->
+
+				<!-- ============================================================== -->
+			<!-- End Page content -->
+				<!-- ============================================================== -->
+			</div>
+			<!-- END wrapper -->
 
 
-				<!-- bundle -->
-				<script src="/dist/assets/js/vendor.min.js"></script>
-				<script src="/dist/assets/js/app.min.js"></script>
-				<!-- third party js -->
-				<script src="/dist/assets/js/vendor/apexcharts.min.js"></script>
-				<script src="/dist/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-				<script src="/dist/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
-				<!-- third party js ends -->
+			<!-- bundle -->
+			<script src="/dist/assets/js/vendor.min.js"></script>
+			<script src="/dist/assets/js/app.min.js"></script>
+			<!-- third party js -->
+			<script src="/dist/assets/js/vendor/apexcharts.min.js"></script>
+			<script src="/dist/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+			<script src="/dist/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+			<!-- third party js ends -->
 
-				<!-- end demo js-->
-				<!-- custom --><script src="/dist/assets/js/custom.min.js"> </script>
-				<!-- end custom js-->
-				{% block javascript %}{% endblock %}
-			</body>
-		</html>
+			<!-- end demo js-->
+			<!-- custom --><script src="/dist/assets/js/custom.min.js"> </script>
+			<!-- end custom js-->
+			{% block javascript %}{% endblock %}
+		</body>
+	</html>
