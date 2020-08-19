@@ -26,7 +26,8 @@ $app->group('/product-info', function () use ($app) {
     $app->get('/attributes/attribute/{id}', 'AttributeController:attributesGetSingle')->setName('Attributes.GetSingle');
     $app->put('/attributes/attribute/update', 'AttributeController:attributesUpdateSingle')->setName('Attributes.UpdateSingle');
 
-    $app->get('/attributes/add/attribute/{id}', 'AttributeController:attributesAddGet')->setName('Attributes.GetAdd');
+    $app->get('/attributes/add/attribute/{id}', 'AttributeController:attributesAddGet')->setName('Attributes.GetAddWithGroup');
+    $app->get('/attributes/add/attribute', 'AttributeController:attributesAddGet')->setName('Attributes.GetAdd');
     $app->post('/attributes/add/attribute/post', 'AttributeController:attributesAddPost')->setName('Attributes.PostAdd');
     $app->delete('/attributes/delete/attribute', 'AttributeController:attributesDelete')->setName('Attributes.Delete');
 

@@ -18,9 +18,14 @@ class AttributeController extends Controller
     //////////////////////////////////////////////////////                     Attributes Groups                        //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
-    /**************************************************************************************************************************************************
-     *************************************************************(Attribute Groups Index Get)*********************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * attributeGroupsGetIndex function , get all attributes groups
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array attributeGroups
+     */
     public function attributeGroupsGetIndex($request, $response, $args)
     {
         $attributeGroup = AttributeGroup::All();
@@ -30,26 +35,15 @@ class AttributeController extends Controller
             ['active_menu' => 'products', 'page_title' => 'Attribuut groepen','attributeGroups' => $attributeGroup]
         );
     }
-    /**************************************************************************************************************************************************
-     **************************************************************(Attribute Groups Get Data)*********************************************************
-     **************************************************************************************************************************************************/
-    public function attributeGroupsGetData($request, $response, $args)
-    {
-        $attributeGroup = AttributeGroup::All();
 
-        $returnData = [
-            'draw' => null,
-            'cached' => null,
-            'recordsTotal' => count($attributeGroup),
-            'recordsFiltered' => count($attributeGroup),
-            'data' => $attributeGroup
-        ];
-        return json_encode($returnData);
-    }
-
-    /**************************************************************************************************************************************************
-     ************************************************************(Attribute Groups Get Single)*********************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * attributeGroupsGetSingle function, get single
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array AttributeGroup
+     */
     public function attributeGroupsGetSingle($request, $response, $args)
     {
         $validation = $this->validator->validateGet($args, [
@@ -72,9 +66,14 @@ class AttributeController extends Controller
         ]);
     }
 
-    /**************************************************************************************************************************************************
-     ************************************************************(Attribute Groups Get Single)*********************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * attributeGroupsUpdateSingle function, post to update a single attribute group
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function attributeGroupsUpdateSingle($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
@@ -103,10 +102,14 @@ class AttributeController extends Controller
             return $response->withRedirect($this->router->pathFor('AttributeGroups.GetSingle', ['id' => $request->getParam('id')]));
         }
     }
-
-    /**************************************************************************************************************************************************
-     ************************************************************(Attribute Groups Get Add)************************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * attributeGroupsAddGet function, add new Attribute Group
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array
+     */
     public function attributeGroupsAddGet($request, $response, $args)
     {
         LangToDefault();
@@ -166,9 +169,14 @@ class AttributeController extends Controller
         return $this->view->render($response, 'attributes/index.tpl', ['active_menu' => 'products', 'page_title' => 'Attributen', 'attributes' => $Attribute]);
     }
 
-    /**************************************************************************************************************************************************
-     **************************************************************(Attribute s Get Data)*********************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * attributesGetData function, get datatable
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return json datatable data
+     */
     public function attributesGetData($request, $response, $args)
     {
         if ($request->getParam('attribute_group_id') && $request->getParam('attribute_group_id') != '') {
@@ -187,9 +195,14 @@ class AttributeController extends Controller
         return json_encode($returndata);
     }
 
-    /**************************************************************************************************************************************************
-     ************************************************************(Attribute s Get Single)*********************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * attributesGetSingle function,Attribute s Get Single
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return array attribute, attributeGroups
+     */
     public function attributesGetSingle($request, $response, $args)
     {
         $validation = $this->validator->validateGet($args, [
@@ -201,22 +214,27 @@ class AttributeController extends Controller
             return $response->withRedirect($this->router->pathFor('Attributes.GetIndex'));
         }
 
-        $Attribute = Attribute::Find($args['id']);
-        if (!$Attribute) {
+        $attribute = Attribute::Find($args['id']);
+        if (!$attribute) {
             throw new NotFoundException($request, $response);
         }
 
-        $AttributeGroups = AttributeGroup::All();
+        $attributeGroups = AttributeGroup::All();
         return $this->view->render($response, 'attributes/edit.tpl', [
-            'Attribute' => $Attribute,
-            'AttributeGroups' => $AttributeGroups, 'active_menu' => 'products',
-            'page_title' => $Attribute['name'] . ' - ' . $Attribute['id']
+            'attribute' => $attribute,
+            'attributeGroups' => $attributeGroups, 'active_menu' => 'products',
+            'page_title' => $attribute['name'] . ' - ' . $attribute['id']
         ]);
     }
 
-    /**************************************************************************************************************************************************
-     ************************************************************(Attribute s Get Single)*********************************************************
-     **************************************************************************************************************************************************/
+    /**
+     * attributesUpdateSingle function, update single attribute
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
     public function attributesUpdateSingle($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
@@ -247,23 +265,39 @@ class AttributeController extends Controller
         }
     }
 
-    /**************************************************************************************************************************************************
-     ************************************************************(Attribute s Get Add)************************************************************
-     **************************************************************************************************************************************************/
+    /**
+    * attributesAddGet function, Attribute add new
+    *
+    * @param [type] $request
+    * @param [type] $response
+    * @param [type] $args
+    * @return array AttributeGroup
+    */
     public function attributesAddGet($request, $response, $args)
     {
         LangToDefault();
-        $id = $args['id'];
-        $AttributeGroup = AttributeGroup::Find($id);
+        if (isset($args['id'])) {
+            $AttributeGroup = AttributeGroup::Find($args['id']);
+            $selected = $args['id'];
+        } else {
+            $AttributeGroup = AttributeGroup::All();
+            $selected = 0;
+        }
+        
         return $this->view->render($response, 'attributes/add.tpl', [
             'AttributeGroup' => $AttributeGroup,
-            'active_menu' => 'products', 'page_title' => 'Attribuut toevoegen aan ' . $AttributeGroup['name']
+            'active_menu' => 'products', 'page_title' => 'Attribuut toevoegen aan ' . $AttributeGroup['name'], 'selected' => $selected
         ]);
     }
 
-    /**************************************************************************************************************************************************
-     ****************************************************************(Attribute Delete)****************************************************************
-     **************************************************************************************************************************************************/
+    /**
+    * attributesDelete function, delete an attribute
+    *
+    * @param [type] $request
+    * @param [type] $response
+    * @param [type] $args
+    * @return boolean
+    */
     public function attributesDelete($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
@@ -278,32 +312,36 @@ class AttributeController extends Controller
         }
         return $response->withJson(['status' => 'true', 'msg' => 'Heeft verwijderd']);
     }
-
-    /**************************************************************************************************************************************************
-     ************************************************************(Attribute s Post New)***********************************************************
-     **************************************************************************************************************************************************/
+    /**
+    * attributesAddPost function, post data to add new Attribute
+    *
+    * @param [type] $request
+    * @param [type] $response
+    * @param [type] $args
+    * @return void
+    */
     public function attributesAddPost($request, $response, $args)
     {
         $validation = $this->validator->validate($request, [
             'name' => v::notEmpty(),
-            'attribute_group_id' => v::notEmpty(),
+            'attribute_group' => v::notEmpty(),
         ]);
         if ($validation->failed()) {
             $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
             return $response->withRedirect($this->router->pathFor('Attributes.GetAdd'));
         }
         $Attribute = new Attribute;
-        $Attribute->attribute_group_id = $request->getParam('attribute_group_id');
+        $Attribute->attribute_group_id = $request->getParam('attribute_group');
         $Attribute->name = $request->getParam('name');
         $id = $Attribute->Create();
         if ($id) {
             unset($_COOKIE['language']);
             UserActivity::Record('Create', $id, 'Attribute');
             $this->container->flash->addMessage('success', 'Attribuutgroep is toegevoegd');
-            return $response->withRedirect($this->router->pathFor('AttributeGroups.GetSingle', ['id' => $request->getParam('attribute_group_id')]));
+            return $response->withRedirect($this->router->pathFor('AttributeGroups.GetSingle', ['id' => $request->getParam('attribute_group')]));
         } else {
             $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
-            return $response->withRedirect($this->router->pathFor('Attributes.GetAdd', ['id' => $request->getParam('attribute_group_id')]));
+            return $response->withRedirect($this->router->pathFor('Attributes.GetAdd', ['id' => $request->getParam('attribute_group')]));
         }
     }
 }
