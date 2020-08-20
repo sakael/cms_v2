@@ -35,17 +35,19 @@
 										<small class="form-control-feedback ml-2">{{errors.name |first}}</small>
 									{% endif %}
 								</div>
-								<div class="form-group{{ errors.multiselect ? ' has-danger': ''}}">
-									<label for="multiselect" class="label-material">Multiselect</label>
-									<input type="checkbox" value="1" {% if AttributeGroup.multiselect==1 %} checked="checked" {% endif %} name="multiselect">
+							</div>
+							<div class="col-md-6">
+								<div class="custom-control mt-4 ml-4 custom-checkbox {{ errors.multiselect ? ' has-danger': ''}}">
+									<input type="checkbox" class="custom-control-input" value="1" name="multiselect" {% if AttributeGroup.multiselect==1 %} checked="checked" {% endif %} id="multiselect">
+									<label class="custom-control-label" for="multiselect">Multiselect</label>
 									{% if errors.multiselect %}
 										<small class="form-control-feedback ml-2">{{errors.multiselect |first}}</small>
 									{% endif %}
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-12 mt-4">
 								<div class="form-group">
-									<button type="submit" class="btn btn-primary pull-left">
+									<button type="submit" class="btn btn-block btn-primary pull-left">
 										Bijwerken
 									</button>
 								</div>
