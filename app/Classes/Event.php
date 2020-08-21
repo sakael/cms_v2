@@ -3,7 +3,8 @@
 namespace App\Classes;
 
 use DB;
-use App\Classes\{Mail,Order};
+use App\Classes\Mail;
+use App\Classes\Order;
 //use Phpfastcache\CacheManager;
 use Carbon\Carbon as Carbon;
 use Phpfastcache\Drivers\Redis\Config;
@@ -20,8 +21,9 @@ class Event
     private static $cache;
     private static $cacheChecking = false;
 
-    private static function init() {
-        if (!self::$cacheChecking) {
+    private static function init()
+    {
+        /*if (!self::$cacheChecking) {
             self::$cache = new Psr16Adapter('redis', new Config([
                 'host' => 'tls://db-redis-ams3-123bestdeal-do-user-3545834-0.a.db.ondigitalocean.com', //Default value
                 'port' => 25061, //Default value
@@ -29,7 +31,7 @@ class Event
                 'database' => 0,
             ]));
             self::$cacheChecking = true;
-        }
+        }*/
     }
 
     public function __construct()
@@ -94,7 +96,6 @@ class Event
      */
     public function orderImported($orderId)
     {
-        
         $order = Order::GetSingle($orderId);
         $status = DB::query("select name->>'$." . language . "' as name, email_subject->>'$." . language . "' as email_subject,
         email_content->>'$." . language . "' as email_content,
@@ -192,7 +193,7 @@ class Event
     public function categoryUpdated($categoryId, $categoryName, $type = 'all')
     {
         $key = 'getCategoryByName' . $categoryName . $categoryId . language;
-        $this->cache->delete($key);
+        // $this->cache->delete($key);
     }
 
     /**
