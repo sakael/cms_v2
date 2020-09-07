@@ -31,8 +31,8 @@
 					</span>
 				</a>
 			</li>
-			<li class="side-nav-title side-nav-item  mt-3">Productgegevens</li>
-			<li class="side-nav-item">
+			<li class="side-nav-title side-nav-item mt-3">Productgegevens</li>
+			<li class="side-nav-item {% if active_menu == 'products' %}mm-active{% endif %}">
 				<a href="javascript: void(0);" class="side-nav-link">
 					<i class="uil uil-box"></i>
 					<span>
@@ -58,7 +58,7 @@
 					{% endif %}
 				</ul>
 			</li>
-			<li class="side-nav-item">
+			<li class="side-nav-item {% if active_menu == 'attributes' or active_menu == 'attributes_group'%}mm-active{% endif %}">
 				<a href="javascript: void(0);" class="side-nav-link">
 					<i class=" uil-dialpad-alt"></i>
 					<span>
@@ -68,19 +68,19 @@
 				</a>
 				<ul class="side-nav-second-level" aria-expanded="false">
 					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
-						<li>
-							<a href="{{path_for('AttributeGroups.GetIndex')}}">Alle Attribuut groepen</a>
+						<li class="{% if active_menu == 'attributes_group' %}active{% endif %}">
+							<a href="{{path_for('AttributeGroups.GetIndex')}}">Attribuut groepen</a>
 						</li>
 					{% endif %}
 					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
-						<li>
-							<a href="{{path_for('Attributes.GetIndex')}}">Alle Attributen</a>
+						<li class="{% if active_menu == 'attributes' %}active{% endif %}">
+							<a href="{{path_for('Attributes.GetIndex')}}">Attributen</a>
 						</li>
 					{% endif %}
 				</ul>
 			</li>
 
-			<li class="side-nav-item">
+			<li class="side-nav-item {% if active_menu == 'brands' or active_menu == 'types'%}mm-active{% endif %}">
 				<a href="javascript: void(0);" class="side-nav-link">
 					<i class="uil-store"></i>
 					<span>
@@ -90,18 +90,18 @@
 				</a>
 				<ul class="side-nav-second-level" aria-expanded="false">
 					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
-						<li>
-							<a href="{{path_for('Brands.GetIndex')}}">Alle Merken</a>
+						<li class="{% if active_menu == 'brands' %}active{% endif %}">
+							<a href="{{path_for('Brands.GetIndex')}}">Merken</a>
 						</li>
 					{% endif %}
 					{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
-						<li>
-							<a href="{{path_for('Types.GetIndex')}}">Alle Types</a>
+						<li class="{% if active_menu == 'types' %}active{% endif %}">
+							<a href="{{path_for('Types.GetIndex')}}">Types</a>
 						</li>
 					{% endif %}
 				</ul>
 			</li>
-			<li class="side-nav-item">
+			<li class="side-nav-item ">
 				<a href="javascript: void(0);" class="side-nav-link">
 					<i class="dripicons-network-3"></i>
 					<span>
@@ -109,7 +109,7 @@
 					</span>
 					<span class="menu-arrow"></span>
 				</a>
-				<ul class="side-nav-second-level" aria-expanded="false">
+				<ul class="side-nav-second-level " aria-expanded="false">
 					{% if user.checkPermissionByRouteName('Categories.GetIndex') or auth.user.super%}
 						<li>
 							<a href="{{path_for('Categories.GetIndex')}}">Alle Categorieën</a>

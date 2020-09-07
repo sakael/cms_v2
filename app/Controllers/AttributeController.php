@@ -32,7 +32,7 @@ class AttributeController extends Controller
         return $this->view->render(
             $response,
             'attributes_group/index.tpl',
-            ['active_menu' => 'products', 'page_title' => 'Attribuut groepen','attributeGroups' => $attributeGroup]
+            ['active_menu' => 'attributes_group', 'page_title' => 'Attribuut groepen','attributeGroups' => $attributeGroup]
         );
     }
 
@@ -62,7 +62,7 @@ class AttributeController extends Controller
         }
         return $this->view->render($response, 'attributes_group/edit.tpl', [
             'AttributeGroup' => $AttributeGroup,
-            'active_menu' => 'products', 'page_title' => $AttributeGroup['name'] . ' - ' . $AttributeGroup['id']
+            'active_menu' => 'attributes_group', 'page_title' => $AttributeGroup['name'] . ' - ' . $AttributeGroup['id']
         ]);
     }
 
@@ -114,7 +114,7 @@ class AttributeController extends Controller
     {
         LangToDefault();
         return $this->view->render($response, 'attributes_group/add.tpl', [
-            'active_menu' => 'products',
+            'active_menu' => 'attributes_group',
             'page_title' => 'Attribuut toevoegen'
         ]);
     }
@@ -166,7 +166,7 @@ class AttributeController extends Controller
         } else {
             $Attribute = Attribute::All();
         }
-        return $this->view->render($response, 'attributes/index.tpl', ['active_menu' => 'products', 'page_title' => 'Attributen', 'attributes' => $Attribute]);
+        return $this->view->render($response, 'attributes/index.tpl', ['active_menu' => 'attributes', 'page_title' => 'Attributen', 'attributes' => $Attribute]);
     }
 
     /**
@@ -222,7 +222,7 @@ class AttributeController extends Controller
         $attributeGroups = AttributeGroup::All();
         return $this->view->render($response, 'attributes/edit.tpl', [
             'attribute' => $attribute,
-            'attributeGroups' => $attributeGroups, 'active_menu' => 'products',
+            'attributeGroups' => $attributeGroups, 'active_menu' => 'attributes',
             'page_title' => $attribute['name'] . ' - ' . $attribute['id']
         ]);
     }
@@ -286,7 +286,7 @@ class AttributeController extends Controller
         
         return $this->view->render($response, 'attributes/add.tpl', [
             'AttributeGroup' => $AttributeGroup,
-            'active_menu' => 'products', 'page_title' => 'Attribuut toevoegen aan ' . $AttributeGroup['name'], 'selected' => $selected
+            'active_menu' => 'attributes', 'page_title' => 'Attribuut toevoegen aan ' . $AttributeGroup['name'], 'selected' => $selected
         ]);
     }
 

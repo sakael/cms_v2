@@ -44,7 +44,7 @@
 		{% if status %}
 			<div class="alert alert-success mt-3 ml-3 mr-3">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<ul>
+				<ul class="m-0">
 					<li>{{status}}</li>
 				</ul>
 			</div>
@@ -52,7 +52,7 @@
 		{% if errors %}
 			<div class="alert alert-danger mt-3 ml-3 mr-3">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<ul>
+				<ul class="m-0">
 					{% for error in errors %}
 						<li>{{ error | first}}</li>
 					{% endfor %}

@@ -129,4 +129,6 @@
 	</div>
 
 {% endblock %}
-{% block javascript %}{% endblock %}
+{% block javascript %}
+{% include 'partials/tinymce.tpl' %}
+{% endblock %}

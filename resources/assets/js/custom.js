@@ -38,4 +38,4 @@ window.setTimeout(function () {
     .slideUp(1000, function () {
       $(this).remove();
     });
-}, 2000);
+}, 5000);

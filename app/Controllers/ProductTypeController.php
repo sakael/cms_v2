@@ -129,7 +129,7 @@ class ProductTypeController extends Controller
         $products = Product::getAllProductsIdSkuTitle();
         $Brands = Brand::All();
         return $this->view->render($response, 'type/edit.tpl', ['Type' => $Type, 'Brands' => $Brands, 'products' => $products,
-        'active_menu' => 'products', 'page_title' => ucfirst($Type['name']) . ' - ' . $Type['id']]);
+        'active_menu' => 'types', 'page_title' => ucfirst($Type['name']) . ' - ' . $Type['id']]);
     }
 
     /**************************************************************************************************************************************************
@@ -210,7 +210,7 @@ class ProductTypeController extends Controller
         } else {
             $Brands = Brand::All();
             return $this->view->render($response, 'type/add.tpl', ['Brands' => $Brands, 'products' => $products,
-            'mainCatoegories' => $mainCatoegories, 'active_menu' => 'products', 'page_title' => 'Type toevoegen']);
+            'mainCatoegories' => $mainCatoegories, 'active_menu' => 'types', 'page_title' => 'Type toevoegen']);
         }
     }
 

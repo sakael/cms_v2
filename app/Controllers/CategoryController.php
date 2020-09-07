@@ -52,7 +52,7 @@ class CategoryController extends Controller
         }
         $Category['contents'] = json_decode($Category['contents'], true);
         return $this->view->render($response, 'category/edit.tpl', ['Category' => $Category,
-        'active_menu' => 'products','page_title' => $Category['name'] . ' - ' . $Category['id']]);
+        'active_menu' => 'category','page_title' => $Category['name'] . ' - ' . $Category['id']]);
     }
     /**************************************************************************************************************************************************
      **************************************************************(CategoriesGetTypesInCategorya)************************************************************
