@@ -55,6 +55,7 @@
 	<!-- specific page js file -->
 	<script>
 		var type_id = {{ Type.id }};
+		var brand_id = {{Type.product_brand_id}};
 	</script>
 	<script src="/assets/js/pages/type_edit.js"></script>
 	{% endblock %}

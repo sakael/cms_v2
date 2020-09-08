@@ -393,7 +393,7 @@ class ProductTypeController extends Controller
             left join product on product.id = product_measurements.product_id
             where measurements->>'$.maxlength' >= %i AND measurements->>'$.minlength' <= %i AND 
             measurements->>'$.maxwidth' >= %i AND measurements->>'$.minwidth' <= %i AND
-            stocklevel != 4 and ((product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)) ORDER BY sku ASC ", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width'], $search, '%'.$search.'%', '%'.$search.'%');
+            stocklevel != 4 and ((product.id like %s) or (sku like %s) or (contents->>'$." . language . ".title' like %s)) ORDER BY sku ASC ", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width'], $search.'%', '%'.$search.'%', '%'.$search.'%');
 
             $productsCount = $productsCount[0]['count'];
             
@@ -402,7 +402,7 @@ class ProductTypeController extends Controller
             left join product on product.id = product_measurements.product_id
             where measurements->>'$.maxlength' >= %i AND measurements->>'$.minlength' <= %i AND 
             measurements->>'$.maxwidth' >= %i AND measurements->>'$.minwidth' <= %i AND
-            stocklevel != 4 and ((product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)) ORDER BY $orderBy $orderDir limit %i offset %i", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width'], $search, '%'.$search.'%', '%'.$search.'%', $limit, $offset);
+            stocklevel != 4 and ((product.id like %s) or (sku like %s) or (contents->>'$." . language . ".title' like %s)) ORDER BY $orderBy $orderDir limit %i offset %i", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width'], $search.'%', '%'.$search.'%', '%'.$search.'%', $limit, $offset);
         } else {
             $productsCount = DB::query("SELECT COUNT(*) as count from  product_measurements 
             left join product on product.id = product_measurements.product_id

@@ -23,14 +23,12 @@ $(document).ready(function () {
             "data": "yes",
             "orderable": false,
             "render": function(data,type,row){
-                var temp='<ul class="action-list">';
                 if(data==0){
-                    temp = temp.concat('<li><div class="btn btn-xs btn-danger" style="width:150px" onclick="add_child_func(' + row.product_id +','+type_id+')">Nee</div></li>');
+                    return '<input type="checkbox" id="switch5"  data-switch="bool" onclick="add_child_func(' + row.product_id +','+type_id+','+brand_id+')"/><label for="switch5" data-on-label="Ja" data-off-label="nee"></label>';
                 }else{
-                    temp = temp.concat('<li><div class="btn btn-xs btn-success remove_type" onclick="removeType(' + row.product_id +')" style="width:150px">Ja</div></li>');
+                    return '<input type="checkbox" id="switch5" checked data-switch="bool" onclick="add_child_func(' + row.product_id +','+type_id+','+brand_id+')"/><label for="switch5" data-on-label="Ja" data-off-label="nee"></label>';
                 }
-                temp = temp.concat('</ul>');
-                return temp;
+              
             }
         }
       ],
@@ -39,23 +37,42 @@ $(document).ready(function () {
         $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
       },
     });
-  
-  
-    $("#all_brand_types_table").on("click", ".remove_type", function(e){
-        e.preventDefault();
-      var id=$(this).data("id");
-      axios.put("/product-info/brands/type/remove",  {
-          'id' :id,
-      })
-        .then(function (response) {
-            if (response.data.status == 'true') {
-                toastr.success(response.data.msg);
-                $('#all_brand_types_table').DataTable().ajax.reload();
-            } else {
-                console.log(response);
-                toastr.warning(response.data.msg);
-            }
-        })
-    });
+
   });
-  
+
+function add_child_func(productID,type_id,brand_id){
+    if (document.getElementById('switch5').checked) 
+    {
+        axios.post("/product/type/add", {
+            'brandID': brand_id,
+            'product_id': productID,
+            'typeID' :type_id,
+            '_METHOD': 'POST'
+            })
+            .then(function (response) {
+                if (response.data.status == 'true') {
+                    toastr.success(response.data.msg);
+                    $('#main_generate_tab_table').DataTable().ajax.reload();
+                } else {
+                    console.log(response);
+                    toastr.warning(response.data.msg);
+                }
+            });
+    } else {
+        axios.delete("/product/type/delete",  { data:{
+            'product_id': productID,
+            'id' :type_id,
+            'type' :'type',
+            }})
+            .then(function (response) {
+                if (response.data.status == 'true') {
+                    toastr.success(response.data.msg);
+                    $('#main_generate_tab_table').DataTable().ajax.reload();
+                } else {
+                    console.log(response);
+                    toastr.warning(response.data.msg);
+                }
+            });
+    }
+    
+}

@@ -124,9 +124,9 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-12 mt-4">
 								<div class="form-group">
-									<button type="submit" class="btn btn-primary pull-left">
+									<button type="submit" class="btn btn-block btn-primary">
 										Toevoegen
 									</button>
 								</div>

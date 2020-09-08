@@ -175,31 +175,30 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6 mt-3">
+							<div class="col-md-12 mt-3">
 								<div class="row">
-									<div class="col-md-3">
-										<label for="" class="font-weight-bold">Zichtbaar in :</label>
+									<div class="col-md-12">
+										<h3>Zichtbaar in</h3>
 									</div>
-									<div class="form-group col-md-3">
-										<label for="active_menu" class="label-material">Menu</label>
-										<input name="active_menu" {% if Type.active_menu==1 %} checked="checked" {% endif %} value="1" type="checkbox">
-									</div>
-									<div class="form-group col-md-3">
-										<label for="active_feed" class="label-material">Feed</label>
-										<input name="active_feed" {% if Type.active_feed==1 %} checked="checked" {% endif %} value="1" type="checkbox">
-									</div>
-									<div class="form-group col-md-3">
-										<label for="popular_list" class="label-material">Popular List
-										</label>
-										<input name="popular_list" {% if Type.popular_list==1 %} checked="checked" {% endif %} value="1" type="checkbox">
+									<div class="col-md-12">
+										<div class="custom-control custom-checkbox custom-control-inline">
+											<input type="checkbox" class="custom-control-input" id="active_menu" name="active_menu" {% if Type.active_menu==1 %} checked="checked" {% endif %} value="1">
+											<label class="custom-control-label" for="active_menu">Menu</label>
+										</div>
+										<div class="custom-control custom-checkbox custom-control-inline">
+											<input type="checkbox" class="custom-control-input" id="active_feed" name="active_feed" {% if Type.active_feed==1 %} checked="checked" {% endif %} value="1">
+											<label class="custom-control-label" for="active_feed">Feed</label>
+										</div>
+										<div class="custom-control custom-checkbox custom-control-inline">
+											<input type="checkbox" class="custom-control-input" id="popular_list" name="popular_list" {% if Type.popular_list==1 %} checked="checked" {% endif %} value="1">
+											<label class="custom-control-label" for="popular_list">Menu</label>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12 mt-5">
 								<div class="form-group">
-									<button type="submit" class="btn btn-primary pull-left">
+									<button type="submit" class="btn btn-block btn-primary">
 										Bijwerken
 									</button>
 								</div>
