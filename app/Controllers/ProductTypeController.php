@@ -156,7 +156,7 @@ class ProductTypeController extends Controller
 
         ///check if failed return back with error message and the fields
         if ($validation->failed()) {
-            $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
+            //$this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
             if ($request->getParam('id')) {
                 return $response->withRedirect($this->router->pathFor('Types.GetSingle', ['id' => $request->getParam('id')]));
             } else {
@@ -372,11 +372,55 @@ class ProductTypeController extends Controller
         }
         $type['measurements'] = json_decode($type['measurements'], true);
 
-        $possibleProducts = DB::query("select product_id,product.sku, product.contents->>'$." . language . ".title' as title from  product_measurements 
-        left join product on product.id = product_measurements.product_id
-        where measurements->>'$.maxlength' >= %i AND measurements->>'$.minlength' <= %i AND 
-        measurements->>'$.maxwidth' >= %i AND measurements->>'$.minwidth' <= %i AND
-        stocklevel != 4 ORDER BY sku ASC ", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width']);
+        //columns name to know which one to use to order
+        $columns = array('0' => 'product.id', '1' => 'product.SKU', '2' => 'title');
+  
+        //get order by and order direction
+        $orderBy = $columns[$request->getParam('order')[0]['column']];
+        $orderDir = strtoupper($request->getParam('order')[0]['dir']);
+                
+        //get limit and offset
+        $limit = $request->getParam('length');
+        $offset = $request->getParam('start');
+        
+        //get search value
+        $search = $request->getParam('search')['value'];
+                
+        //check if search value not empty add it to the uery
+
+        if ($search !='' && !empty($search)) {
+            $productsCount = DB::query("SELECT COUNT(*) as count from  product_measurements 
+            left join product on product.id = product_measurements.product_id
+            where measurements->>'$.maxlength' >= %i AND measurements->>'$.minlength' <= %i AND 
+            measurements->>'$.maxwidth' >= %i AND measurements->>'$.minwidth' <= %i AND
+            stocklevel != 4 and ((product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)) ORDER BY sku ASC ", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width'], $search, '%'.$search.'%', '%'.$search.'%');
+
+            $productsCount = $productsCount[0]['count'];
+            
+            //get all products in specific limit
+            $possibleProducts = DB::query("select product_id,product.sku, product.contents->>'$." . language . ".title' as title from  product_measurements 
+            left join product on product.id = product_measurements.product_id
+            where measurements->>'$.maxlength' >= %i AND measurements->>'$.minlength' <= %i AND 
+            measurements->>'$.maxwidth' >= %i AND measurements->>'$.minwidth' <= %i AND
+            stocklevel != 4 and ((product.id=%i) or (sku like %s) or (contents->>'$." . language . ".title' like %s)) ORDER BY $orderBy $orderDir limit %i offset %i", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width'], $search, '%'.$search.'%', '%'.$search.'%', $limit, $offset);
+        } else {
+            $productsCount = DB::query("SELECT COUNT(*) as count from  product_measurements 
+            left join product on product.id = product_measurements.product_id
+            where measurements->>'$.maxlength' >= %i AND measurements->>'$.minlength' <= %i AND 
+            measurements->>'$.maxwidth' >= %i AND measurements->>'$.minwidth' <= %i AND
+            stocklevel != 4 ", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width']);
+
+            $productsCount = $productsCount[0]['count'];
+            
+            //get all products in specific limit
+            $possibleProducts = DB::query("select product_id,product.sku, product.contents->>'$." . language . ".title' as title from  product_measurements 
+            left join product on product.id = product_measurements.product_id
+            where measurements->>'$.maxlength' >= %i AND measurements->>'$.minlength' <= %i AND 
+            measurements->>'$.maxwidth' >= %i AND measurements->>'$.minwidth' <= %i AND
+            stocklevel != 4 ORDER BY $orderBy $orderDir limit %i offset %i", $type['measurements']['length'], $type['measurements']['length'], $type['measurements']['width'], $type['measurements']['width'], $limit, $offset);
+        }
+        
+
 
         $productsInType = DB::queryOneColumn("product_id", "select product_id FROM product_child where product_brand_type_id = %i", $args['id']);
         $data = array();
@@ -394,13 +438,14 @@ class ProductTypeController extends Controller
             $data[] = $possibleTmp;
         }
 
-        $returndata = array(
-            'draw' => null,
+        $returnData = array(
+            'draw' => $request->getParam('draw'),
             'cached' => null,
             'recordsTotal' => count($data),
-            'recordsFiltered' => count($data),
+            'recordsFiltered' => $productsCount,
             'data' => $data
-        );
-        return json_encode($returndata);
+          );
+
+        return json_encode($returnData);
     }
 }

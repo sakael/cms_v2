@@ -23,7 +23,7 @@
 		</div>
 	</div>
 
-	<ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+	<ul class="nav nav-pills bg-nav-pills nav-justified">
 		<li class="nav-item">
 			<a href="#main_information_tab" data-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
 				<i class="mdi mdi-playlist-star d-md-none d-block"></i>

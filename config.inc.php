@@ -36,15 +36,7 @@ if (isset($_REQUEST['lang'])) {
     define('language', 'nl');
 }
 
-use Phpfastcache\Drivers\Redis\Config;
-use Phpfastcache\Helper\Psr16Adapter;
 
-$cache = new Psr16Adapter('redis', new Config([
-	'host' => 'tls://db-redis-ams3-123bestdeal-do-user-3545834-0.a.db.ondigitalocean.com', //Default value
-	'port' => 25061, //Default value
-	'password' => 'ipk22dxl35lz1ot7',
-	'database' => 0,
-]));
 
 define('LANGUAGE', language);
 //Set files directory for uploaded files

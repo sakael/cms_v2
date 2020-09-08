@@ -23,7 +23,7 @@ class Event
 
     private static function init()
     {
-        /*if (!self::$cacheChecking) {
+        if (!self::$cacheChecking) {
             self::$cache = new Psr16Adapter('redis', new Config([
                 'host' => 'tls://db-redis-ams3-123bestdeal-do-user-3545834-0.a.db.ondigitalocean.com', //Default value
                 'port' => 25061, //Default value
@@ -31,7 +31,7 @@ class Event
                 'database' => 0,
             ]));
             self::$cacheChecking = true;
-        }*/
+        }
     }
 
     public function __construct()
@@ -120,63 +120,63 @@ class Event
     {
         switch ($type) {
             case 'all':
-                $this->cache->delete('Product.' . $productId . '.' . language);
-                $this->cache->delete('Product.Slug.' . $slug . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Images' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Url' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Attributes' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Combos' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Pricing' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Measurements' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Reviews' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.Devices' . '.' . language);
-                $this->cache->delete('Product.' . $productId . '.categories' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.' . language);
+                self::$cache->delete('Product.Slug.' . $slug . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Images' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Url' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Attributes' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Combos' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Pricing' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Measurements' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Reviews' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Devices' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.categories' . '.' . language);
                 $categories = DB::query('select category_id from product_categories where product_id =%i', $productId);
                 foreach ($categories as $category) {
-                    $this->cache->delete('Category.' . $category['category_id'] . '.ProductIds' . '.' . language);
+                    self::$cache->delete('Category.' . $category['category_id'] . '.ProductIds' . '.' . language);
                 }
                 break;
             case 'category':
                 $categories = DB::query('select category_id from product_categories where product_id =%i', $productId);
                 foreach ($categories as $category) {
-                    $this->cache->delete('Category.' . $category['category_id'] . '.ProductIds' . '.' . language);
+                    self::$cache->delete('Category.' . $category['category_id'] . '.ProductIds' . '.' . language);
                 }
                 break;
             case 'shop':
                 $shops = DB::query('select shop_id from product_shop where product_id =%i', $productId);
                 foreach ($shops as $shop) {
-                    $this->cache->delete('shop_class.' . $shop['shop_id'] . '.listShopProducts' . '.' . language);
+                    self::$cache->delete('shop_class.' . $shop['shop_id'] . '.listShopProducts' . '.' . language);
                 }
                 break;
             case 'content':
-                $this->cache->delete('Product.' . $productId . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.' . language);
                 break;
             case 'images':
-                $this->cache->delete('Product.' . $productId . '.Images' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Images' . '.' . language);
                 break;
             case 'price':
-                $this->cache->delete('Product.' . $productId . '.Pricing' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Pricing' . '.' . language);
                 break;
             case 'measurements':
-                $this->cache->delete('Product.' . $productId . '.Measurements' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Measurements' . '.' . language);
                 break;
             case 'url':
-                $this->cache->delete('Product.' . $productId . '.Url' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Url' . '.' . language);
                 break;
             case 'combo':
-                $this->cache->delete('Product.' . $productId . '.Combos' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Combos' . '.' . language);
                 break;
             case 'comboDeleted':
-                $this->cache->delete('Product.' . $productId . '.Combos' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Combos' . '.' . language);
                 break;
             case 'attributes':
-                $this->cache->delete('Product.' . $productId . '.Attributes' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Attributes' . '.' . language);
                 break;
             case 'reviews':
-                $this->cache->delete('Product.' . $productId . '.Reviews' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Reviews' . '.' . language);
                 break;
             case 'child':
-                $this->cache->delete('Product.' . $productId . '.Devices' . '.' . language);
+                self::$cache->delete('Product.' . $productId . '.Devices' . '.' . language);
                 break;
         }
         DB::update('product', [['updated_at' => Carbon::now()->format('Y-m-d H:i:s')]], 'id=%i', $productId);
@@ -193,7 +193,7 @@ class Event
     public function categoryUpdated($categoryId, $categoryName, $type = 'all')
     {
         $key = 'getCategoryByName' . $categoryName . $categoryId . language;
-        // $this->cache->delete($key);
+        // self::$cache->delete($key);
     }
 
     /**
@@ -208,10 +208,10 @@ class Event
     {
         switch ($type) {
             case 'all':
-                $this->cache->delete('Brand.' . $brandId . '.Types' . '.' . language);
-                $this->cache->delete('Brand.' . $brandName  . '.' . language);
+                self::$cache->delete('Brand.' . $brandId . '.Types' . '.' . language);
+                self::$cache->delete('Brand.' . $brandName  . '.' . language);
                 $key = 'getTypesForDevice' . $brandId . $brandName . language;
-                $this->cache->delete($key);
+                self::$cache->delete($key);
                 break;
         }
         
@@ -236,15 +236,15 @@ class Event
     {
         switch ($type) {
             case 'all':
-                $this->cache->delete('Type.' . $typeName . '.' . language);
+                self::$cache->delete('Type.' . $typeName . '.' . language);
                 break;
             case 'categories':
-                $this->cache->delete('Type.' . $typeId . '.Categories' . '.' . language);
+                self::$cache->delete('Type.' . $typeId . '.Categories' . '.' . language);
                 break;
             case 'brand':
-                $this->cache->delete('Brand.' . $brandId[0] . '.Types' . '.' . language);
-                $this->cache->delete('Brand.' . $brandId[1] . '.Types' . '.' . language);
-                $this->cache->delete('Type.' . $typeName . '.' . language);
+                self::$cache->delete('Brand.' . $brandId[0] . '.Types' . '.' . language);
+                self::$cache->delete('Brand.' . $brandId[1] . '.Types' . '.' . language);
+                self::$cache->delete('Type.' . $typeName . '.' . language);
                 break;
         }
     }
@@ -261,7 +261,7 @@ class Event
     {
         switch ($type) {
             case 'all':
-                $this->cache->delete('Brand.' . $brandId . '.Types' . '.' . language);
+                self::$cache->delete('Brand.' . $brandId . '.Types' . '.' . language);
                 break;
         }
     }
@@ -274,6 +274,6 @@ class Event
     */
     public function productChildsUpdated($productId, $typeId)
     {
-        $this->cache->delete('Type.' . $typeId . '.ProductsIds' . '.' . language);
+        self::$cache->delete('Type.' . $typeId . '.ProductsIds' . '.' . language);
     }
 }

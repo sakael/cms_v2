@@ -26,8 +26,7 @@
 					<div class="pull-right text-right mt-2">
 						<span class="fa fa-info-circle text-blue"></span>
 						<small>
-							De informatie in de tabellen wordt weergegeven met een maximale vertraging van 5 minuten</br>
-						Klik met rechts op een artikel om direct naar de Bol.com pagina te gaan.
+							De informatie in de tabellen wordt weergegeven met een maximale vertraging van 5 minuten.
 					</small>
 				</div>
 				<p>
