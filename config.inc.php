@@ -9,13 +9,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Aws\S3\S3Client;
 
-//DB 
-define('READ_HOST','dbcluster-ams3-123bestdeal-nl-read-only-do-user-3545834-0.db.ondigitalocean.com');
-define('WRITE_HOST','dbcluster-ams3-123bestdeal-nl-do-user-3545834-0.db.ondigitalocean.com');
-define('USER','doadmin');
-define('PASSWORD','m54q3939jzhzwj5e');
-define('DB_NAME','cms');
-define('PORT','25060');
+//DB
+define('READ_HOST', 'dbcluster-ams3-123bestdeal-nl-read-only-do-user-3545834-0.db.ondigitalocean.com');
+define('WRITE_HOST', 'dbcluster-ams3-123bestdeal-nl-do-user-3545834-0.db.ondigitalocean.com');
+define('USER', 'doadmin');
+define('PASSWORD', 'm54q3939jzhzwj5e');
+define('DB_NAME', 'cms');
+define('PORT', '25060');
 
 // DigitalOcean Cluster
 DB::$read_host = READ_HOST;
@@ -48,7 +48,7 @@ define('ROOT_DIR', __DIR__);
 //Set Image URL
 define('IMAGE_PATH', 'https://ams3.cdn.123bestdeal.nl');
 
-define('SITE_URL','https://beta.123bestdeal.nl');
+define('SITE_URL', 'https://beta.123bestdeal.nl');
 
 //Set Zebra printers
 define('ZEBRA_IP_1', '10.0.0.24:6101');
@@ -102,3 +102,34 @@ $GLOBALS['s3'] = new S3Client([
             'secret' => 'aSCHCEiD4iTUVJbCL7b8nnnq4whTQHndnz+xRmDY',
         ],
 ]);
+
+$querylogging = true;
+if ($querylogging) {
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        // ajax query, skip this
+     //   return;
+    }
+    if(isset($_SESSION['user_id'])){
+        $user_id_tmp =  $_SESSION['user_id'];
+    }
+    else $user_id_tmp ='';
+    // always clear the log
+    $fh = fopen(__DIR__.'/cache/querylog_'.$user_id_tmp.'.txt', 'w+');
+    fwrite($fh, null);
+    fclose($fh);
+
+    DB::$success_handler = 'log_to_file';
+    function log_to_file($params)
+    {
+        if (substr($params['query'], 0, 6) == "INSERT") {
+            return;
+        }
+        if(isset($_SESSION['user_id'])){
+            $user_id_tmp =  $_SESSION['user_id'];
+        }
+        else $user_id_tmp ='';
+        $fh = fopen(__DIR__.'/cache/querylog_'.$user_id_tmp.'.txt', 'a+');
+        fwrite($fh, $params['runtime'] . ' - ' . $params['query']."\r\n");
+        fclose($fh);
+    }
+}

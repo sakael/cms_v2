@@ -73,7 +73,10 @@ class Note
 
     public function CountNotDone()
     {
-        $count = DB::queryFirstRow("SELECT  COUNT(" . self::$table . ".id) as count from " . self::$table . " where " . self::$table . ".status =0 and " . self::$table . ".user_id_to=%i", Auth::user_id());
-        return $count['count'];
+        if (Auth::user_id()) {
+            $count = DB::queryFirstRow("SELECT  COUNT(" . self::$table . ".id) as count from " . self::$table . " where " . self::$table . ".status =0 and " . self::$table . ".user_id_to=%i", Auth::user_id());
+            return $count['count'];
+        }
+        return 0;
     }
 }

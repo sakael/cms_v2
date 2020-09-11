@@ -200,7 +200,7 @@ class GeneralController extends Controller
      **************************************************************************************************************************************************/
     public function barcodeGet($request, $response, $args)
     {
-        return $this->view->render($response, 'barcode/barcode.tpl', ['active_menu' => 'barcode', 'page_title' => 'barcode']);
+        return $this->view->render($response, 'barcode/index.tpl', ['active_menu' => 'barcode', 'page_title' => 'barcode']);
     }
 
     public function barcodeRead($request, $response, $args)
@@ -225,7 +225,7 @@ class GeneralController extends Controller
             } else {
                 Order::ChangeStatus($order['id'], '3', true);
                 // $order->GenerateInvoice();
-                $firstpart = substr($order['id'], 0, 2);
+                $firstpart = substr($order['shop_id'], 0, 2);
                 if ($firstpart == 20) {
                     // bol
                     // include('/data/www/i12cover.nl/public_html/home/inc/bol_plaza_api/orders.v2.process.php');
@@ -235,10 +235,10 @@ class GeneralController extends Controller
             }
         } else {
             $order = DB::queryFirstRow('SELECT * FROM orders WHERE id=%s', $barcode);
-            $link = $this->router->pathFor('OrdersGetSingle', ['id' => $order['id']]);
             if (!$order) {
                 return $response->withJson(['return' => 'Error', 'msg' => 'Deze order is niet gevonden!']);
             }
+            $link = $this->router->pathFor('OrdersGetSingle', ['id' => $order['id']]);
             if ($order['status_id'] == '3') {
                 return $response->withJson(['return' => 'Error', 'msg' => 'Deze order staat al gemarkeerd als Verzonden!' . " <a href='" . $link . "' target='_blank' style='text-decoration: underline'>Klik hier om naar de bestelling te gaan</a>"]);
             } else {

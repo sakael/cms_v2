@@ -117,6 +117,17 @@
 					{% endif %}
 				</ul>
 			</li>
+			{% if user.checkPermissionByRouteName('BarcodeGet') or auth.user.super%}
+				<li class="side-nav-item">
+					<a href="{{path_for('BarcodeGet')}}" class="side-nav-link">
+						<i class="mdi mdi-barcode-scan"></i>
+						<span>
+							Barcode
+						</span>
+					</a>
+				</li>
+			{% endif %}
+			
 		</ul>
 	</div>
 	<!-- menu -->

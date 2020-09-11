@@ -13,7 +13,7 @@ class Auth
     public $email;
     public $password;
     public $super;
-
+    public $user;
     public function salt()
     {
         return '0E30FE40-C378-11E5-8119-49822AEC0665';
@@ -21,22 +21,29 @@ class Auth
 
     public function __construct()
     {
-        if (isset($_SESSION['user_id'])) {
-            $user = DB::queryFirstRow("SELECT * FROM users WHERE id=%i", $_SESSION['user_id']);
+        if (isset($_SESSION['user_id']) && !isset($_SESSION['user'.$_SESSION['user_id']])) {
+            $user = DB::queryFirstRow("SELECT id,lastname,email,super,disable,name FROM users WHERE id=%i", $_SESSION['user_id']);
             if ($user) {
+                $_SESSION['user'.$_SESSION['user_id']]=$user;
                 $this->id = $user['id'];
                 $this->name = $user['name'];
                 $this->lastname = $user['lastname'];
                 $this->email = $user['email'];
                 $this->super = $user['super'];
             }
+        }else if(!isset($_SESSION['user_id'])){
+           return '';
+        }
+        else{
+            return $_SESSION['user'.$_SESSION['user_id']];
         }
     }
 
     static function user()
     {
         if (isset($_SESSION['user_id'])) {
-            return DB::queryFirstRow("SELECT id,name,lastname,email,super FROM users WHERE id=%i", $_SESSION['user_id']);
+            return $_SESSION['user'.$_SESSION['user_id']];
+            //return DB::queryFirstRow("SELECT id,name,lastname,email,super FROM users WHERE id=%i", $_SESSION['user_id']);
         } else return false;
         
     }
@@ -44,8 +51,8 @@ class Auth
     static function user_id()
     {
         if (isset($_SESSION['user_id'])) {
-            $user = DB::queryFirstRow("SELECT id FROM users WHERE id=%i", $_SESSION['user_id']);
-            return $user['id'];
+          //  $user = DB::queryFirstRow("SELECT id FROM users WHERE id=%i", $_SESSION['user_id']);
+            return $_SESSION['user_id'];
         } else return false;
     }
 

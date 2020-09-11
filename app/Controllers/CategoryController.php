@@ -26,6 +26,7 @@ class CategoryController extends Controller
     public function categoriesGetIndex($request, $response, $args)
     {
         $categories = Category::All();
+
         return $this->view->render($response, 'category/index.tpl', ['active_menu' => 'products', 'page_title' => 'Alle categorieën', 'categories' => $categories]);
     }
 

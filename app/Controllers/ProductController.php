@@ -749,7 +749,7 @@ class ProductController extends Controller
      */
     public function writeoffGet($request, $response, $args)
     {
-        return $this->view->render($response, 'product/writeoff.tpl', ['active_menu' => 'products','page_title' => '']);
+        return $this->view->render($response, 'product/writeoff.tpl', ['active_menu' => 'products','page_title' => 'Afschrijvingen']);
     }
 
     /**
@@ -762,14 +762,15 @@ class ProductController extends Controller
      */
     public function writeoffGetData($request, $response, $args)
     {
-        $dateFrom = $request->getParam('data_from');
-        $dateTo = $request->getParam('data_to');
-        $results = DB::query(
-            "SELECT t3.sku,t2.product_id, SUM(t2.totalprice) as totaal, SUM(t2.count) as aantal
+        $dateFrom = $request->getParam('data_from'). ' 00:00:01';
+        $dateTo = $request->getParam('data_to').' 23:59:59';
+        $products = DB::query("
+        SELECT t3.sku,t2.product_id,t3.contents->>'$." . language . ".title' as title, SUM(t2.totalprice) as totaal, SUM(t2.count) as aantal
                     FROM orders t1
                     LEFT JOIN order_item t2 ON t2.order_id = t1.id
                     LEFT JOIN product t3 ON t2.product_id = t3.id
                     WHERE ispaid =  2
+                    AND t2.product_id != 99999999
                     AND t2.count > 0
                     AND t1.status_id = 3
                     AND t1.shop_id != 4
@@ -781,12 +782,33 @@ class ProductController extends Controller
             $dateTo
         );
 
+        $productIds = array();
+        $productsTmp = array();
+        foreach ($products as $product) {
+            $productIds[] = $product['product_id'];
+            $productsTmp[$product['product_id']] = $product;
+            $productsTmp[$product['product_id']]['product_url'] = $this->container->get('router')->pathFor('ProductGet', array('id' => $product['product_id']));
+            $productsTmp[$product['product_id']]['image'] ='/assets/images/no-image.png';
+        }
+        $products = $productsTmp;
+
+        if ($products) {
+            //get all images for selected products
+            $productImages = DB::query("SELECT product_id,url FROM product_meta where product_id IN (" . implode(',', array_map('intval', $productIds)) . ") and main = 1 ORDER BY product_id DESC");
+            foreach ($productImages as $key => $image) {
+                $products[$image['product_id']]['image'] = IMAGE_PATH .'/'. getThumb($image['url'], 'cart');
+            }
+        }
+        $productsTmp = array();
+        foreach ($products as $key => $product) {
+            $productsTmp[] = $product;
+        }
         $returndata = array(
           'draw' => null,
           'cached' => null,
-          'recordsTotal' => count($results),
-          'recordsFiltered' => count($results),
-          'data' => $results
+          'recordsTotal' => count($productsTmp),
+          'recordsFiltered' => count($productsTmp),
+          'data' => $productsTmp
         );
 
         return json_encode($returndata);
