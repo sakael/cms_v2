@@ -37,7 +37,6 @@ $(document).ready(function () {
         $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
       },
     });
-
   });
 
 function add_child_func(productID,type_id,brand_id){

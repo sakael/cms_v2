@@ -127,7 +127,14 @@
 					</a>
 				</li>
 			{% endif %}
-			
+			<li class="side-nav-title side-nav-item mt-3">Persoonlijk</li>
+			<li class=" side-nav-item  ">
+				<small>
+					<a href="{{path_for('notes.all')}}" class="side-nav-link">
+						<i class="mdi mdi-message-processing-outline"></i>
+						Berichten ( <span class="notes_count {% if notes.notes_count > 0 %} text-danger {% endif %}">{{ notes.notes_count }}</span> )</a>
+				</small>
+			</li>
 		</ul>
 	</div>
 	<!-- menu -->

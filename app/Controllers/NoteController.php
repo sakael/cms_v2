@@ -49,8 +49,8 @@ class NoteController extends Controller
         $notesFrom = Note::From(Auth::user_id());
         $notesTo = Note::To(Auth::user_id());
 
-        return $this->view->render($response, 'notes/all.tpl', ['active_menu' => 'notes',
-        'page_title' => 'Alle Berichten','notesFrom' => $notesFrom, 'notesTo' => $notesTo, 'users' => $users]);
+        return $this->view->render($response, 'notes/index.tpl', ['active_menu' => 'notes',
+        'page_title' => 'Berichten','notesFrom' => $notesFrom, 'notesTo' => $notesTo, 'users' => $users]);
     }
 
     /**************************************************************************************************************************************************

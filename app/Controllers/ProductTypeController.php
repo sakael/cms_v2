@@ -27,7 +27,7 @@ class ProductTypeController extends Controller
  */
     public function typesGetIndex($request, $response, $args)
     {
-        return $this->view->render($response, 'type/index.tpl', ['active_menu' => 'products', 'page_title' => 'Types']);
+        return $this->view->render($response, 'type/index.tpl', ['active_menu' => 'types', 'page_title' => 'Types']);
     }
     /**
      * typesGetData function get data for datatable of types list

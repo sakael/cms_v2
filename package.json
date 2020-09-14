@@ -4,7 +4,8 @@
   "description": "Fully responsive web application ui kit",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production --config webpack.config.js"
   },
   "author": "123BestDeal",
   "repository": {
@@ -33,9 +34,14 @@
     "lodash": "^4.17.14",
     "sass-lint": "^1.13.1",
     "tar": ">=4.4.8",
+    "vue-loader": "^15.9.3",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
     "yargs": "^13.3.0"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^3.2.2",
     "admin-resources": "git+https://github.com/coderthemes/admin-resources.git#master",
     "apexcharts": "3.19.0",
     "axios": "^0.19.2",
@@ -87,6 +93,7 @@
     "toastr": "^2.1.4",
     "twitter-bootstrap-wizard": "^1.2.0",
     "typeahead.js": "^0.11.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.12",
+    "vuedraggable": "^2.24.1"
   }
 }

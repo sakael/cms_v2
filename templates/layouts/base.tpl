@@ -70,10 +70,11 @@
 			<script src="/dist/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 			<script src="/dist/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
 			<!-- third party js ends -->
-
+			<script src="/dist/vuejs/app.js"></script>
 			<!-- end demo js-->
 			<!-- custom --><script src="/dist/assets/js/custom.min.js"> </script>
 			<!-- end custom js-->
+
 			{% block javascript %}{% endblock %}
 		</body>
 	</html>

@@ -39,3 +39,5 @@ window.setTimeout(function () {
       $(this).remove();
     });
 }, 5000);
+
+var app_live_search_site = new Vue({ el: "#live-search-site" });

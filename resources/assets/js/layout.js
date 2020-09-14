@@ -227,8 +227,6 @@ function ($) {
         navDropdowns.on('show.bs.dropdown', function () {
             $('#search-dropdown').removeClass('d-block');
         });
-
-
     },
 
     /**

@@ -56,6 +56,32 @@
 	<script>
 		var type_id = {{ Type.id }};
 		var brand_id = {{Type.product_brand_id}};
+		  var cat="{{Type.categories_contents | json_encode}}";
+  var app_categories = new Vue({
+      el: "#categories_app",
+      data: {
+          lang:"{{ language }}",
+          type_id:"{{ Type.id }}",
+          get_url:"{{path_for('CategoriesType.GetAll')}}",
+          update_url:"{{path_for('CategoriesType.UpdatePost')}}",
+          categories_type:[],
+          IMAGE_PATH:"{{ IMAGE_PATH }}"
+      },
+      mounted: function() {
+          {% for key,categoriesContent in Type.categories_contents %}
+          this.categories_type[{{key}}]={
+              cat_id:'{{key}}',
+              image: '{{getThumb(categoriesContent.image,"123bestdeal")}}',
+              page_title:'{{ categoriesContent.page_title }}',
+              page_sub_title:'{{ categoriesContent.page_sub_title }}',
+              seo_description:'{{ categoriesContent.seo_description }}',
+              page_top:`{{ categoriesContent.page_top | raw }}`,
+              page_bottom:`{{ categoriesContent.page_bottom | raw }}`,
+              seo_title:'{{ categoriesContent.seo_title }}',
+          };
+          {% endfor %}
+      },
+  });
 	</script>
 	<script src="/assets/js/pages/type_edit.js"></script>
 	{% endblock %}

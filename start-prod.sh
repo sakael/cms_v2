@@ -1,1 +1,1 @@
-composer run-script run-prod
+composer run-script run-prod && npm run build
