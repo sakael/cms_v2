@@ -31,14 +31,14 @@ class Note
     {
         return DB::query("SELECT notes.id,notes.user_id,notes.user_id_to,notes.order_id,notes.product_id,notes.note,notes.status,notes.created_at,notes.updated_at,user.id as userid, user.name  from " . self::$table . " as notes
          left join users as user on user.id = notes.user_id_to
-         where user_id=%i order by created_at DESC", $id);
+         where user_id=%i order by notes.created_at DESC", $id);
     }
 
     public static function To($id = 0)
     {
         return DB::query("SELECT notes.id,notes.user_id,notes.user_id_to,notes.order_id,notes.product_id,notes.note,notes.status,notes.created_at,notes.updated_at,user.id as userid, user.name  from " . self::$table . " as notes
         left join users as user on user.id = notes.user_id
-        where user_id_to=%i order by created_at DESC", $id);
+        where user_id_to=%i order by notes.created_at DESC", $id);
     }
 
     public static function Find($id)

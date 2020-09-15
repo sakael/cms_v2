@@ -36,22 +36,13 @@
 			<a class="nav-link " href="#niew" data-toggletab="niew" data-toggle="tab" role="tab">Nieuw</a>
 		</li>
 	</ul>
-	<div class="row">
-		<div class="col-12">
-			<div class="card">
-				<div class="card-body">
-					<div class="card-body">
 						<div class="tab-content mt-4">
 							{% include 'notes/tabs/inbox.tpl' %}
 							{% include 'notes/tabs/sent.tpl' %}
 							{% include 'notes/tabs/new.tpl' %}
 						</div>
 						<!-- /.tabcontent -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+					
 
 {% endblock %}
 {% block javascript %}
@@ -60,7 +51,16 @@
 	<script src="/dist/assets/js/vendor/dataTables.bootstrap4.js"></script>
 	<script src="/dist/assets/js/vendor/dataTables.responsive.min.js"></script>
 	<script src="/dist/assets/js/vendor/responsive.bootstrap4.min.js"></script>
-
+	<script>
+	var users = [];
+	{% for user in users %}
+		users.push({
+			id: '{{ user.id }}',
+			name: '{{ user.name }}'
+		}); 
+	{% endfor %}
+	var authId = '{{auth.user.id}}';
+	</script>
 	<!-- specific page js file -->
-	<script src="/assets/js/pages/attributes.js"></script>
+	<script src="/assets/js/pages/notes.js"></script>
 {% endblock %}

@@ -1,5 +1,4 @@
-<!-- Tab main_types_tab -->
-<div class="tab-pane fade" id="inbox" role="tabpanel">
+<div class="tab-pane fade in show active" id="inbox" role="tabpanel">
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -14,30 +13,12 @@
 									<th>Bericht</th>
 									<th>Bijgewerkt om</th>
 									<th>Gemaakt op</th>
-									<th width="200">
-										<i class="fa fa-cog"></i>
+									<th width="80">
+										Voltooid?
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for attribute in attributes %}
-									<tr>
-										<td>
-											{{attribute.id}}
-										</td>
-										<td>
-											{{attribute.name}}
-										</td>
-										<td>
-											{{attribute.attribute_group_name}}
-										</td>
-										<td class="table-action">
-											<a href="{{ path_for('Attributes.GetSingle',{'id':attribute.id}) }}" class="action-icon" target="_blank">
-												<i class="mdi mdi-square-edit-outline"></i>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>

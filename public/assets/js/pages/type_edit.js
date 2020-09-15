@@ -24,9 +24,9 @@ $(document).ready(function () {
             "orderable": false,
             "render": function(data,type,row){
                 if(data==0){
-                    return '<input type="checkbox" id="switch5"  data-switch="bool" onclick="add_child_func(' + row.product_id +','+type_id+','+brand_id+')"/><label for="switch5" data-on-label="Ja" data-off-label="nee"></label>';
+                    return '<input type="checkbox" id="type_'+row.product_id+'_'+type_id+'_'+brand_id+'"  data-switch="bool" onclick="add_child_func(this.id,' + row.product_id +','+type_id+','+brand_id+')"/><label for="type_'+row.product_id+'_'+type_id+'_'+brand_id+'" data-on-label="Ja" data-off-label="nee"></label>';
                 }else{
-                    return '<input type="checkbox" id="switch5" checked data-switch="bool" onclick="add_child_func(' + row.product_id +','+type_id+','+brand_id+')"/><label for="switch5" data-on-label="Ja" data-off-label="nee"></label>';
+                    return '<input type="checkbox" id="type_'+row.product_id+'_'+type_id+'_'+brand_id+'" checked data-switch="bool" onclick="add_child_func(this.id,' + row.product_id +','+type_id+','+brand_id+')"/><label for="type_'+row.product_id+'_'+type_id+'_'+brand_id+'" data-on-label="Ja" data-off-label="nee"></label>';
                 }
               
             }
@@ -39,8 +39,8 @@ $(document).ready(function () {
     });
   });
 
-function add_child_func(productID,type_id,brand_id){
-    if (document.getElementById('switch5').checked) 
+function add_child_func(thisId,productID,type_id,brand_id){
+    if (document.getElementById(thisId).checked) 
     {
         axios.post("/product/type/add", {
             'brandID': brand_id,

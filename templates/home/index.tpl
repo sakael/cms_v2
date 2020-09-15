@@ -56,47 +56,49 @@
       <div class="card mb-0">
          <div class="card-body">
             <h4 class="header-title mb-2">Totaaloverzicht</h4>
-            <table class="table table-hover table-centered mb-0 ">
-              <thead>
-                  <tr>
-                      <th></th>
-                      <th>nl</th>
-                      <th>com</th>
-                      <th>bol</th>
-                      <th>LVB</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr >
-                      <td class="mb-5">Afgelopen 10 dagen</td>
-                      <td><span class="badge badge-dark">{{orders.tenDays | length}}</span></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td>Vandaag</td>
-                      <td><span class="badge badge-success">{{orders.nlToday | length}}</span></td>
-                      <td><span class="badge badge-success">{{orders.comToday | length}}</span></td>
-                      <td><span class="badge badge-success">0</span></td>
-                      <td><span class="badge badge-success">0</span></td>
-                  </tr>
-                  <tr>
-                      <td>Gisteren</td>
-                      <td><span class="badge badge-primary">{{orders.nlYesterday | length}}</span></td>
-                      <td><span class="badge badge-primary">{{orders.comYesterday | length}}</span></td>
-                      <td><span class="badge badge-primary">0</td>
-                      <td><span class="badge badge-primary">0</td>
-                  </tr>
-                  <tr>
-                      <td>Eergisteren</td>
-                      <td><span class="badge badge-info">{{orders.nlBeforeYesterday | length}}</span></td>
-                      <td><span class="badge badge-info">{{orders.comBeforeYesterday | length}}</span></td>
-                      <td><span class="badge badge-info">0</span></td>
-                      <td><span class="badge badge-info">0</span></td>
-                  </tr>
-              </tbody>
-          </table>
+            <div calss="table-responsive">
+               <table class="table table-hover table-centered mb-0 ">
+                  <thead>
+                        <tr>
+                           <th></th>
+                           <th>nl</th>
+                           <th>com</th>
+                           <th>bol</th>
+                           <th>LVB</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr >
+                           <td class="mb-5">Afgelopen 10 dagen</td>
+                           <td><span class="badge badge-dark">{{orders.tenDays | length}}</span></td>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                        </tr>
+                        <tr>
+                           <td>Vandaag</td>
+                           <td><span class="badge badge-success">{{orders.nlToday | length}}</span></td>
+                           <td><span class="badge badge-success">{{orders.comToday | length}}</span></td>
+                           <td><span class="badge badge-success">0</span></td>
+                           <td><span class="badge badge-success">0</span></td>
+                        </tr>
+                        <tr>
+                           <td>Gisteren</td>
+                           <td><span class="badge badge-primary">{{orders.nlYesterday | length}}</span></td>
+                           <td><span class="badge badge-primary">{{orders.comYesterday | length}}</span></td>
+                           <td><span class="badge badge-primary">0</td>
+                           <td><span class="badge badge-primary">0</td>
+                        </tr>
+                        <tr>
+                           <td>Eergisteren</td>
+                           <td><span class="badge badge-info">{{orders.nlBeforeYesterday | length}}</span></td>
+                           <td><span class="badge badge-info">{{orders.comBeforeYesterday | length}}</span></td>
+                           <td><span class="badge badge-info">0</span></td>
+                           <td><span class="badge badge-info">0</span></td>
+                        </tr>
+                  </tbody>
+               </table>
+            </div>
          </div>
          <!-- end card-body-->
       </div>

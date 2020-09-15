@@ -22,6 +22,9 @@
       "url": "https://github.com/sendinblue/APIv3-php-library.git"
     }
   ],
+  "config": {
+    "process-timeout": 0
+},
   "require": {
     "php": ">=5.5.0",
     "slim/slim": "^3.1",
@@ -69,21 +72,23 @@
       "export COMPOSER_PROCESS_TIMEOUT=1200",
       "rm -rf vendor",
       "rm -rf node_modules",
+      "mkdir cache",
       "composer update",
       "cp db.class.php vendor/sergeytsalkov/meekrodb/db.class.php",
       "yarn install",
       "yarn upgrade",
-      "gulp"
+      "yarn gulp"
     ],
     "run-prod": [
       "export COMPOSER_PROCESS_TIMEOUT=1200",
       "rm -rf vendor",
       "rm -rf node_modules",
+      "mkdir cache",
       "composer update",
       "cp db.class.php vendor/sergeytsalkov/meekrodb/db.class.php",
       "yarn install",
       "yarn upgrade",
-      "gulp build"
+      "yarn gulp build"
     ],
     "generate-thumbs": [
       "@php commands/generate_thumbs.php"
