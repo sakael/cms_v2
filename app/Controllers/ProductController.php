@@ -179,10 +179,9 @@ class ProductController extends Controller
     {
         // fetch productdata
         $result = Product::getProduct($args['id']);
-
-        if (!$result) {
+        if (!$result)
             throw new NotFoundException($request, $response);
-        }
+
         // attributes
         $attributes = Product::getAttributes($args['id']);
 
@@ -197,6 +196,8 @@ class ProductController extends Controller
         left join users on users.id=user_id
         where subject_type=%s and subject_id=%i and (task like '%Update%' or task like '%Delete%') order by created_at DESC", 'Products', $args['id']);
 
+        //print_r($shops); print_r($result); die();
+
         //Brands
         $brands = Brand::All();
         return $this->view->render($response, 'product/product.tpl', [
@@ -210,6 +211,12 @@ class ProductController extends Controller
           'page_title' => $result['contents']['title'] . ' - ' . $result['id']
         ]);
     }
+
+    public function editProduct($request, $response, $args)
+    {
+        return $this->getProduct($request, $response, $args, $template = 'product/product-edit.tpl');
+    }
+
     /**
      * updateProduct function, update product function
      *

@@ -16,6 +16,8 @@ $app->group('/product', function () use ($app) {
     $app->get('/{id}', 'ProductController:getProduct')->setName('ProductGet');
     $app->put('/{id}', 'ProductController:updateProduct')->setName('ProductUpdate');
 
+    $app->any('/{id}/edit', 'ProductController:editProduct')->setName('ProductEdit');
+
     $app->get('/new/add', 'ProductController:productAddGet')->setName('Product.ProductAddGet');
     $app->post('/new/add', 'ProductController:productAddPost')->setName('Product.ProductAddPost');
 
