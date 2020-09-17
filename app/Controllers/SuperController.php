@@ -19,30 +19,9 @@ class SuperController extends Controller
      */
     public function usersIndex($request, $response, $args)
     {
-        return $this->view->render($response, 'users/users.tpl', ['active_menu' => 'users','page_title' => 'Gebruikers']);
-    }
-    /**
-     * usersGetAll datatable function
-     *
-     * @param [type] $request
-     * @param [type] $response
-     * @param [type] $args
-     * @return array json datatabel
-     */
-    public function usersGetAll($request, $response, $args)
-    {
         $users = DB::query("SELECT id,name,lastname,super,created_at,email FROM users");
-        $returndata = array(
-            'draw' => null,
-            'cached' => null,
-            'recordsTotal' => count($users),
-            'recordsFiltered' => count($users),
-            'data' => $users
-        );
-
-        return json_encode($returndata);
+        return $this->view->render($response, 'users/index.tpl', ['active_menu' => 'users','users' => $users,'page_title' => 'Gebruikers']);
     }
-
     
     /**
      * deleteUser function
@@ -93,7 +72,7 @@ class SuperController extends Controller
             order by routes.route_name
             ", $user['id'], $user['id']);
 
-            return $this->view->render($response, 'users/user.tpl', ['user' => $user, 'routes' => $routes,
+            return $this->view->render($response, 'users/edit.tpl', ['user' => $user, 'routes' => $routes,
             'routes_user' => $routes_user, 'active_menu' => 'users',
             'page_title' => $user['name'] . ' - ' . $user['id']]);
         }

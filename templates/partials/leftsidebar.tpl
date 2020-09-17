@@ -31,6 +31,28 @@
 					</span>
 				</a>
 			</li>
+			<li class="side-nav-title side-nav-item mt-3">orders</li>
+			<li class="side-nav-item {% if active_menu == 'orders' %}mm-active{% endif %}">
+				<a href="javascript: void(0);" class="side-nav-link">
+					<i class=" uil-shopping-trolley"></i>
+					<span>
+						Orderbeheer
+					</span>
+					<span class="menu-arrow"></span>
+				</a>
+				<ul class="side-nav-second-level" aria-expanded="false">
+					{% if user.checkPermissionByRouteName('OrdersIndex') or auth.user.super%}
+						<li>
+							<a href="{{path_for('OrdersIndex')}}">Alle Orders</a>
+						</li>
+					{% endif %}
+					{% if user.checkPermissionByRouteName('Orders.Pakbon.Index') or auth.user.super%}
+						<li>
+							<a href="{{path_for('Orders.Pakbon.Index')}}">DHL Pakbon</a>
+						</li>
+					{% endif %}
+				</ul>
+			</li>
 			<li class="side-nav-title side-nav-item mt-3">Productgegevens</li>
 			<li class="side-nav-item {% if active_menu == 'products' %}mm-active{% endif %}">
 				<a href="javascript: void(0);" class="side-nav-link">
@@ -101,7 +123,7 @@
 					{% endif %}
 				</ul>
 			</li>
-			<li class="side-nav-item ">
+			<li class="side-nav-item {% if active_menu == 'category' %}mm-active{% endif %}">
 				<a href="javascript: void(0);" class="side-nav-link">
 					<i class="dripicons-network-3"></i>
 					<span>
@@ -129,12 +151,51 @@
 			{% endif %}
 			<li class="side-nav-title side-nav-item mt-3">Persoonlijk</li>
 			<li class=" side-nav-item  ">
-				<small>
-					<a href="{{path_for('notes.all')}}" class="side-nav-link">
-						<i class="mdi mdi-message-processing-outline"></i>
-						Berichten ( <span class="notes_count {% if notes.notes_count > 0 %} text-danger {% endif %}">{{ notes.notes_count }}</span> )</a>
-				</small>
+				<a href="{{path_for('notes.all')}}" class="side-nav-link ">
+					<i class="mdi mdi-message-processing-outline"></i>
+					Berichten (
+					<span class="notes_count {% if notes.notes_count > 0 %} text-danger {% endif %}">{{ notes.notes_count }}</span>
+					)</a>
 			</li>
+			{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
+				<li class=" side-nav-item  ">
+					<a href="{{path_for('auth.account')}}" class="side-nav-link">
+						<i class="mdi mdi-account-lock-outline"></i>
+						Account</a>
+				</li>
+			{% endif %}
+			{% if auth.user.super %}
+				<li class="side-nav-title side-nav-item mt-3">Administratie</li>
+				<li class="side-nav-item {% if active_menu == 'users' %}mm-active{% endif %}">
+					<a href="javascript: void(0);" class="side-nav-link">
+						<i class=" dripicons-user-group"></i>
+						<span>
+							Gebruikers
+						</span>
+						<span class="menu-arrow"></span>
+					</a>
+					<ul class="side-nav-second-level " aria-expanded="false">
+						<li>
+							<a href="{{path_for('users.index')}}">Alle  gebruikers</a>
+						</li>
+						<li>
+							<a href="{{path_for('users.userGetActivities')}}">Gebruikers activiteit</a>
+						</li>
+					</ul>
+				</li>
+				<li class="side-nav-item">
+					<a href="{{ path_for('routes.save') }}" class="side-nav-link">
+						<i class=" mdi mdi-link-variant"></i>
+						Update Routes</a>
+				</li>
+				<li class="side-nav-item">
+
+					<a href="{{ path_for('camera.index') }}" class="side-nav-link">
+						<i class=" mdi mdi-camera-wireless-outline"></i>
+						Camera</a>
+				</li>
+
+			{% endif %}
 		</ul>
 	</div>
 	<!-- menu -->

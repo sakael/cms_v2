@@ -9,13 +9,7 @@ $(document).ready(function () {
     columns: [
       { orderable: true },
       { orderable: true },
-      {
-        orderable: true,
-        data: "active",
-        render: function (data, type, row) {
-          return data == 1 ? '<i class="uil uil-check fs-26 text-success "></i>' : '<span class="badge badge-danger"></span>';
-        },
-      },
+      {orderable: true},
       { orderable: true },
       { orderable: false },
     ],

@@ -274,7 +274,7 @@ class OrderController extends Controller
         } else {
             $orderTab = '';
         }
-        return $this->view->render($response, 'orders/all.tpl', ['active_menu' => 'orders',
+        return $this->view->render($response, 'orders/main_index.tpl', ['active_menu' => 'orders',
             'page_title' => 'Alle Orders', 'orderTab' => $orderTab]);
     }
 

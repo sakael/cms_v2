@@ -22,6 +22,7 @@ class Auth
     public function __construct()
     {
         if (isset($_SESSION['user_id']) && !isset($_SESSION['user'.$_SESSION['user_id']])) {
+            dd('s');
             $user = DB::queryFirstRow("SELECT id,lastname,email,super,disable,name FROM users WHERE id=%i", $_SESSION['user_id']);
             if ($user) {
                 $_SESSION['user'.$_SESSION['user_id']]=$user;
@@ -35,6 +36,11 @@ class Auth
            return '';
         }
         else{
+            $this->id = $_SESSION['user'.$_SESSION['user_id']]['id'];
+            $this->name =$_SESSION['user'.$_SESSION['user_id']]['name'];
+            $this->lastname =$_SESSION['user'.$_SESSION['user_id']]['lastname'];
+            $this->email =$_SESSION['user'.$_SESSION['user_id']]['email'];
+            $this->super = $_SESSION['user'.$_SESSION['user_id']]['super'];
             return $_SESSION['user'.$_SESSION['user_id']];
         }
     }

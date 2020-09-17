@@ -20,7 +20,7 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body">
-					<form role="form" method="POST" action="{{path_for('Attributes.PostAdd')}}" class="form-horizontal bg-white p-3 m-3">
+					<form role="form" method="POST" action="{{path_for('Attributes.PostAdd')}}" class="form-horizontal bg-white p-3 m-3 needs-validation" novalidate>
 						<input type="hidden" name="_METHOD" value="POST">
 						<div class="row">
 							<div class="col-md-6">

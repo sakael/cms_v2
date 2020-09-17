@@ -116,7 +116,7 @@ class AuthController extends Controller
      **************************************************************************************************************************************************/
     public function getAccount($request, $response, $args)
     {
-        return $this->view->render($response, 'account/account.tpl');
+        return $this->view->render($response, 'account/index.tpl');
     }
 
     /**************************************************************************************************************************************************
@@ -124,7 +124,8 @@ class AuthController extends Controller
      **************************************************************************************************************************************************/
     public function postAccount($request, $response, $args)
     {
-        $user = $this->auth->user();
+        
+        $userCurrent = $this->auth->user();//dd($user);
         //validate the registration form fields
         if ($request->getParam('old_password') && $request->getParam('old_password') != '') {
             $validation = $this->validator->validate($request, [
@@ -146,12 +147,14 @@ class AuthController extends Controller
         if ($validation->failed()) {
             $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
         } else {
-            $user = new $this->auth;
+            $user = new $this->auth();
             $user->id = $request->getParam('id');
             $user->name = $request->getParam('name');
             $user->lastname = $request->getParam('lastname');
             $user->email = $request->getParam('email');
             $user->password = $request->getParam('password');
+            $user->super = $userCurrent['super'];
+            
             $status = $user->update();
             if ($status) {
                 $this->container->flash->addMessage('success', 'Uw account is bijgewerkt');

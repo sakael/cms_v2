@@ -6,7 +6,7 @@ use App\Middleware\SuperMiddleware as Super;
 use Slim\View\Twig as View;
 
 $app->get('/camera', function ($request, $response, $args) use ($app) {
-  return $this->view->render($response, 'diverse/camera.tpl', ['active_menu' => 'camera']);
+  return $this->view->render($response, 'camera/camera.tpl', ['active_menu' => 'camera']);
 })->setName('camera.index')->add(new Auth($container))->add(new Permission($container));
 
 //B2B Part
@@ -32,7 +32,6 @@ $app->group('/i12_customers', function () use ($app,  $container) {
 $app->group('/users', function () use ($app,  $container) {
 
   $app->get('', 'SuperController:usersIndex')->setName('users.index');
-  $app->get('/data', 'SuperController:usersGetAll')->setName('users.data');
   $app->get('/user/{id}', 'SuperController:getUser')->setName('users.userGet');
   $app->put('/user/update', 'SuperController:updateUser')->setName('users.userPut');
   $app->post('/user/delete', 'SuperController:deleteUser')->setName('users.userDelete');
