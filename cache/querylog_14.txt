@@ -1,1 +1,53 @@
-5.220890 - SELECT  COUNT(notes.id) as count from notes where notes.status =0 and notes.user_id_to=14
+5.055189 - SELECT  COUNT(notes.id) as count from notes where notes.status =0 and notes.user_id_to=14
+6.150961 - SELECT orders.id,orders.shop_id,orders.status_id,JSON_UNQUOTE(orders.payment) as payment,JSON_UNQUOTE(orders.order_details) as order_details,orders.gross_price,orders.shipping_cost,orders.created_at,order_status.title as status_title, shop.domain as shop_name  from orders
+        LEFT JOIN order_status on order_status.id=orders.status_id
+        LEFT JOIN shop on shop.id=orders.shop_id
+        where orders.status_id=1  AND ispaid != '0'
+5.444050 - SELECT * from order_item
+        where order_item.order_id IN ('851466','851467')
+5.842924 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(contents, '$.en')) as contents FROM product WHERE id=221018
+5.520105 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(title, '$.en')) as title FROM product_meta WHERE product_id=221018 ORDER BY sort_order ASC
+5.312204 - SELECT * FROM product_url WHERE product_id=221018 AND lang='en' ORDER BY id DESC
+5.698919 - SELECT *,JSON_UNQUOTE(price) as price FROM product_pricing WHERE product_id=221018 limit 1
+5.365133 - SELECT *,JSON_UNQUOTE(measurements) as measurements FROM product_measurements WHERE product_id=221018 limit 1
+5.441904 - SELECT * FROM b_2_b WHERE product_id=221018 limit 1
+5.257845 - SELECT order_item_attribute.* , attribute.attribute_group_id, attribute.name->>'$.en' as title from order_item_attribute
+               left join attribute on order_item_attribute.attribute_id = attribute.id
+               where order_item_attribute.order_item_id=255
+6.227970 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(contents, '$.en')) as contents FROM product WHERE id=271529
+5.523920 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(title, '$.en')) as title FROM product_meta WHERE product_id=271529 ORDER BY sort_order ASC
+5.419016 - SELECT * FROM product_url WHERE product_id=271529 AND lang='en' ORDER BY id DESC
+5.619049 - SELECT *,JSON_UNQUOTE(price) as price FROM product_pricing WHERE product_id=271529 limit 1
+5.278111 - SELECT *,JSON_UNQUOTE(measurements) as measurements FROM product_measurements WHERE product_id=271529 limit 1
+5.047798 - SELECT * FROM b_2_b WHERE product_id=271529 limit 1
+5.312920 - SELECT order_item_attribute.* , attribute.attribute_group_id, attribute.name->>'$.en' as title from order_item_attribute
+               left join attribute on order_item_attribute.attribute_id = attribute.id
+               where order_item_attribute.order_item_id=256
+5.642176 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(contents, '$.en')) as contents FROM product WHERE id=99999999
+5.301952 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(title, '$.en')) as title FROM product_meta WHERE product_id=99999999 ORDER BY sort_order ASC
+5.436897 - SELECT * FROM product_url WHERE product_id=99999999 AND lang='en' ORDER BY id DESC
+5.779982 - SELECT *,JSON_UNQUOTE(price) as price FROM product_pricing WHERE product_id=99999999 limit 1
+5.311012 - SELECT *,JSON_UNQUOTE(measurements) as measurements FROM product_measurements WHERE product_id=99999999 limit 1
+5.003214 - SELECT * FROM b_2_b WHERE product_id=99999999 limit 1
+5.227089 - SELECT order_item_attribute.* , attribute.attribute_group_id, attribute.name->>'$.en' as title from order_item_attribute
+               left join attribute on order_item_attribute.attribute_id = attribute.id
+               where order_item_attribute.order_item_id=257
+6.460905 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(contents, '$.en')) as contents FROM product WHERE id=296552
+5.284071 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(title, '$.en')) as title FROM product_meta WHERE product_id=296552 ORDER BY sort_order ASC
+4.925013 - SELECT * FROM product_url WHERE product_id=296552 AND lang='en' ORDER BY id DESC
+5.733013 - SELECT *,JSON_UNQUOTE(price) as price FROM product_pricing WHERE product_id=296552 limit 1
+5.398035 - SELECT *,JSON_UNQUOTE(measurements) as measurements FROM product_measurements WHERE product_id=296552 limit 1
+4.915953 - SELECT * FROM b_2_b WHERE product_id=296552 limit 1
+5.364180 - SELECT order_item_attribute.* , attribute.attribute_group_id, attribute.name->>'$.en' as title from order_item_attribute
+               left join attribute on order_item_attribute.attribute_id = attribute.id
+               where order_item_attribute.order_item_id=258
+5.609989 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(contents, '$.en')) as contents FROM product WHERE id=99999999
+5.430937 - SELECT *, JSON_UNQUOTE(JSON_EXTRACT(title, '$.en')) as title FROM product_meta WHERE product_id=99999999 ORDER BY sort_order ASC
+7.045984 - SELECT * FROM product_url WHERE product_id=99999999 AND lang='en' ORDER BY id DESC
+5.945206 - SELECT *,JSON_UNQUOTE(price) as price FROM product_pricing WHERE product_id=99999999 limit 1
+5.889893 - SELECT *,JSON_UNQUOTE(measurements) as measurements FROM product_measurements WHERE product_id=99999999 limit 1
+8.203983 - SELECT * FROM b_2_b WHERE product_id=99999999 limit 1
+5.490065 - SELECT order_item_attribute.* , attribute.attribute_group_id, attribute.name->>'$.en' as title from order_item_attribute
+               left join attribute on order_item_attribute.attribute_id = attribute.id
+               where order_item_attribute.order_item_id=259
+5.668163 - SELECT attribute.id, JSON_UNQUOTE(JSON_EXTRACT(attribute.name, '$.en'))  as name,JSON_UNQUOTE(JSON_EXTRACT(attribute_group.name, '$.en')) as attribute_group_name FROM attribute LEFT JOIN attribute_group ON attribute.attribute_group_id = attribute_group.id where attribute_group_id =1 order by name

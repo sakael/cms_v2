@@ -49,6 +49,7 @@ $(document).ready(function () {
         data: null,
         orderable: false,
         className: "table-action",
+        className: "dt-head-center",
         render: function (data, type, row) {
           return (
             '<a href="" class="action-icon" target="_blank"> <i class="mdi mdi-eye"></i></a>' +

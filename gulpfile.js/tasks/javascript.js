@@ -113,6 +113,7 @@ const compileJs = function () {
       baseAssets + "js/vendor/jquery.validate.min.js",
       baseAssets + "js/vendor/additional-methods.min.js",
       baseAssets + "js/vendor/messages_nl.min.js",
+      baseAssets + "js/vendor/js.cookie.js",
     ])
     .pipe(sourcemaps.init())
     .pipe(concat("vendor.js"))
