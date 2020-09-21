@@ -43,7 +43,12 @@
 				<ul class="side-nav-second-level" aria-expanded="false">
 					{% if user.checkPermissionByRouteName('OrdersIndex') or auth.user.super%}
 						<li>
-							<a href="{{path_for('OrdersIndex')}}">Alle Orders</a>
+							<a href="{{path_for('OrdersIndex')}}">Main Orders Tabs</a>
+						</li>
+					{% endif %}
+					{% if user.checkPermissionByRouteName('OrdersOtherIndex') or auth.user.super%}
+						<li>
+							<a href="{{path_for('OrdersOtherIndex')}}">Resterende Orders Tabs</a>
 						</li>
 					{% endif %}
 					{% if user.checkPermissionByRouteName('Orders.Pakbon.Index') or auth.user.super%}

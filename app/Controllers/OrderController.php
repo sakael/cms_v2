@@ -264,9 +264,14 @@ class OrderController extends Controller
     ///////////////////////////////////////////////////                        Orders Index Page                           ///////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**************************************************************************************************************************************************
-     *****************************************************************(Orders Index Get)***************************************************************
-     **************************************************************************************************************************************************/
+    /**
+    * Orders Main Index Get function
+    *
+    * @param [type] $request
+    * @param [type] $response
+    * @param [type] $args
+    * @return view
+    */
     public function ordersGetIndex($request, $response, $args)
     {
         if ($request->getParam('orderTab')) {
@@ -275,9 +280,27 @@ class OrderController extends Controller
             $orderTab = '';
         }
         return $this->view->render($response, 'orders/main_index.tpl', ['active_menu' => 'orders',
-            'page_title' => 'Alle Orders', 'orderTab' => $orderTab]);
+            'page_title' => 'Main Orders', 'orderTab' => $orderTab]);
     }
 
+    /**
+    * Orders other tabs Index Get function
+    *
+    * @param [type] $request
+    * @param [type] $response
+    * @param [type] $args
+    * @return view
+    */
+    public function ordersGetOtherIndex($request, $response, $args)
+    {
+        if ($request->getParam('orderTab')) {
+            $orderTab = $request->getParam('orderTab');
+        } else {
+            $orderTab = '';
+        }
+        return $this->view->render($response, 'orders/other_tabs_index.tpl', ['active_menu' => 'orders',
+            'page_title' => 'Resterende Orders Tabs', 'orderTab' => $orderTab]);
+    }
     public function ordersGetBol($request, $response, $args)
     {
         die('w00t');
@@ -1325,7 +1348,6 @@ where id = %i', $request->getParam('id'));
      */
     public function pakbonDhlNotify($request, $response, $args)
     {
-        
         $date = date('U');
         $old_db_server = new \MeekroDB('localhost');
         $old_db_server->user = 'webdev';
@@ -1361,35 +1383,37 @@ where id = %i', $request->getParam('id'));
         error_reporting(E_ALL | E_STRICT);
 
         $ssh_conn = ssh2_connect('sftp.dhlp.nl', 22, array('hostkey' => 'ssh-rsa'));
-        ssh2_auth_pubkey_file($ssh_conn, 'bestdeal','/var/www/beta_i12cover/voormeld/id_rsa.pub', '/var/www/beta_i12cover/voormeld/id_rsa');
+        ssh2_auth_pubkey_file($ssh_conn, 'bestdeal', '/var/www/beta_i12cover/voormeld/id_rsa.pub', '/var/www/beta_i12cover/voormeld/id_rsa');
 
         $sftp = ssh2_sftp($ssh_conn);
         $sftpStream = fopen('ssh2.sftp://'.$sftp.$remote_file, 'w');
 
         
-               try {
-                   if (!$sftpStream)
-                       throw new Exception("Could not open remote file: $remote_file");
+        try {
+            if (!$sftpStream) {
+                throw new Exception("Could not open remote file: $remote_file");
+            }
 
-                   $data_to_send = file_get_contents($output);
-                   if ($data_to_send === false)
-                       throw new Exception("Could not open local file: $output.");
+            $data_to_send = file_get_contents($output);
+            if ($data_to_send === false) {
+                throw new Exception("Could not open local file: $output.");
+            }
 
-                   if (fwrite($sftpStream, $data_to_send) === false)
-                       throw new Exception("Could not send data from file: $output.");
+            if (fwrite($sftpStream, $data_to_send) === false) {
+                throw new Exception("Could not send data from file: $output.");
+            }
 
-                   fclose($sftpStream);
+            fclose($sftpStream);
 
-                   // Upload succesfull, now mark all orders as shipped on the waybill
-                       // mysql_query("UPDATE 123_selektvracht SET shipment = '$last1' WHERE shipment = '0'");
+            // Upload succesfull, now mark all orders as shipped on the waybill
+            // mysql_query("UPDATE 123_selektvracht SET shipment = '$last1' WHERE shipment = '0'");
 
-                       DB::query("UPDATE selektvracht SET shipment = '$last1' WHERE shipment = '0'");
-                       //mail("mail@remo.pro","DHL UPLOAD CONTROLEREN",'CHECK UPLOAD');
-
-               } catch (Exception $e) {
-                   error_log('Exception: ' . $e->getMessage());
-                   fclose($sftpStream);
-               }
+            DB::query("UPDATE selektvracht SET shipment = '$last1' WHERE shipment = '0'");
+            //mail("mail@remo.pro","DHL UPLOAD CONTROLEREN",'CHECK UPLOAD');
+        } catch (Exception $e) {
+            error_log('Exception: ' . $e->getMessage());
+            fclose($sftpStream);
+        }
 
 
         return $response->withJson(['status' => 'true']);
@@ -1424,10 +1448,10 @@ where id = %i', $request->getParam('id'));
 
             if ($order) {
                 // zoek huisnummer en eventuele toevoeging
-                    $address = $order['order_details']['address']['shipping']['street'] . ' ' .
+                $address = $order['order_details']['address']['shipping']['street'] . ' ' .
                     $order['order_details']['address']['shipping']['houseNumber'] . ' ' .
                     $order['order_details']['address']['shipping']['houseNumberSupplement'];
-                    $zipcode = $order['order_details']['address']['shipping']['zipcode'];
+                $zipcode = $order['order_details']['address']['shipping']['zipcode'];
 
                 $here = explode(' ', $address);
                 $num = (count($here) - 1);

@@ -1,6 +1,6 @@
-<div class="tab-pane show active" id="newOrders">
+<div class="tab-pane show active" id="returnOrders">
 	<div class="table-responsive">
-		<table class="table w-100 dt-responsive nowrap font-13" id="all_new_orders">
+		<table class="table w-100 dt-responsive nowrap font-13" id="all_return_orders">
 			<thead class="thead-light text-sm">
 				<tr>
 					<th>Order</th>

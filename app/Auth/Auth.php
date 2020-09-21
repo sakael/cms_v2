@@ -22,7 +22,6 @@ class Auth
     public function __construct()
     {
         if (isset($_SESSION['user_id']) && !isset($_SESSION['user'.$_SESSION['user_id']])) {
-            dd('s');
             $user = DB::queryFirstRow("SELECT id,lastname,email,super,disable,name FROM users WHERE id=%i", $_SESSION['user_id']);
             if ($user) {
                 $_SESSION['user'.$_SESSION['user_id']]=$user;
@@ -32,10 +31,9 @@ class Auth
                 $this->email = $user['email'];
                 $this->super = $user['super'];
             }
-        }else if(!isset($_SESSION['user_id'])){
-           return '';
-        }
-        else{
+        } elseif (!isset($_SESSION['user_id'])) {
+            return '';
+        } else {
             $this->id = $_SESSION['user'.$_SESSION['user_id']]['id'];
             $this->name =$_SESSION['user'.$_SESSION['user_id']]['name'];
             $this->lastname =$_SESSION['user'.$_SESSION['user_id']]['lastname'];
@@ -45,24 +43,27 @@ class Auth
         }
     }
 
-    static function user()
+    public static function user()
     {
         if (isset($_SESSION['user_id'])) {
             return $_SESSION['user'.$_SESSION['user_id']];
-            //return DB::queryFirstRow("SELECT id,name,lastname,email,super FROM users WHERE id=%i", $_SESSION['user_id']);
-        } else return false;
-        
+        //return DB::queryFirstRow("SELECT id,name,lastname,email,super FROM users WHERE id=%i", $_SESSION['user_id']);
+        } else {
+            return false;
+        }
     }
 
-    static function user_id()
+    public static function user_id()
     {
         if (isset($_SESSION['user_id'])) {
-          //  $user = DB::queryFirstRow("SELECT id FROM users WHERE id=%i", $_SESSION['user_id']);
+            //  $user = DB::queryFirstRow("SELECT id FROM users WHERE id=%i", $_SESSION['user_id']);
             return $_SESSION['user_id'];
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
-    static function check()
+    public static function check()
     {
         return isset($_SESSION['user_id']);
     }
@@ -72,11 +73,13 @@ class Auth
         return $this->super;
     }
 
-    static function GetPassword()
+    public static function GetPassword()
     {
         if (isset($_SESSION['user_id'])) {
             return DB::queryFirstRow("SELECT password FROM users WHERE id=%i", $_SESSION['user_id']);
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     public function attempt($email, $password)
@@ -108,8 +111,11 @@ class Auth
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ), 'id=%s', 'goodbye');
 
-        if ($check) return DB::insertId();
-        else false;
+        if ($check) {
+            return DB::insertId();
+        } else {
+            false;
+        }
     }
 
     public function update()
@@ -133,8 +139,11 @@ class Auth
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ), 'id=%i', $user_id);
         }
-        if ($check) return $user_id;
-        else false;
+        if ($check) {
+            return $user_id;
+        } else {
+            false;
+        }
     }
 
     public function logout()
@@ -159,8 +168,11 @@ class Auth
     {
         if (isset($id)) {
             $user = DB::queryFirstRow("SELECT * FROM users WHERE id=%i", $id);
-            if ($user) return $user['name'] . ' ' . $user['lastname'];
-            else return 'No User Found';
+            if ($user) {
+                return $user['name'] . ' ' . $user['lastname'];
+            } else {
+                return 'No User Found';
+            }
         }
     }
     public function checkPermissionByRouteName($route)

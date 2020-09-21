@@ -2,12 +2,19 @@
 ///////////////////////////////////////////////////                          Tabs On click                             ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
-   
     //show the first active tab
-    var tab = $("ul.orders-nav-tabs li a.active").attr("data-toggletab");
-    if (tab == 'newOrders') newOrders();
-    else if (tab == 'claimedOrders') claimedOrders();
-    else if (tab == 'readyForShippingOrders') ReadyForShippingOrders();
+    if ((orderTab != '' && orderTab)) {
+        var tab = orderTab;
+        $('.orders-nav-tabs li.active').tab('hide');
+        $('.orders-nav-tabs a[href="#' + orderTab + '"]').tab('show');
+        var noHashURL = window.location.href.replace(/#.*$/, '');
+        window.history.replaceState('', document.title, noHashURL);
+        if (tab == 'newOrders') newOrders();
+        else if (tab == 'claimedOrders') claimedOrders();
+        else if (tab == 'readyForShippingOrders') ReadyForShippingOrders();
+    } else {
+        newOrders();
+    }
 
     $(".nav-link").click(function () {
         var tab = $(this).data('toggletab');
@@ -48,8 +55,8 @@ function ClaimOrder(event,orderId) {
 ////////////////////////////////////////////////////                       label functions                          //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function PostNl(orderId, package) { ///Daymo
-
+function PostNl(event,orderId, package) { ///Daymo
+    event.preventDefault();
     var id = orderId;
     axios.get("/orders/print/post?id=" + id + "&package=" + package + "&type=post")
         .then(function (response) {
@@ -65,7 +72,8 @@ function PostNl(orderId, package) { ///Daymo
         });
 }
 
-function Box(orderId, package) { ///Zebra
+function Box(event,orderId, package) { ///Zebra
+    event.preventDefault();
     var id = orderId;
     axios.get("/orders/print/box?id=" + id + "&handtekening=0&package=" + package + "&type=box")
         .then(function (response) {
@@ -83,7 +91,8 @@ function Box(orderId, package) { ///Zebra
         });
 }
 
-function Signature(orderId, package) {
+function Signature(event,orderId, package) {
+    event.preventDefault();
     var id = orderId;
     axios.get("/orders/print/box?id=" + id + "&handtekening=1&package=" + package + "&type=box")
         .then(function (response) {
@@ -102,7 +111,8 @@ function Signature(orderId, package) {
             console.log(error);
         });
 }
-function Parcel(orderId, package){
+function Parcel(event,orderId, package){
+    event.preventDefault();
     var id = orderId;
     axios.get("/orders/print/post?id=" + id + "&package=0&type=post")
     .then(function (response) {
@@ -269,15 +279,10 @@ function print(ip_addr, zpl) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function getClaimButtons(id){
-    /*var temp = '<ul class="action-list">';
-    temp = temp.concat('<li><button class="claim-btn btn btn-xs btn-success claim-order" onclick="ClaimOrder(' + id + ')"><i class="fa fa-list-ul"></i> Claim</button></li>');
-    temp = temp.concat('<li><a href="/orders/order/' + id + '" class="btn btn-xs btn-info "><i class="fa fa-edit"></i> bekijken / bewerken</a></li>');
-    temp = temp.concat('</ul>');*/
     return (
-        '<a href="" class="action-icon" target="_blank" title="Claim" onclick="ClaimOrder(event,' + id + ')"> <i class=" text-success mdi mdi-hand-right"></i></a>' +
-        '<a href="/orders/order/' + id + '" class="action-icon" target="_blank"> <i class="mdi mdi-square-edit-outline text-primary"></i></a>'
+        '<a href="" class="action-icon font-20" target="_blank" title="Claim" onclick="ClaimOrder(event,' + id + ')" data-toggle="tooltip" data-placement="top" data-original-title="Claim" title=""> <i class=" text-success mdi mdi-hand-right"></i></a>' +
+        '<a href="/orders/order/' + id + '" class="action-icon font-20" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="Bewerken / Bekijken" title=""> <i class="mdi mdi-square-edit-outline text-dark"></i></a>'
       );
-   // return temp;
 }
 
 function getPrintButtons(row){
@@ -286,21 +291,21 @@ function getPrintButtons(row){
     $.each(row.order_items, function (key, order_item) {
         if (order_item.product.package == 1) package = 1;
     });
-    var temp = '<ul class="action-list">';
-    temp = temp.concat('<li><button class="postnl-btn btn btn-xs btn-primary" onclick="PostNl(' + row.id + ',' + package + ')"><i class="fa fa-envelope-o"></i> PostNL</button></li>');
+    var tmp = '<a href="#" class="action-icon font-20" target="_blank" onclick="PostNl(event,' + row.id + ',' + package + ')" data-toggle="tooltip" data-placement="top" data-original-title="PostNL" title="" > <i class=" text-success mdi mdi-email-multiple-outline"></i></a>';
     if(orderDeatails){
         if(typeof orderDeatails.address.shipping.countryCode !== 'undefined'){
             if (orderDeatails.address.shipping.countryCode == 'NL') {
-                temp = temp.concat('<li><button class="box-btn btn btn-xs btn-primary" onclick="Box(' + row.id + ',' + package + ')"><i class="fa fa-archive"></i> DHL</button></li>');
-                temp = temp.concat('<li><button class="signature-btn btn btn-xs btn-primary" onclick="Signature(' + row.id + ',' + package + ')"><i class="fa fa-pencil-square-o"></i> Handtekening</button></li>');
+                tmp  = tmp + 
+                '<a href="#" class="action-icon font-22" target="_blank" title="DHL" onclick="Box(event,' + row.id + ',' + package + ')" data-toggle="tooltip" data-placement="top" data-original-title="DHL" title=""> <i class="mdi mdi-package-variant text-primary"></i></a>'
+                + '<a href="#" class="action-icon font-20" target="_blank" title="Handtekening" onclick="Signature(event,' + row.id + ',' + package + ')" data-toggle="tooltip" data-placement="top" data-original-title="Handtekening" title=""> <i class="mdi mdi-signature-freehand text-warning"></i></a>';
             } else {
-                temp = temp.concat('<li><button class="signature-btn btn btn-xs btn-primary" onclick="Parcel(' + row.id + ',' + package + ')"><i class="fa fa-pencil-square-o"></i> Parcel</button></li>');
+                tmp  = tmp + 
+                '<a href="#" class="action-icon font-22" target="_blank" title="Parcel" onclick="Parcel(event,' + row.id + ',' + package + ')" data-toggle="tooltip" data-placement="top" data-original-title="Parcel" title=""> <i class="mdi mdi-square-edit-outline text-secondary"></i></a>';
             }
         }
     }
-    temp = temp.concat('<li><a href="/orders/order/' + row.id + '" class="btn btn-xs btn-info "><i class="fa fa-edit"></i> bekijken / bewerken</a></li>');
-    temp = temp.concat('</ul>');
-    return temp;
+    tmp  = tmp + '<a href="/orders/order/' + row.id  + '" class="action-icon font-20" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="Bewerken / Bekijken" title=""> <i class="mdi mdi-square-edit-outline text-dark"></i></a>';
+    return tmp;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -329,7 +334,12 @@ function newOrders() {
         },
         pageLength: 30,
         columns: [
-            { data: "id"}, //"visible":false
+            { 
+                data: "id", 
+                "render": function (data, type, row) {
+                    return '<a href="/orders/order/' + data + '" target="_blank">'+ data +'</a>';
+                } 
+            },
             { data: "shop_name" },
             {
                 data : null,
@@ -375,7 +385,7 @@ function newOrders() {
         "drawCallback": function () {
             $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
         },
-        fnRowCallback: function (row, data, iDisplayIndex, iDisplayIndexFull) {
+       /* fnRowCallback: function (row, data, iDisplayIndex, iDisplayIndexFull) {
             $(row).on('mousedown', 'td', function (e) {
                 if (e.button == 0 && $(this).index() != 6 && $(this).index() != 4 && $(this).index() != 0) {
                     //$('#order-popup').modal('show').find('.modal-body').load('/orders/order/popup/' + '' + data.id);
@@ -383,8 +393,11 @@ function newOrders() {
                 }
                 return true;
             });
-        }
+        }*/
     });
+    all_new_orders.on( 'draw', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    } );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -402,58 +415,52 @@ function claimedOrders() {
         byOtherCheck = 0;
     }
     var all_claimed_orders = $('#all_claimed_orders').DataTable({
-        oLanguage: {
-            sLengthMenu: "_MENU_",
-            sSearch: '',
-            sSearchPlaceholder: "Zoek...",
-            oPaginate: {
-                sPrevious: "voorgaand",
-                sNext: "volgende"
-            }
+        language: {
+            url: "/assets/js/datatable-langauge.json",
         },
-        responsive: 'true',
         ajax: {
             url: "/orders/claimed/data",
-            'data': {
+            data: {
                 byOthers: byOtherCheck,
-                // etc..
-            },
-            complete: function (data, textStatus, jqXHR) {
-                //    console.log(data.responseText);
             }
         },
-        "autoWidth": false,
+        pageLength: 30,
         columns: [
-            { "data": "id" }, //"visible":false
-            { "data": "shop_name" },
-            {
-                "data": "client",
-                //"width": "10px",
+            { 
+                data: "id", 
+                "render": function (data, type, row) {
+                    return '<a href="/orders/order/' + data + '" target="_blank">'+ data +'</a>';
+                } 
+            },
+            { data: "shop_name" },
+            { 
+                data : null,
                 "orderable": false,
                 "render": function (data, type, row) {
                     return getClient(row.order_details);
                 }
             },
             {
-                "data": "country",
-                "width": "10px",
-                "orderable": false,
-                "render": function (data, type, row) {
+                data : null,
+                className: "text-center",
+                orderable: false,
+                render: function (data, type, row) {
                     return getCountry(row.order_details);
                 }
             },
             {
-                "data": "products",
-                "render": function (data, type, row) {
+                data : null,
+                orderable: false,
+                render: function (data, type, row) {
                     return productRows(row.order_items);
                 }
             },
-            { "data": "created_at" },
+            { data: "created_at" },
             {
-                "data": "action",
-                "width": "490px",
-                "orderable": false,
-                "render": function (data, type, row) {
+                data : null,
+                orderable: false,
+                className: "text-center",
+                render: function (data, type, row) {
                     return getPrintButtons(row);
                 }
             }
@@ -466,7 +473,7 @@ function claimedOrders() {
                 }
             }
           },
-        fnRowCallback: function (row, data, iDisplayIndex, iDisplayIndexFull) {
+       /* fnRowCallback: function (row, data, iDisplayIndex, iDisplayIndexFull) {
             $(row).on('mousedown', 'td', function (e) {
                 if (e.button == 0 && $(this).index() != 6 && $(this).index() != 4 && $(this).index() != 0) {
                    // $('#order-popup').modal('show').find('.modal-body').load('/orders/order/popup/' + '' + data.id);
@@ -474,9 +481,11 @@ function claimedOrders() {
                 }
                 return true;
             });
-        }
+        }*/
     });
-
+    all_claimed_orders.on( 'draw', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    } );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -494,63 +503,58 @@ function ReadyForShippingOrders() {
         byOtherCheck = 0;
     }
     var all_ready_for_shipping_orders = $('#all_ready_for_shipping_orders').DataTable({
-        oLanguage: {
-            sLengthMenu: "_MENU_",
-            sSearch: '',
-            sSearchPlaceholder: "Zoek...",
-            oPaginate: {
-                sPrevious: "voorgaand",
-                sNext: "volgende"
-            }
+        language: {
+            url: "/assets/js/datatable-langauge.json",
         },
-        responsive: true,
         ajax: {
             url: "/orders/ready_for_shipping/data",
             'data': {
                 byOthers: byOtherCheck,
                 // etc..
-            },
-            complete: function (data, textStatus, jqXHR) {
-                //  console.log(data.responseText);
             }
         },
-        "autoWidth": false,
+        pageLength: 30,
         columns: [
-            { "data": "id" }, //"visible":false
-            { "data": "shop_name" },
-            {
-                "data": "client",
-                //"width": "10px",
+            { 
+                data: "id", 
+                "render": function (data, type, row) {
+                    return '<a href="/orders/order/' + data + '" target="_blank">'+ data +'</a>';
+                } 
+            },
+            { data: "shop_name" },
+            { 
+                data : null,
                 "orderable": false,
                 "render": function (data, type, row) {
                     return getClient(row.order_details);
                 }
             },
             {
-                "data": "country",
-                "width": "10px",
-                "orderable": false,
-                "render": function (data, type, row) {
+                data : null,
+                className: "text-center",
+                orderable: false,
+                render: function (data, type, row) {
                     return getCountry(row.order_details);
                 }
             },
             {
-                "data": "products",
-                "render": function (data, type, row) {
+                data : null,
+                orderable: false,
+                render: function (data, type, row) {
                     return productRows(row.order_items);
                 }
             },
-            { "data": "created_at" },
+            { data: "created_at" },
             {
-                "data": "action",
-                "width": "490px",
-                "orderable": false,
-                "render": function (data, type, row) {
+                data : null,
+                orderable: false,
+                className: "text-center",
+                render: function (data, type, row) {
                     return getPrintButtons(row);
                 }
             }
         ],
-        fnRowCallback: function (row, data, iDisplayIndex, iDisplayIndexFull) {
+      /*  fnRowCallback: function (row, data, iDisplayIndex, iDisplayIndexFull) {
             $(row).on('mousedown', 'td', function (e) {
                 if (e.button == 0 && $(this).index() != 6 && $(this).index() != 3 && $(this).index() != 0 && $(this).index() != 0) {
                    // $('#order-popup').modal('show').find('.modal-body').load('/orders/order/popup/' + '' + data.id);
@@ -558,8 +562,11 @@ function ReadyForShippingOrders() {
                 }
                 return true;
             });
-        }
+        }*/
     });
+    all_ready_for_shipping_orders.on( 'draw', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    } );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -695,7 +702,7 @@ $(document).ready(function () {
     if (Cookies.get('show_paid_orders')) {
         $('#show_paid_orders').prop("checked", true);
     }
-
+    
 });
 
 

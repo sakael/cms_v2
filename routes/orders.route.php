@@ -5,6 +5,7 @@ use App\Middleware\AuthMiddleware as Auth;
 
 $app->group('/orders', function () use ($app, $container) {
     $app->get('', 'OrderController:ordersGetIndex')->setName('OrdersIndex');
+    $app->get('/other', 'OrderController:ordersGetOtherIndex')->setName('OrdersOtherIndex');
 
     // Bol.com  @ line 280 OC
     $app->get('/bol', 'OrderController:ordersGetBol')->setName('OrdersBol');
@@ -67,7 +68,6 @@ $app->group('/orders', function () use ($app, $container) {
     ////////////////////////////////////////////////////////////////////////
     ///////////////            Import orders           /////////////////////
     ////////////////////////////////////////////////////////////////////////
-
 })->add(new Auth($container))->add(new Permission($container));
 
 $app->get('/factuur/order/{id:[0-9]+}', 'GeneralController:pdfGeneratorOrder')->setName('OrderGetInvoice');
