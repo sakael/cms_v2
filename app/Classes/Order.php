@@ -305,17 +305,12 @@ class order
     public static function ChangeStatus($id, $status_id, $inform = false)
     {
         $status = DB::queryFirstRow('SELECT * FROM ' . self::$table_status . ' where id=%i', $status_id);
-        $order = '';
-
-        //check order if seleced by payafter no needs to reselect it
+        $order = self::GetSingle($id);
+        //check order if selected by payafter no needs to reselect it
         if ($inform || $status_id == 3) {
             $inform = true;
-            $order = self::GetSingle($id);
         }
         if ($status_id == 3) {
-            if ($order == '') {
-                $order = self::GetSingle($id);
-            }
             $paymentTitle = strtolower($order['payment']['type']);
             if ($paymentTitle == 'payafter') {
                 $orderDetails = $order['order_details'];
@@ -331,7 +326,7 @@ class order
             'updated_at' => $udpatedAt], 'id=%s', $id);
 
         UserActivity::Record('Change Status to ' . $status['title'] . ' (' . $status_id . ')', $id, 'Orders');
-
+        UserActivity::RecordOrderStatus($order['status_id'],$status_id, $id);
         //event call
         $event = new Event();
         $event->orderStatusBol($id);

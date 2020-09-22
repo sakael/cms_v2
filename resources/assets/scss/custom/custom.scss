@@ -104,3 +104,9 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role=row]>td:first-child:before, t
 .order-product-list .on-mouse-over-load:hover {
   text-decoration: underline;
 }
+.item-image{width:65px;display: inline-block;text-align: center;margin-right: 10px;}
+.item-image img{margin:0 auto;}
+
+.equal .card{
+  width: 100%;
+}

@@ -10,6 +10,7 @@ class UserActivity
 {
 
     protected static $table = 'activity_log';
+    protected static $tableOrderStatus = 'order_status_changes';
 
     static function Record($task = 'default', $subject_id, $subject_type)
     {
@@ -17,6 +18,16 @@ class UserActivity
             'task' => $task,
             'subject_id' => $subject_id,
             'subject_type' => $subject_type,
+            'user_id' => Auth::user_id(),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ));
+    }
+    static function RecordOrderStatus($beforeStatus, $afterStatus, $orderId)
+    {
+        DB::insert(self::$tableOrderStatus, array(
+            'order_id' => $task,
+            'status_id_before' => $subject_id,
+            'status_id_after' => $subject_type,
             'user_id' => Auth::user_id(),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ));
@@ -47,5 +58,14 @@ class UserActivity
         }
 
         return DB::query($query . ' Order by id Desc', $task, $subject_id, $subject_type);
+    }
+
+    static function AllOrderChanges($orderId)
+    {
+        $variables = '';
+        $query = "Select " . self::$tableOrderStatus . ".*,users.name from " . self::$tableOrderStatus . "
+        left join users on users.id= " . self::$tableOrderStatus . ".user_id
+        ";
+        return DB::query($query . 'where order_id = %i Order by created_at Desc', $orderId);
     }
 }

@@ -38,8 +38,8 @@ class OrderController extends Controller
             return $response->withRedirect($this->router->pathFor('OrdersIndex'));
         }
 
-        $Order = Order::GetSingle($args['id']);
-        if (!$Order['id']) {
+        $order = Order::GetSingle($args['id']);
+        if (!$order['id']) {
             $id = $args['id'];
             $this->container->flash->addMessage('error', 'Een bestelling met dit (' . $id . ') nummer is niet gevonden');
             throw new NotFoundException($request, $response);
@@ -52,9 +52,8 @@ class OrderController extends Controller
         Order::SetSizesData();
         $sizes = Order::$sizes;
         $users = Auth::all();
-
         $history = UserActivity::All('Orders', $args['id']);
-
+        $allOrderChanges = UserActivity::AllOrderChanges($args['id']);
         //Checking route if it is popup or single order page
         $route = $request->getAttribute('route');
         $name = $route->getName();
@@ -62,14 +61,15 @@ class OrderController extends Controller
             $template = 'orders/order_popup.tpl';
             $popup = false;
         } else {
-            $template = 'orders/order.tpl';
+            $template = 'orders/single/index.tpl';
             $popup = true;
         }
-        
+  
         return $this->view->render($response, $template, [
-            'Order' => $Order, 'active_menu' => 'orders', 'Products' => $products,
-            'Users' => $users, 'activities' => $history, 'orderStatus' => $status, 'colors' => $colors,
-            'sizes' => $sizes, 'popup' => $popup, 'page_title' => $Order['id']
+            'order' => $order, 'active_menu' => 'orders', 'products' => $products,
+            'users' => $users, 'activities' => $history, 'orderStatus' => $status, 'colors' => $colors,
+            'allOrderChanges' => $allOrderChanges,
+            'sizes' => $sizes, 'popup' => $popup, 'page_title' => $order['id']
         ]);
     }
 
