@@ -34,24 +34,11 @@
 					<div class="step-item {% if order.status_id == 1 %}current{% endif %}">
 						<span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{order.created_at}}">Bestelling geplaatst</span>
 					</div>
-					{% if order.status_id == 15 or order.status_id == 3 %}
-						<div class="step-item {% if order.status_id == 15 %}current{% endif %}">
-							<span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{% set break = false %}{% for OrderChange in allOrderChanges if not break %}{% if OrderChange.status_id_after == 15 %}{% set break = true %}{{OrderChange.created_at}}{% endif %}{% endfor %}">Ingepakt</span>
+					{% for change in allOrderChanges %}
+						<div class="step-item {% if order.status_id == change.status_id_after %}current{% endif %}">
+							<span data-toggle="tooltip" data-placement="bottom" title="" data-html="true" data-original-title="{{change.created_at}} <br>( {{users[change.user_id].name}} {{users[change.user_id].lastname}} )">{{orderStatus[change.status_id_after].title}}</span>
 						</div>
-					{% else %}
-						<div class="step-item">
-							<span>Ingepakt</span>
-						</div>
-					{% endif %}
-					{% if order.status_id == 3 %}
-						<div class="step-item {% if order.status_id == 3 %}current{% endif %}">
-							<span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{% set break = false %}{% for OrderChange in allOrderChanges if not break %}{% if OrderChange.status_id_after == 3 %}{% set break = true %}{{OrderChange.created_at}}{% endif %}{% endfor %}">Verzonden</span>
-						</div>
-					{% else %}
-						<div class="step-item">
-							<span>Verzonden</span>
-						</div>
-					{% endif %}
+					{% endfor %}
 				</div>
 				<div class="process-line" style="{% if order.status_id == 3 %} width: 100%; {% elseif order.status_id == 15 %} width: 50%; {% else %}width: 0%; {% endif %}"></div>
 			</div>
@@ -252,7 +239,7 @@
 			</div>
 		</div>
 		<!-- end col -->
-        <div class="col-lg-3 order-2 d-flex">
+		<div class="col-lg-3 order-2 d-flex">
 			<div class="card">
 				<div class="card-body">
 					<h4 class="header-title mb-3">Verzendingsadres</h4>
@@ -321,9 +308,21 @@
 	</div>
 	<!-- end row -->
 	<div class="row">
-		<div class="col-12">
+		
+		<div class="col-10">
 			<div id="app_notes">
 				<notes-app-component @row-updated="notes=$event" :notes="notes" :user_id="user_id" :users="users" :order_id="order_id" :errors="errors" :url="url"></notes-app-component>
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="card" style="min-height:266px;">
+				<div class="card-body">
+					<div class="text-center">
+					<h4 class="header-title mb-3 mt-4 text-center">Huidige status</h4>
+					<button type="button" class="btn  {% if order.status_id ==1 %} btn-primary {% elseif order.status_id ==3 %} btn-success {% elseif order.status_id ==10 %} btn-info {% else %} btn-warning {% endif %} btn-block mt-3 mb-4" disabled>{{orderStatus[order.status_id].title}}</button>
+					<button type="button" class="btn btn-secondary btn-block mt-3 mb-3" id="duplicate"><i class="dripicons-duplicate mr-1"></i> <span>Dupliceren</span> </button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -343,41 +342,35 @@
 		</div>
 	</div>
 </div>{% endblock %}{% block javascript %}
-	<!-- specific page js file -->
-	<script type="text/javascript">
-        var orderId = {{order.id}};
+<!-- specific page js file -->
+<script type="text/javascript">
+	var orderId = {{ order.id }};
 
-    new Vue({
-        el: '#app_notes',
-        data: {
-            notes: [],
-            user_id: '{{ auth.user.id }}',
-            users: [],
-            order_id: '{{ order.id }}',
-            errors: null,
-            url: '{{ path_for('notes.note.add') }}',
-        },
-        mounted: function() {
-            {% for note in order.notes %}
-            var note = '{{ note.note |replace({"\n":'', "\r":''}) |raw }}';
-            this.notes.push({
-                message: note,
-                user_id: '{{ note.user_from_name }}',
-                user_id_to: '{{ note.user_to.name }}',
-                order_id: '{{ note.order_id }}',
-                created_at: '{{ note.created_at }}',
-                updated_at: '{{ note.updated_at }}'
-            });
-            {% endfor %}
+		new Vue({
+		el: '#app_notes',
+		data: {
+		notes: [],
+		user_id: '{{ auth.user.id }}',
+		users: [],
+		order_id: '{{ order.id }}',
+		errors: null,
+		url: '{{ path_for('notes.note.add') }}'
+		},
+		mounted: function (){
+		{% for note in order.notes %}
+		var note = '{{ note.note |replace({"\n":'', "\r":''}) |raw }}';
+		this.notes.push({
+		message: note,
+		user_id: '{{ note.user_from_name }}',
+		user_id_to: '{{ note.user_to.name }}',
+		order_id: '{{ note.order_id }}',
+		created_at: '{{ note.created_at }}',
+		updated_at: '{{ note.updated_at }}'
+		});{% endfor %}
 
-            {% for user in users %}
-            this.users.push({
-                id: '{{ user.id }}',
-                name: '{{ user.name }}'
-            });
-            {% endfor %}
-        },
-    });
-	</script>
-	<script src="/assets/js/pages/orders/single/index.js"></script>
-    {% endblock %}
+		{% for user in users %}
+		this.users.push({id: '{{ user.id }}', name: '{{ user.name }}'});{% endfor %}
+		}
+		});
+</script>
+<script src="/assets/js/pages/orders/single/index.js"></script>{% endblock %}

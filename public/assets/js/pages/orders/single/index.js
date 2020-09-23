@@ -13,20 +13,23 @@ $(document).ready(function() {
 
     $(document).ready(function() {
         $("#duplicate").click(function(e) {
-            e.preventDefault();
-            var StatusId = $("#order_status").val();
-            axios.post('/orders/order/duplicate', {
-                  id: orderId,
-                  _METHOD: 'POST',
-                }).then(function(response) {
-                if (response.data.status == 'true') {
-                    toastr.success(response.data.msg);
-                    $(location).attr('href', response.data.url);
-                } else toastr.warning(response.data.msg);
-            }).catch(function(error) {
-                console.log(error);
-            });
+            if (confirm('Is het zeker?')){
+                e.preventDefault();
+                var StatusId = $("#order_status").val();
+                axios.post('/orders/order/duplicate', {
+                    id: orderId,
+                    _METHOD: 'POST',
+                    }).then(function(response) {
+                    if (response.data.status == 'true') {
+                        toastr.success(response.data.msg);
+                        $(location).attr('href', response.data.url);
+                    } else toastr.warning(response.data.msg);
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            }
         });
+        
     });
 
     ///////////////////////////////////////////////
