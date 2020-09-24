@@ -24,9 +24,14 @@ class OrderController extends Controller
     ///////////////////////////////////////////////////                        Order Single GET & Post Part                           ////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**************************************************************************************************************************************************
-     *****************************************************************(Order Single Get)***************************************************************
-     **************************************************************************************************************************************************/
+    /**
+    * Order Single Get function
+    *
+    * @param [type] $request
+    * @param [type] $response
+    * @param [type] $args
+    * @return void
+    */
     public function getSingle($request, $response, $args)
     {
         $validation = $this->validator->validateGet($args, [
@@ -72,7 +77,60 @@ class OrderController extends Controller
             'sizes' => $sizes, 'popup' => $popup, 'page_title' => $order['id']
         ]);
     }
-
+    /**
+    * getSingleEdit function
+    *
+    * @param [type] $request
+    * @param [type] $response
+    * @param [type] $args
+    * @return void
+    */
+     public function getSingleEdit($request, $response, $args)
+     {
+         $validation = $this->validator->validateGet($args, [
+             'id' => v::notEmpty(),
+         ]);
+         ///check if failed return back with error message and the fields
+         if ($validation->failed()) {
+             $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
+             return $response->withRedirect($this->router->pathFor('OrdersIndex'));
+         }
+ 
+         $order = Order::GetSingle($args['id']);
+         if (!$order['id']) {
+             $id = $args['id'];
+             $this->container->flash->addMessage('error', 'Een bestelling met dit (' . $id . ') nummer is niet gevonden');
+             throw new NotFoundException($request, $response);
+         }
+ 
+         $products = DB::query('select id,sku from product where active=1');
+         $status = General::getStatus();
+         Order::SetColorsData();
+         $colors = Order::$colors;
+         Order::SetSizesData();
+         $sizes = Order::$sizes;
+         $users = Auth::all();
+         $history = UserActivity::All('Orders', $args['id']);
+         $allOrderChanges = UserActivity::AllOrderChanges($args['id']);
+         //Checking route if it is popup or single order page
+         $route = $request->getAttribute('route');
+         $name = $route->getName();
+         if ($name == 'OrdersGetSinglePopup') {
+             $template = 'orders/order_popup.tpl';
+             $popup = false;
+         } else {
+             $template = 'orders/single/index.tpl';
+             $popup = true;
+         }
+   
+         return $this->view->render($response, 'orders/single/edit.tpl', [
+             'order' => $order, 'active_menu' => 'orders', 'products' => $products,
+             'users' => $users, 'activities' => $history, 'orderStatus' => $status, 'colors' => $colors,
+             'allOrderChanges' => $allOrderChanges,
+             'sizes' => $sizes, 'popup' => $popup, 'page_title' => $order['id']
+         ]);
+     }
+ 
     /**************************************************************************************************************************************************
      *****************************************************************(Order Single Post)**************************************************************
      **************************************************************************************************************************************************/

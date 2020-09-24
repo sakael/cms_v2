@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
         <div class="card" style="min-height:266px;">
           <div class="card-body">
             <h4 class="header-title mb-3">Notities</h4>
@@ -41,7 +41,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
         <div class="card">
           <div class="card-body">
             <h4 class="header-title mb-3">Toewijzen aan</h4>

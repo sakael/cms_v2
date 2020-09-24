@@ -155,18 +155,32 @@
 				</li>
 			{% endif %}
 			<li class="side-nav-title side-nav-item mt-3">Persoonlijk</li>
+			<li class="side-nav-item">
+					<a href="{{path_for('BarcodeGet')}}" class="side-nav-link">
+						<i class="mdi mdi-barcode-scan"></i>
+						<span>
+							Barcode
+						</span>
+					</a>
+				</li>
 			<li class=" side-nav-item  ">
 				<a href="{{path_for('notes.all')}}" class="side-nav-link ">
 					<i class="mdi mdi-message-processing-outline"></i>
-					Berichten (
-					<span class="notes_count {% if notes.notes_count > 0 %} text-danger {% endif %}">{{ notes.notes_count }}</span>
-					)</a>
+					<span>
+						Berichten (
+						<span class="notes_count {% if notes.notes_count > 0 %} text-danger {% endif %}">{{ notes.notes_count }}</span>
+						)
+					</span>
+				</a>
 			</li>
 			{% if user.checkPermissionByRouteName('Attributes.GetIndex') or auth.user.super%}
 				<li class=" side-nav-item  ">
 					<a href="{{path_for('auth.account')}}" class="side-nav-link">
 						<i class="mdi mdi-account-lock-outline"></i>
-						Account</a>
+						<span>
+						Account
+						</span>
+						</a>
 				</li>
 			{% endif %}
 			{% if auth.user.super %}
@@ -191,13 +205,16 @@
 				<li class="side-nav-item">
 					<a href="{{ path_for('routes.save') }}" class="side-nav-link">
 						<i class=" mdi mdi-link-variant"></i>
-						Update Routes</a>
+						<span>
+						Update Routes
+						</span>
+						</a>
 				</li>
 				<li class="side-nav-item">
 
 					<a href="{{ path_for('camera.index') }}" class="side-nav-link">
 						<i class=" mdi mdi-camera-wireless-outline"></i>
-						Camera</a>
+						<span>Camera</span></a>
 				</li>
 
 			{% endif %}

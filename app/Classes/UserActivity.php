@@ -24,9 +24,9 @@ class UserActivity
     public static function RecordOrderStatus($beforeStatus, $afterStatus, $orderId)
     {
         DB::insert(self::$tableOrderStatus, array(
-            'order_id' => $task,
-            'status_id_before' => $subject_id,
-            'status_id_after' => $subject_type,
+            'order_id' => $orderId,
+            'status_id_before' => $beforeStatus,
+            'status_id_after' => $afterStatus,
             'user_id' => Auth::user_id(),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ));

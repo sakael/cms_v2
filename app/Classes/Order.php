@@ -507,7 +507,7 @@ class order
      **************************************************************************************************************************************************/
     public static function allPaidOrdersCountByDateShop($shop, $date, $operator = 'LIKE')
     {
-        return DB::query('select id from ' . self::$table . ' where ispaid=1 and shop_id=' . $shop . ' and created_at ' . $operator . " '" . $date . "%' AND status_id != 8 AND status_id != 12 AND status_id != 13");
+        return DB::query('select id from ' . self::$table . ' USE INDEX (ispaid) where ispaid=1 and shop_id=' . $shop . ' and created_at ' . $operator . " '" . $date . "%' AND status_id != 8 AND status_id != 12 AND status_id != 13");
     }
 
     /**************************************************************************************************************************************************

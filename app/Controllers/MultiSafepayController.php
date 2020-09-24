@@ -40,7 +40,7 @@ class MultiSafepayController extends Controller
       $error = "Error " . htmlspecialchars($e->getMessage());
     }
     if (isset($order)) {
-      return $this->view->render($response, 'orders/msp_status.tpl', ['paymentStatus' => $order]);
+      return $this->view->render($response, 'orders/single/modals/msp_status.tpl', ['paymentStatus' => $order]);
     } else {
       return $response->withJson(['status' => 'false', 'msg' => $error]);
     }

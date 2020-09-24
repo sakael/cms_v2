@@ -1,52 +1,5 @@
-{% extends "layouts/base.tpl" %}
-{% block cssfiles_before %}{% endblock %}
-{% block cssfiles %}{% endblock %}
-{% block page_title %}
-	{{page_title}}
-{% endblock %}
-{% block content %}
-	<!-- start page title -->
-	<div class="row">
-		<div class="col-12">
-			<div class="page-title-box">
-				<div class="page-title-right">
-					<ol class="breadcrumb m-0">
-						<li class="breadcrumb-item">
-							<a href="{{path_for('home')}}">Home</a>
-						</li>
-						<li class="breadcrumb-item">
-							<a href="{{path_for('OrdersIndex')}}">Orders</a>
-						</li>
-						<li class="breadcrumb-item active">{{page_title}}</li>
-					</ol>
-				</div>
-				<h4 class="page-title">{{page_title}}</h4>
-			</div>
-		</div>
-	</div>
-	<!-- end page title -->
-
-	<div class="row justify-content-center">
-		<div class="col-lg-7 col-md-10 col-sm-11">
-
-			<div class="horizontal-steps mt-3 mb-3 pb-3">
-				<div class="horizontal-steps-content">
-					<div class="step-item {% if order.status_id == 1 %}current{% endif %}">
-						<span data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{order.created_at}}">Bestelling geplaatst</span>
-					</div>
-					{% for change in allOrderChanges %}
-						<div class="step-item {% if order.status_id == change.status_id_after %}current{% endif %}">
-							<span data-toggle="tooltip" data-placement="bottom" title="" data-html="true" data-original-title="{{change.created_at}} <br>( {{users[change.user_id].name}} {{users[change.user_id].lastname}} )">{{orderStatus[change.status_id_after].title}}</span>
-						</div>
-					{% endfor %}
-				</div>
-				<div class="process-line" style="{% if order.status_id == 3 %} width: 100%; {% elseif order.status_id == 15 %} width: 50%; {% else %}width: 0%; {% endif %}"></div>
-			</div>
-		</div>
-	</div>
-	<!-- end row -->
-
-
+<!-- Tab main_types_tab -->
+<div class="tab-pane fade active show mt-3" id="general" role="tabpanel">
 	<div class="row equal">
 		<div class="col-lg-8 d-flex">
 			<div class="card card-block">
@@ -72,8 +25,7 @@
 													<img src="{{ IMAGE_PATH }}/{{getThumb(product.product.images[0].url,'123bestdeal')}}" alt="contact-img" title="contact-img" class="rounded" height="48">
 												</div>
 											{% else %}
-												<div class="item-image">
-												</div>
+												<div class="item-image"></div>
 											{% endif %}
 											<p class="m-0 d-inline-block align-middle font-14">
 												<a href="{{ path_for('ProductGet',{'id':product.product_id })}}" class="text-info">{{product.product_name}}</a>
@@ -144,11 +96,10 @@
 
 
 	<div class="row equal">
-
-		<div class="col-lg-4 order-1 d-flex">
+		<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12  order-1 d-flex">
 			<div class="card">
 				<div class="card-body">
-					<h4 class="header-title mb-3">Order overzicht</h4>
+					<h4 class="header-title mb-4">Order overzicht</h4>
 					<p class="mb-2">
 						<i class="fa fa-euro"></i>
 						<span class="total-amount">{{order.gross_price}}</span>
@@ -157,7 +108,8 @@
 						<span class="total-amount-ex">{{order.net_price}}</span>
 						ex. BTW)
 						{% if order.transaction_id and  order.transaction_id!='' %}
-							<a  href="" class="msp-control" data-transaction-id="{{order.transaction_id}}"> (controleer)</a>
+							<a href="" class="msp-control" data-transaction-id="{{order.transaction_id}}">
+								(controleer)</a>
 						{% endif %}
 					</p>
 					<p class="mb-1">
@@ -212,60 +164,41 @@
 			</div>
 		</div>
 		<!-- end col -->
-		<div class="col-lg-3 order-2 d-flex">
+		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 order-2 d-flex">
 			<div class="card">
-				<div class="card-body">
-					<h4 class="header-title mb-3">factuuradres</h4>
-					<h5>{{ order.order_details.address.payment.firstname }}
-						{{ order.order_details.address.payment.lastname }}</h5>
-					<address class="mb-0 font-14 address-lg">
-						{{ order.order_details.address.payment.street }}
-						{{ order.order_details.address.payment.houseNumber }}
-						{{ order.order_details.address.payment.houseNumberSupplement }}<br>
-						{{ order.order_details.address.payment.zipcode }},
-						{{ order.order_details.address.payment.city }}
-						{{ order.order_details.address.payment.countryCode }}<br>
-						<abbr title="Phone">P:
-						</abbr>
-						{{ order.order_details.customerPhone }}
-						<br/>
-						<abbr title="Email">E:
-						</abbr>
-						{{ order.order_details.customerEmail }}
-					</address>
-
+				<div class="card-body ">
+					<h4 class="header-title mb-1 text-center">Status</h4>
+					<div class="form-group row mb-3 {{ errors.order_status ? ' has-danger': '' }} pt-3">
+						<label for="order_status" class="col-3 col-form-label">Status</label>
+						<div class="col-9">
+							<select name="order_status" class="form-control" id="order_status">
+								{% for status in orderStatus %}
+									<option value="{{ status.id }}" {% if status.id==Order.status_id %} selected="selected" {% endif %}>{{ status.title }}</option>
+								{% endfor %}
+							</select>
+							{% if errors.order_status %}
+								<small class="form-control-feedback ml-2">{{ errors.order_status |first }}</small>
+							{% endif %}
+						</div>
+					</div>
+					<div class="form-group row mb-3 justify-content-end">
+						<div class="col-9">
+							<div class="custom-control custom-checkbox col-12">
+								<input ame="inform_user" id="inform_user" alue="1" type="checkbox" class="custom-control-input" id="order_status">
+								<label class="custom-control-label" for="order_status">klant informeren over wijziging</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group mb-0 justify-content-end row">
+						<div class="col-9">
+							<button type="submit" class="btn btn-info font-14 btn-sm btn-block {% if ( not user.checkPermissionByRouteName('OrdersOrderStatusPostUpdateManually') or not auth.user.super ) %} disabled {% endif %}" {% if ( not user.checkPermissionByRouteName('OrdersOrderStatusPostUpdateManually') or not auth.user.super ) %} disabled {% endif %} id="StatusChanges">Status opslaan</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<!-- end col -->
-		<div class="col-lg-3 order-2 d-flex">
-			<div class="card">
-				<div class="card-body">
-					<h4 class="header-title mb-3">Verzendingsadres</h4>
-					<h5>{{ order.order_details.address.shipping.firstname }}
-						{{ order.order_details.address.shipping.lastname }}</h5>
-					<address class="mb-0 font-14 address-lg">
-						{{ order.order_details.address.shipping.street }}
-						{{ order.order_details.address.shipping.houseNumber }}
-						{{ order.order_details.address.shipping.houseNumberSupplement }}<br>
-						{{ order.order_details.address.shipping.zipcode }},
-						{{ order.order_details.address.shipping.city }}
-						{{ order.order_details.address.shipping.countryCode }}<br>
-						<abbr title="Phone">P:
-						</abbr>
-						{{ order.order_details.customerPhone }}
-						<br/>
-						<abbr title="Email">E:
-						</abbr>
-						{{ order.order_details.customerEmail }}
-					</address>
 
-				</div>
-			</div>
-		</div>
-		<!-- end col -->
-
-		<div class="col-lg-2 order-4 d-flex">
+		<div class="col-lg-2 order-3 d-flex">
 			<div class="card">
 				<div class="card-body">
 					<h4 class="header-title mb-3 text-center">Levering Info</h4>
@@ -307,19 +240,23 @@
 	</div>
 	<!-- end row -->
 	<div class="row">
-		
-		<div class="col-10">
+
+		<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
 			<div id="app_notes">
 				<notes-app-component @row-updated="notes=$event" :notes="notes" :user_id="user_id" :users="users" :order_id="order_id" :errors="errors" :url="url"></notes-app-component>
 			</div>
 		</div>
-		<div class="col-2">
+		<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
 			<div class="card" style="min-height:266px;">
 				<div class="card-body">
-					<div class="text-center">
-						<button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="HUIDIGE STATUS" class="btn disabled  {% if order.status_id ==1 %} btn-primary {% elseif order.status_id ==3 %} btn-success {% elseif order.status_id ==10 %} btn-info {% else %} btn-warning {% endif %} btn-block mt-3 mb-4" >{{orderStatus[order.status_id].title}}</button>
-						<button type="button" class="btn btn-secondary btn-block mt-2 mb-4" id="duplicate"><i class="dripicons-duplicate mr-1"></i> <span>Dupliceren</span> </button>
-						<a class="btn btn-danger btn-block mt-4 {% if not user.checkPermissionByRouteName('OrdersGetSingleEdit') or not auth.user.super %} disabled {% endif %}" href="{{path_for('OrdersGetSingleEdit',{'id':order.id})}}"><i class="dripicons-document-edit mr-1"></i> <span>Bewerken</span> </a>
+					<div class="text-center pt-3">
+						<div class="current-status-info">
+							<button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="HUIDIGE STATUS" class="btn disabled  {% if order.status_id ==1 %} btn-primary {% elseif order.status_id ==3 %} btn-success {% elseif order.status_id ==10 %} btn-info {% else %} btn-warning {% endif %} btn-block mt-4 mb-3">{{orderStatus[order.status_id].title}}</button>
+						</div>
+						<button type="button" class="btn btn-secondary btn-block mt-3 mb-2" id="duplicate">
+							<i class="dripicons-duplicate mr-1"></i>
+							<span>Dupliceren</span>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -329,54 +266,19 @@
 		<div class="modal-dialog modal-full-width">
 			<div class="modal-content">
 				<div class="modal-header modal-colored-header bg-info">
-					<h4 class="modal-title" id="info-header-modalLabel">Betaling van {{order.id}}</h4>
+					<h4 class="modal-title" id="info-header-modalLabel">Betaling van
+						{{order.id}}</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				</div>
-				<div class="modal-body">
-					
-				</div>
+				<div class="modal-body"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-light" data-dismiss="modal">Sluiten</button>
 				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-
-{% endblock %}
-{% block javascript %}
-	<script type="text/javascript">
-		var orderId = {{ order.id }};
-	</script>
-	<script src="/assets/js/pages/orders/single/index.js"></script>
-	<!-- specific page js file -->
-	<script type="text/javascript">
-		var orderId = {{ order.id }};
-			new Vue({
-			el: '#app_notes',
-			data: {
-			notes: [],
-			user_id: '{{ auth.user.id }}',
-			users: [],
-			order_id: '{{ order.id }}',
-			errors: null,
-			url: '{{ path_for('notes.note.add') }}'
-			},
-			mounted: function (){
-				{% for note in order.notes %}
-				var note = '{{ note.note |replace({"\n":'', "\r":''}) |raw }}';
-				this.notes.push({
-				message: note,
-				user_id: '{{ note.user_from_name }}',
-				user_id_to: '{{ note.user_to.name }}',
-				order_id: '{{ note.order_id }}',
-				created_at: '{{ note.created_at }}',
-				updated_at: '{{ note.updated_at }}'
-				});{% endfor %}
-
-				{% for user in users %}
-				this.users.push({id: '{{ user.id }}', name: '{{ user.name }}'});{% endfor %}
-			}
-			});
-	</script>
-{% endblock %}
-
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+</div>
+<!-- Tab main_generate_tab -->

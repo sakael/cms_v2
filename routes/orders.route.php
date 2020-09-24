@@ -24,6 +24,7 @@ $app->group('/orders', function () use ($app, $container) {
     //Single requests
     $app->group('/order', function () use ($app,  $container) {
         $app->get('/{id:[0-9]+}', 'OrderController:getSingle')->setName('OrdersGetSingle');
+        $app->get('/{id:[0-9]+}/edit', 'OrderController:getSingleEdit')->setName('OrdersGetSingleEdit');
         $app->get('/popup/{id}', 'OrderController:getSingle')->setName('OrdersGetSinglePopup');
         $app->put('/update', 'OrderController:postUpdateSingle')->setName('OrdersPostUpdateSingle');
         $app->put('/order_items/update', 'OrderController:orderItemsUpdate')->setName('OrdersOrderItemsPostUpdateSingle');
