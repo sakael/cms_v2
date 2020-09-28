@@ -1,7 +1,10 @@
 <!-- Tab main_types_tab -->
 <div class="tab-pane fade active show mt-3" id="general" role="tabpanel">
+    <div id="orderRows">
+		<order-rows-component  @row-updated="rows=$event" :rows="rows" :products="products" :shop_id="shop_id" :IMAGE_PATH="IMAGE_PATH" :url="url"></order-rows-component>
+	</div>
 	<div class="row equal">
-		<div class="col-lg-8 d-flex">
+		<div class="col-xl-9 col-lg-8 col-md-12 d-flex">
 			<div class="card card-block">
 				<div class="card-body">
 					<h4 class="header-title mb-3">ITEMS VAN BESTELLING
@@ -49,7 +52,7 @@
 		</div>
 		<!-- end col -->
 
-		<div class="col-lg-4 d-flex">
+		<div class="col-xl-3 col-lg-4 col-md-12 d-flex">
 			<div class="card card-block">
 				<div class="card-body">
 					<h4 class="header-title mb-3">Overzicht van de bestelling</h4>
@@ -65,7 +68,8 @@
 								<tr>
 									<td>Netto :</td>
 									<td>€
-										{{order.net_price - order.shipping_cost}}</td>
+										{{order.net_price - order.shipping_cost}}
+									</td>
 								</tr>
 								<tr>
 									<td>Verzendkosten :</td>
@@ -164,7 +168,7 @@
 			</div>
 		</div>
 		<!-- end col -->
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 order-2 d-flex">
+		<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 order-2 d-flex">
 			<div class="card">
 				<div class="card-body ">
 					<h4 class="header-title mb-1 text-center">Status</h4>
@@ -198,7 +202,7 @@
 			</div>
 		</div>
 
-		<div class="col-lg-2 order-3 d-flex">
+		<div class="col-xl-2 col-lg-6 col-md-6 order-3 d-flex">
 			<div class="card">
 				<div class="card-body">
 					<h4 class="header-title mb-3 text-center">Levering Info</h4>
@@ -237,21 +241,12 @@
 			</div>
 		</div>
 		<!-- end col -->
-	</div>
-	<!-- end row -->
-	<div class="row">
-
-		<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
-			<div id="app_notes">
-				<notes-app-component @row-updated="notes=$event" :notes="notes" :user_id="user_id" :users="users" :order_id="order_id" :errors="errors" :url="url"></notes-app-component>
-			</div>
-		</div>
-		<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+		<div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 order-4">
 			<div class="card" style="min-height:266px;">
 				<div class="card-body">
 					<div class="text-center pt-3">
 						<div class="current-status-info">
-							<button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="HUIDIGE STATUS" class="btn disabled  {% if order.status_id ==1 %} btn-primary {% elseif order.status_id ==3 %} btn-success {% elseif order.status_id ==10 %} btn-info {% else %} btn-warning {% endif %} btn-block mt-4 mb-3">{{orderStatus[order.status_id].title}}</button>
+							<button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="HUIDIGE STATUS" class="btn disabled  {% if order.status_id ==1 %} btn-primary {% elseif order.status_id ==3 %} btn-success {% elseif order.status_id ==10 %} btn-info {% else %} btn-warning {% endif %} btn-block mt-2 mb-3">{{ attribute(orderStatus, order.status_id).title }} <br> ( {{ user.getUserNameById(order.user_id) | capitalize }} ) <br> {{order.updated_at}}</button>
 						</div>
 						<button type="button" class="btn btn-secondary btn-block mt-3 mb-2" id="duplicate">
 							<i class="dripicons-duplicate mr-1"></i>
@@ -259,6 +254,14 @@
 						</button>
 					</div>
 				</div>
+			</div>
+		</div><!-- end col -->
+	</div>
+	<!-- end row -->
+	<div class="row">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+			<div id="app_notes">
+				<notes-app-component @row-updated="notes=$event" :notes="notes" :user_id="user_id" :users="users" :order_id="order_id" :errors="errors" :url="url"></notes-app-component>
 			</div>
 		</div>
 	</div>

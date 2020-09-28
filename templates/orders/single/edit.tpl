@@ -38,10 +38,10 @@
 			<a class="nav-link" data-toggletab="customer" data-toggle="tab" href="#customer" role="tab">Klant</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" data-toggletab="history" data-toggle="tab" href="#history" role="tab">Historie (<b> {{ activities | length }} </b>) </a>
+			<a class="nav-link" data-toggletab="history" data-toggle="tab" href="#history" role="tab">Historie (<b>{{ activities | length }}</b>) </a>
 		</li>
         <li class="nav-item">
-			<a class="nav-link" data-toggletab="old_orders" data-toggle="tab" href="#old_orders" role="tab">Klant oude bestellingen (<b> {{ order.clinetsOrders | length }} </b>)</a>
+			<a class="nav-link" data-toggletab="old_orders" data-toggle="tab" href="#old_orders" role="tab">Klant bestellingen (<b>{{ order.clinetsOrders | length }}</b>)</a>
 		</li>
 	</ul>
 	<!-- Tab panels -->
@@ -131,7 +131,7 @@
                     });
                 {% endfor %}
 
-                {% for product in Products %}
+                {% for product in products %}
                 this.products.push({
                     id: "{{ product.id }}",
                     sku: "{{ product.sku }}",

@@ -317,9 +317,9 @@
 			<div class="card" style="min-height:266px;">
 				<div class="card-body">
 					<div class="text-center">
-						<button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="HUIDIGE STATUS" class="btn disabled  {% if order.status_id ==1 %} btn-primary {% elseif order.status_id ==3 %} btn-success {% elseif order.status_id ==10 %} btn-info {% else %} btn-warning {% endif %} btn-block mt-3 mb-4" >{{orderStatus[order.status_id].title}}</button>
-						<button type="button" class="btn btn-secondary btn-block mt-2 mb-4" id="duplicate"><i class="dripicons-duplicate mr-1"></i> <span>Dupliceren</span> </button>
-						<a class="btn btn-danger btn-block mt-4 {% if not user.checkPermissionByRouteName('OrdersGetSingleEdit') or not auth.user.super %} disabled {% endif %}" href="{{path_for('OrdersGetSingleEdit',{'id':order.id})}}"><i class="dripicons-document-edit mr-1"></i> <span>Bewerken</span> </a>
+						<button type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="HUIDIGE STATUS" class="btn disabled  {% if order.status_id ==1 %} btn-primary {% elseif order.status_id ==3 %} btn-success {% elseif order.status_id ==10 %} btn-info {% else %} btn-warning {% endif %} btn-block mt-2 mb-3">{{ attribute(orderStatus, order.status_id).title }} <br> ( {{ user.getUserNameById(order.user_id) | capitalize }} ) <br> {{order.updated_at}}</button>
+						<button type="button" class="btn btn-secondary btn-block mt-2 mb-3" id="duplicate"><i class="dripicons-duplicate mr-1"></i> <span>Dupliceren</span> </button>
+						<a class="btn btn-danger btn-block mt-2 {% if not user.checkPermissionByRouteName('OrdersGetSingleEdit') or not auth.user.super %} disabled {% endif %}" href="{{path_for('OrdersGetSingleEdit',{'id':order.id})}}"><i class="dripicons-document-edit mr-1"></i> <span>Bewerken</span> </a>
 					</div>
 				</div>
 			</div>
