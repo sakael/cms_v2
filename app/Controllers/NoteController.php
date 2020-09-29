@@ -28,10 +28,10 @@ class NoteController extends Controller
         $note->status = 0;
         $id = $note->Create();
         if ($id) {
-            //$note = Note::find($id);
-            $username = DB::queryFirstRow('SELECT id,name,lastname,email,super FROM users WHERE id=%i', $note->user_id);
-            $username_to = DB::queryFirstRow('SELECT id,name,lastname,email,super FROM users WHERE id=%i', $note->user_id_to);
-            $temp = ['return' => 'Success', 'msg' =>  $note->note, 'username' => $username['name'], 'username_to' => $username_to['name']];
+            $note = Note::find($id);
+            $username = DB::queryFirstRow('SELECT id,name,lastname,email,super FROM users WHERE id=%i', $note['user_id']);
+            $username_to = DB::queryFirstRow('SELECT id,name,lastname,email,super FROM users WHERE id=%i', $note['user_id_to']);
+            $temp = ['return' => 'Success', 'msg' =>  $note['note'],'created_at' => $note['created_at'],'username' => $username['name'], 'username_to' => $username_to['name']];
             return $response->withJson(['response' => $temp], 200);
         } else {
             return $response->withJson(['return' => 'Error']);

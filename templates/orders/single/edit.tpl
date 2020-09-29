@@ -49,6 +49,8 @@
 		class="tab-content">
          <!-- .tab-pane general -->
         {% include 'orders/single/tabs/general.tpl' %}
+         <!-- .tab-pane customer -->
+        {% include 'orders/single/tabs/customer.tpl' %}
 	</div>
 
 {% endblock %}
@@ -78,13 +80,14 @@
                 price: [],
                 products: [],
                 shop_id: '',
-                url: '',
+                url: '{{ path_for('OrdersOrderItemsPostDeleteSingle')}}',
                 IMAGE_PATH: "{{ IMAGE_PATH }}",
                 attributes:[],   
                 color:'',
                 size:'',
                 color_id:'',
-                size_id:''
+                size_id:{{ order.shop_id }},
+                order_id:{{ order.id }}
             },
 
             mounted: function() {

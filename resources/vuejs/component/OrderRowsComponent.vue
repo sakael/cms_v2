@@ -1,191 +1,194 @@
 <template>
-  <div class="row equal">
-    <div class="col-xl-9 col-lg-8 col-md-12 d-flex">
-      <div class="card card-block">
-        <div class="card-body">
-          <h4 class="header-title mb-3">ITEMS VAN BESTELLING</h4>
-            <div class="table-responsive">
-              <table class="table mb-0 order_items_vue">
-                <thead class="thead-light">
-                  <tr>
-                    <th style="width: 100px;">Aantal</th>
-                    <th>Sku</th>
-                    <th>Naam</th>
-                    <th style="width: 150px;">Kleur</th>
-                    <th style="width: 150px;">Maat</th>
-                    <th style="width: 130px;">Prijs</th>
-                    <th style="width: 130px;">Totaal</th>
-                    <th style="width: 30px;"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(row, index) in rows" class="order-items-list">
-                    <td>
-                      <input
-                        type="number"
-                        v-model="row.count"
-                        name="count[]"
-                        :id="'count-' + index"
-                        class="form-control form-control-sm count-item requiredItem"
-                      />
-                    </td>
-                    <td :id="'url-' + index" v-if="row.order_item_id != 0">
-                      <a v-if="row.product_id != 99999999" :href="row.url" target="_blank" class="hover-popup form-control form-control-sm disbaled"
-                        >{{ row.sku }} <img :id="'image-' + index" v-if="row.img != 0" :src="row.img"
-                      /></a>
-                      <span v-else disabled class="hover-popup disbaled">{{ row.sku }} </span>
-                    </td>
-                    <td :id="'url-' + index" class="ssss" v-if="row.order_item_id == 0">
-                      <select
-                        name="product_sku[]"
-                        class="form-control form-control-sm sku-item requiredItem"
-                        :id="'sku-' + index"
-                        v-if="products.length > 0"
-                        v-on:change="setValue(index, $event)"
-                      >
-                        <option value="" selected></option>
-                        <option v-for="product in products" :value="product.id">{{ product.sku }}</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        placeholder=""
-                        name="product_name[]"
-                        :id="'product-name-' + index"
-                        v-model="row.query"
-                        v-on:keyup="autoComplete(index)"
-                        class="form-control form-control-sm requiredItem"
-                        autocomplete="off"
-                        disabled="disabled"
-                      />
-                      <div class="list-group">
-                        <div v-for="result in row.results" v-on:click="setValue(index, $event)" class="list-group-item" v-bind:data-value="result.id">
-                          {{ result.name }}
+  <div>
+    <form method="POST" action="/orders/order/order_items/update" id="orderitems_form">
+      <input type="hidden" name="order_id" :value="order_id " />
+      <input type="hidden" name="shop_id" :value="shop_id" />
+      <input type="hidden" name="_METHOD" value="PUT" />
+      <div class="row equal">
+        <div class="col-xl-9 col-lg-8 col-md-12 d-flex">
+          <div class="card card-block">
+            <div class="card-body">
+              <h4 class="header-title mb-3">ITEMS VAN BESTELLING</h4>
+              <div class="table-responsive">
+                <table class="table mb-0 order_items_vue font-12">
+                  <thead class="thead-light">
+                    <tr>
+                      <th style="width: 90px;">Aantal</th>
+                      <th>Sku</th>
+                      <th>Naam</th>
+                      <th style="width: 150px;">Kleur</th>
+                      <th style="width: 150px;">Maat</th>
+                      <th style="width: 130px;">Prijs</th>
+                      <th style="width: 130px;">Totaal</th>
+                      <th style="width: 30px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(row, index) in rows" class="order-items-list">
+                      <td>
+                        <input
+                          type="number"
+                          v-model="row.count"
+                          name="count[]"
+                          :id="'count-' + index"
+                          class="form-control form-control-sm count-item requiredItem"
+                        />
+                      </td>
+                      <td :id="'url-' + index" v-if="row.order_item_id != 0">
+                        <a v-if="row.product_id != 99999999" :href="row.url" target="_blank" class="mt-1 d-block font-12 hover-popup disbaled"
+                          >{{ row.sku }} <img :id="'image-' + index" v-if="row.img != 0" :src="row.img"
+                        /></a>
+                        <span v-else disabled class="hover-popup mt-1 d-block font-12 disbaled">{{ row.sku }} </span>
+                      </td>
+                      <td :id="'url-' + index" v-if="row.order_item_id == 0">
+                        <select
+                          name="product_sku[]"
+                          class="form-control form-control-sm sku-item requiredItem"
+                          :id="'sku-' + index"
+                          v-if="products.length > 0"
+                          v-on:change="setValue(index, $event)"
+                        >
+                          <option value="" selected></option>
+                          <option v-for="product in products" :value="product.id">{{ product.sku }}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          placeholder=""
+                          name="product_name[]"
+                          :id="'product-name-' + index"
+                          v-model="row.query"
+                          v-on:keyup="autoComplete(index)"
+                          class="form-control form-control-sm requiredItem"
+                          autocomplete="off"
+                          disabled="disabled"
+                        />
+                        <div class="list-group">
+                          <div v-for="result in row.results" v-on:click="setValue(index, $event)" class="list-group-item" v-bind:data-value="result.id">
+                            {{ result.name }}
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <select
-                        name="product_color[]"
-                        class="form-control form-control-sm product-color-item"
-                        :id="'color-' + index"
-                        v-if="row.colors.length > 0"
-                      >
-                        <option :value="1" selected>----</option>
-                        <option v-for="color in row.colors" :value="color.id">{{ color.name }}</option>
-                      </select>
-                      <select class="form-control form-control-sm" :id="'color-' + index" disabled v-else>
-                        <option :value="row.color_id" selected="selected">{{ row.color }}</option>
-                      </select>
-                      <input type="hidden" :value="row.color_id" name="product_color[]" v-if="row.colors.length == 0" />
-                    </td>
+                      </td>
+                      <td>
+                        <select
+                          name="product_color[]"
+                          class="form-control form-control-sm product-color-item"
+                          :id="'color-' + index"
+                          v-if="row.colors.length > 0"
+                        >
+                          <option :value="1" selected>----</option>
+                          <option v-for="color in row.colors" :value="color.id">{{ color.name }}</option>
+                        </select>
+                        <select class="form-control form-control-sm" :id="'color-' + index" disabled v-else>
+                          <option :value="row.color_id" selected="selected">{{ row.color }}</option>
+                        </select>
+                        <input type="hidden" :value="row.color_id" name="product_color[]" v-if="row.colors.length == 0" />
+                      </td>
 
-                    <td>
-                      <select name="product_size[]" class="form-control form-control-sm product-size-item" :id="'size-' + index" v-if="row.sizes.length > 0">
-                        <option :value="1" selected>----</option>
-                        <option v-for="size in row.sizes" :value="size.id">{{ size.name }}</option>
-                      </select>
-                      <select class="form-control form-control-sm" :id="'size-' + index" disabled v-else>
-                        <option :value="row.size_id" selected="selected">{{ row.size }}</option>
-                      </select>
-                      <input type="hidden" :value="row.size_id" name="product_size[]" v-if="row.sizes.length == 0" />
-                    </td>
+                      <td>
+                        <select name="product_size[]" class="form-control form-control-sm product-size-item" :id="'size-' + index" v-if="row.sizes.length > 0">
+                          <option :value="1" selected>----</option>
+                          <option v-for="size in row.sizes" :value="size.id">{{ size.name }}</option>
+                        </select>
+                        <select class="form-control form-control-sm" :id="'size-' + index" disabled v-else>
+                          <option :value="row.size_id" selected="selected">{{ row.size }}</option>
+                        </select>
+                        <input type="hidden" :value="row.size_id" name="product_size[]" v-if="row.sizes.length == 0" />
+                      </td>
 
-                    <td class="pl-3 pr-4">
-                      <i class="fa fa-euro fa-euro-1"></i>
-                      <input
-                        type="text"
-                        v-model="row.price"
-                        name="product_price[]"
-                        :id="'price-' + index"
-                        class="form-control form-control-sm"
-                        v-if="row.order_item_id == 0"
-                      />
-                      <input
-                        type="text"
-                        v-model="row.price"
-                        name="product_price[]"
-                        :id="'price-' + index"
-                        class="form-control form-control-sm disbaled"
-                        readonly
-                        v-if="row.order_item_id != 0"
-                      />
-                    </td>
-                    <td>
-                      <i class="fa fa-euro"></i><input class="form-control form-control-sm  " name="total[]" :value="row.price * row.count" readonly disabled />
-                    </td>
-                    <td>
-                      <input
-                        type="button"
-                        value="-"
-                        class="form-control border-0 btn-danger btn-remove-order-row"
-                        name="remove-btn[]"
-                        v-on:click.stop.prevent="removeElement(index)"
-                      />
-                      <input type="hidden" :value="row.order_item_id" name="order_item_id[]" />
-                      <input type="hidden" :value="row.product_id" name="product_ids[]" />
-                      <input type="hidden" :value="row.artikel" name="product_artikel[]" />
-                      <input type="hidden" :value="row.combo_check" name="combo_check[]" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="4" align="left">
-                      <input type="button" name="add-btn" style="max-width:300px" value="+" class="form-control border-0  btn-info" v-on:click="addRow" />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      <td class="pl-3 pr-4">
+                        <i class="fa fa-euro fa-euro-1"></i>
+                        <input
+                          type="text"
+                          v-model="row.price"
+                          name="product_price[]"
+                          :id="'price-' + index"
+                          class="form-control form-control-sm"
+                          v-if="row.order_item_id == 0"
+                        />
+                        <input
+                          type="text"
+                          v-model="row.price"
+                          name="product_price[]"
+                          :id="'price-' + index"
+                          class="form-control form-control-sm disbaled"
+                          readonly
+                          v-if="row.order_item_id != 0"
+                        />
+                      </td>
+                      <td>
+                        <i class="fa fa-euro"></i
+                        ><input class="form-control form-control-sm  " name="total[]" :value="row.price * row.count" readonly disabled />
+                      </td>
+                      <td>
+                        <span class="text-danger font-20 hand"  v-on:click.stop.prevent="removeElement(index)"><i class="dripicons-minus"></i></span>
+                        <input type="hidden" :value="row.order_item_id" name="order_item_id[]" />
+                        <input type="hidden" :value="row.product_id" name="product_ids[]" />
+                        <input type="hidden" :value="row.artikel" name="product_artikel[]" />
+                        <input type="hidden" :value="row.combo_check" name="combo_check[]" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="text-center ">
+                <a class="text-success font-24 hand" v-on:click="addRow"><i class="dripicons-plus"></i></a>
+              </div>
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-sm btn-info btn-block">items bijwerken</button>
+              </div>
             </div>
-        </div>
-      </div>
-    </div>
-    <!-- end col -->
-
-    <div class="col-xl-3 col-lg-4 col-md-12 d-flex">
-      <div class="card card-block">
-        <div class="card-body">
-          <h4 class="header-title mb-3">Overzicht van de bestelling</h4>
-          <div class="table-responsive">
-            <table class="table mb-0">
-              <thead class="thead-light">
-                <tr>
-                  <th>Omschrijving</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Netto :</td>
-                  <td>€ {{total_ex}}</td>
-                </tr>
-                <tr>
-                  <td>Verzendkosten :</td>
-                  <td>€ {{ shipping_cost }}</td>
-                </tr>
-                <tr>
-                  <td>Geschatte belasting :</td>
-                  <td>€ {{ vat }}</td>
-                </tr>
-                <tr>
-                  <th>Totaal :</th>
-                  <th>&euro; {{ total }}</th>
-                </tr>
-              </tbody>
-            </table>
           </div>
-          <!-- end table-responsive -->
         </div>
+        <!-- end col -->
+
+        <div class="col-xl-3 col-lg-4 col-md-12 d-flex">
+          <div class="card card-block">
+            <div class="card-body">
+              <h4 class="header-title mb-3">Overzicht van de bestelling</h4>
+              <div class="table-responsive">
+                <table class="table mb-0">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Omschrijving</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Netto :</td>
+                      <td>€ {{ total_ex }}</td>
+                    </tr>
+                    <tr>
+                      <td>Verzendkosten :</td>
+                      <td>€ {{ shipping_cost }}</td>
+                    </tr>
+                    <tr>
+                      <td>Geschatte belasting :</td>
+                      <td>€ {{ vat }}</td>
+                    </tr>
+                    <tr>
+                      <th>Totaal :</th>
+                      <th>&euro; {{ total }}</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- end table-responsive -->
+            </div>
+          </div>
+        </div>
+        <!-- end col -->
       </div>
-    </div>
-    <!-- end col -->
+      <!-- end row -->
+    </form>
   </div>
-  <!-- end row -->
 </template>
 <script>
 export default {
   delimiters: ['{{', '}'],
-  props: ['rows', 'products', 'shop_id','image_path','url'],
+  props: ['rows', 'products', 'shop_id','image_path','url','order_id'],
   data(){
     return {
         price:[],
@@ -212,7 +215,7 @@ export default {
       },
       removeElement: function (index) {
           if (this.rows[index].order_item_id != 0) {
-              if(confirm("Do you really want to delete?")){
+              if(confirm("Weet je zeker dat?")){
                 var _this = this;
                 axios.post(this.url, {
                     id: this.rows[index].order_item_id,

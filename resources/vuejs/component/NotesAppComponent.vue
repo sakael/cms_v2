@@ -84,6 +84,7 @@ export default {
                   var app_notes = this;
                   app_notes.temp_row = response.data;
                   if (response.data.response.return == 'Success') {
+                    console.log(response.data);
                       app_notes.notes.unshift({
                           message: app_notes.msg,
                           user_id: response.data.response.username,
