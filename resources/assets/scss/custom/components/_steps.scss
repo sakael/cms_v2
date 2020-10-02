@@ -61,7 +61,7 @@
                 white-space: nowrap;
                 color: $gray-500;
             }
-            &.current {
+            &.current:last-of-type {
                 &:before {
                     content: '';
                     display: block;

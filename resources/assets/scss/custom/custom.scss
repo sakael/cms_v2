@@ -139,3 +139,37 @@ a.hover-popup:hover img {
 .order_items_vue td input,.order_items_vue td select{
   font-size: 12px;;
 }
+.order-top-accordion .dripicons-minus{
+  display: block;
+}
+.order-top-accordion .dripicons-plus{
+    display: none;
+}
+.order-top-accordion .collapsed .dripicons-minus{
+  display: none !important;
+}
+.order-top-accordion .collapsed .dripicons-plus{
+  display: block;
+}
+.products-item-list{
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.prices-not-equal td a{
+  color: #FFF;
+}
+tr.prices-not-equal{
+  background-color: #39afd1!important
+}
+.prices-not-equal td span,.prices-not-equal td a,.prices-not-equal td .mdi-square-edit-outline ,.prices-not-equal td i{
+  color: #FFF !important;
+}
+.prices-not-equal td ul{
+
+}
+.prices-not-equal td ul li{
+  background-color: #39afd1!important
+}
+.prices-not-equal td{
+  color: #FFF;
+}

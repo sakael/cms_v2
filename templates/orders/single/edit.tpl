@@ -22,7 +22,8 @@
 						<li class="breadcrumb-item">
 							<a href="{{path_for('OrdersIndex')}}">Orders</a>
 						</li>
-						<li class="breadcrumb-item active">{{page_title}}</li>
+						<li class="breadcrumb-item"><a href="{{ path_for('OrdersGetSingle',{'id':order.id}) }}">{{page_title}}</a></li>
+                        <li class="breadcrumb-item active">Bewerken</li>
 					</ol>
 				</div>
 				<h4 class="page-title">{{page_title}}</h4>

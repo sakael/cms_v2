@@ -378,7 +378,7 @@ function newOrders() {
             var payment=JSON.parse(data.payment);
             if(payment){
                 if ( parseFloat(payment.amount) != parseFloat(data.gross_price) ) {
-                $(row).addClass( 'prices-not-equal' );
+                $(row).addClass( 'prices-not-equal bg-info' );
                 }
             }
           },

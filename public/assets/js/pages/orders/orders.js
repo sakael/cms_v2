@@ -9,6 +9,11 @@ function loadImage(e) {
     var src = $(e).data("image-src");
     $(e).find('img').attr('src', src);
 }
+$(document).ready(function() {
+    $("#postcode-control").click(function() {
+      $('#checking-postcode-popup').modal('show').find('.modal-body').load('/orders/postcode-controller');
+    });
+});
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////                       ChangeOrderStatus                       /////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,19 +52,17 @@ function productRows(rows,type=''){
             var image = image_url + '/' +dirname(url) + 'thumbs/' +$filename+'_bol.'+url.split('.').pop();
         }
         else image = '';
-        temp = temp.concat('<li class="list-group-item">');
-        temp = temp.concat('<span class="count');
+        temp = temp.concat('<li class="list-group-item products-item-list">');
         if (order_item.count > 1) temp = temp.concat(' count-focus');
         if(order_item.product_id == 99999999){
-            temp = temp.concat(' shippingcost-count');
-            temp = temp.concat('">' + order_item['count'] + ' x </span>');
-            temp = temp.concat('<a href="#"  class="text-secondary" target="_blank">'+order_item.product.sku+ ' - ' + order_item.product_name + '</a>');
+            temp = temp.concat('<span class="text-secondary" target="_blank">'+order_item.product.sku+ ' - ' + order_item.product_name + '</span>');
             if(order_item.price == 3.99){
                 temp = temp.concat( ' | <span class="fast-shipping-be text-danger"> Snelle levering </span>');
             }
             temp = temp.concat( '</li>');
         }else{
-            temp = temp.concat('">' + order_item['count'] + ' x </span>');
+            temp = temp.concat('<span class="text-primary mr-1 font-weight-bold');
+            temp = temp.concat('">' + order_item['count'] + 'x </span>');
             temp = temp.concat(order_item.product.location+' <span  class="on-mouse-over-load text-primary"');
             if(type != ''){
                 temp = temp.concat('onclick="cliamByProduct(event,\''+order_item.product.sku+'\')"');

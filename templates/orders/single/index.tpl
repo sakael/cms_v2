@@ -325,8 +325,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="msp-status-popup" id="full-width-modal" class="modal fade model-fullwidth" tabindex="-1" role="dialog" aria-labelledby="info-header-modalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-full-width">
+	<div id="msp-status-popup" class="modal fade model-fullwidth" tabindex="-1" role="dialog" aria-labelledby="info-header-modalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-full-width modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header modal-colored-header bg-info">
 					<h4 class="modal-title" id="info-header-modalLabel">Betaling van {{order.id}}</h4>
