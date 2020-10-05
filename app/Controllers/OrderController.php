@@ -912,9 +912,9 @@ class OrderController extends Controller
             Order::ChangeStatus($order['id'], 10);
         }
         if ($orders) {
-            return $response->withJson(['status' => 'true']);
+            return $response->withJson(['status' => 'true','msg' => 'Alle orders in de ' . $value . 'stelling zijn nu geclaimt ('.count($orders).')']);
         } else {
-            return $response->withJson(['status' => 'false', 'msg' => 'Nothing']);
+            return $response->withJson(['status' => 'false', 'msg' => 'Niets gevonden']);
         }
     }
 
@@ -933,15 +933,15 @@ class OrderController extends Controller
 
         $orders = DB::query('select ' . Order::$table . ' .id from ' . Order::$table . "  where `status_id` = '1'
                   and exists (select * from " . Order::$table_order_items . '  where ' . Order::$table . ' .`id` = ' . Order::$table_order_items . ' .`order_id`
-                  and exists (select * from `product` where ' . Order::$table_order_items . ' .`product_id` = `product`.`id` and `product`.`location` LIKE %s ))', $value . '%');
+                  and exists (select * from `product` where ' . Order::$table_order_items . ' .`product_id` = `product`.`id` and `product`.`sku` LIKE %s ))', $value . '%');
 
         foreach ($orders as $order) {
             Order::ChangeStatus($order['id'], 10);
         }
         if ($orders) {
-            return $response->withJson(['status' => 'true']);
+            return $response->withJson(['status' => 'true','msg' => 'Alle orders in de '.$value.' productgroep zijn nu geclaimt ('.count($orders).')']);
         } else {
-            return $response->withJson(['status' => 'false', 'msg' => 'Nothing']);
+            return $response->withJson(['status' => 'false', 'msg' => 'Niets gevonden']);
         }
     }
 
@@ -955,9 +955,9 @@ class OrderController extends Controller
             Order::ChangeStatus($order['id'], 10);
         }
         if ($orders) {
-            return $response->withJson(['status' => 'true']);
+            return $response->withJson(['status' => 'true','msg' => 'Alle buitenland zendingen zijn geclaimt ('.count($orders).')']);
         } else {
-            return $response->withJson(['status' => 'false', 'msg' => 'Nothing']);
+            return $response->withJson(['status' => 'false', 'msg' => 'Niets gevonden']);
         }
     }
 
@@ -978,9 +978,9 @@ class OrderController extends Controller
             Order::ChangeStatus($order['id'], 10);
         }
         if ($orders) {
-            return $response->withJson(['status' => 'true']);
+            return $response->withJson(['status' => 'true','msg' => 'Alle B2B orders zijn geclaimt ('.count($orders).')']);
         } else {
-            return $response->withJson(['status' => 'false', 'msg' => 'Nothing']);
+            return $response->withJson(['status' => 'false', 'msg' => 'Niets gevonden']);
         }
     }
 

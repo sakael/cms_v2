@@ -581,7 +581,7 @@ $(document).ready(function () {
             axios.get("orders/claim/per-productgroup?value="+value).then(function (response) {
                 if (response.data.status == 'true') {
                     $('#claim-by-productgroup').val('');
-                    toastr.success('Alle producten in de ' + value + ' productgroep zijn nu geclaimt');
+                    toastr.success(response.data.msg);
                     $('.orders-nav-tabs a[href="#claimedOrders"]').tab('show');
                     claimedOrders();
                 } else if (response.data.status == 'false') {
@@ -602,7 +602,7 @@ $(document).ready(function () {
             }).then(function (response) {
                 if (response.data.status == 'true') {
                     $('#claim-by-stelling').val('');
-                    toastr.success('Alle producten in de ' + value + 'stelling zijn nu geclaimt');
+                    toastr.success(response.data.msg);
                     $('.orders-nav-tabs a[href="#claimedOrders"]').tab('show');
                     claimedOrders();
                 } else if (response.data.status == 'false') {
@@ -624,7 +624,7 @@ $(document).ready(function () {
                 .then(function (response) {
                     if (response.data.status == 'true') {
                         $('#claim-by-buitenland').val('');
-                        toastr.success('Alle buitenland zendingen zijn geclaimt');
+                        toastr.success(response.data.msg);
                         $('.orders-nav-tabs a[href="#claimedOrders"]').tab('show');
                         claimedOrders();
                     } else if (response.data.status == 'false') {
@@ -646,7 +646,7 @@ $(document).ready(function () {
                 .then(function (response) {
                     if (response.data.status == 'true') {
                         $('#claim-by-B2B').val('');
-                        toastr.success('Alle B2B orders zijn geclaimt');
+                        toastr.success(response.data.msg);
                         $('.orders-nav-tabs a[href="#claimedOrders"]').tab('show');
                         claimedOrders();
                     } else if (response.data.status == 'false') {
