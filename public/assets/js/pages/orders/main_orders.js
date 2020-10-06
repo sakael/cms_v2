@@ -36,20 +36,6 @@ function refreshCurrentTab() {
 
 //851466
 
-function ClaimOrder(event,orderId) {
-    event.preventDefault();
-    axios.post('/orders/order/claim', {
-        id: orderId
-    }).then(function (response) {
-        if (response.data.status == 'true') {
-            refreshCurrentTab();
-            toastr.success(response.data.msg);
-        } else toastr.warning(response.data.msg);
-    })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////                       label functions                          //////////////////////////////////////////////////////////////////
@@ -277,13 +263,6 @@ function print(ip_addr, zpl) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////                        General order datatable functions rows                            ////////////////////////////////////////////////?
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function getClaimButtons(id){
-    return (
-        '<a href="" class="action-icon font-20" target="_blank" title="Claim" onclick="ClaimOrder(event,' + id + ')" data-toggle="tooltip" data-placement="top" data-original-title="Claim" title=""> <i class=" text-success mdi mdi-hand-right"></i></a>' +
-        '<a href="/orders/order/' + id + '" class="action-icon font-20" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="Bewerken / Bekijken" title=""> <i class="mdi mdi-square-edit-outline text-dark"></i></a>'
-      );
-}
 
 function getPrintButtons(row){
     var package = 0;

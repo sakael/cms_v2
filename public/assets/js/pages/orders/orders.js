@@ -17,8 +17,9 @@ $(document).ready(function() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////                       ChangeOrderStatus                       /////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function ChangeOrderStatus(OrderId, StatusId, el = false) {
-    axios.PUT('/orders/order/status/update', {
+function ChangeOrderStatus(event,OrderId, StatusId, el = false) {
+    event.preventDefault();
+    axios.put('/orders/order/status/update', {
         id: OrderId,
         status_id: StatusId
     }).then(function (response) {
@@ -31,6 +32,30 @@ function ChangeOrderStatus(OrderId, StatusId, el = false) {
             console.log(error);
         });
 }
+
+function ClaimOrder(event,orderId) {
+    event.preventDefault();
+    axios.post('/orders/order/claim', {
+        id: orderId
+    }).then(function (response) {
+        if (response.data.status == 'true') {
+            refreshCurrentTab();
+            toastr.success(response.data.msg);
+        } else toastr.warning(response.data.msg);
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+
+function getClaimButtons(id){
+    return (
+        '<a href="" class="action-icon font-20" target="_blank" title="Claim" onclick="ClaimOrder(event,' + id + ')" data-toggle="tooltip" data-placement="top" data-original-title="Claim" title=""> <i class=" text-success mdi mdi-hand-right"></i></a>' +
+        '<a href="/orders/order/' + id + '" class="action-icon font-20" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="Bewerken / Bekijken" title=""> <i class="mdi mdi-square-edit-outline text-dark"></i></a>'
+      );
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////                        General order datatable functions rows                            ////////////////////////////////////////////////?
@@ -61,13 +86,13 @@ function productRows(rows,type=''){
             }
             temp = temp.concat( '</li>');
         }else{
-            temp = temp.concat('<span class="text-primary mr-1 font-weight-bold');
-            temp = temp.concat('">' + order_item['count'] + 'x </span>');
-            temp = temp.concat(order_item.product.location+' <span  class="on-mouse-over-load text-primary"');
+            temp = temp.concat('<span class="text-primary mr-1 font-weight-bold">');
+            temp = temp.concat(order_item['count'] + 'x </span>');
+            temp = temp.concat('<span class="font-weight-bold mr-1">'+order_item.product.location+'</span> <span  class="on-mouse-over-load text-primary"');
             if(type != ''){
                 temp = temp.concat('onclick="cliamByProduct(event,\''+order_item.product.sku+'\')"');
             }
-            temp = temp.concat('onmouseover="loadImage(this)" data-image-src="' + image + '"> '+order_item.product.sku+ ' - ' + order_item.product_name + '<img src="" class="mouseover-load"></span> ' + attributes + '</li>');
+            temp = temp.concat('onmouseover="loadImage(this)" data-image-src="' + image + '"> '+order_item.product.sku+ ' - ' + order_item.product_name + '<img src="" class="mouseover-load"></span> <span class="font-weight-bold mr-1">' + attributes + '</span> </li>');
         }
     });
     temp = temp.concat('</ul>');

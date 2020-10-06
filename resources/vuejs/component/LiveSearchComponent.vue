@@ -25,7 +25,7 @@
         </h5>
       </div>
       <div class="dropdown-header noti-title" v-else>
-        <h5 class="text-overflow mb-0 ">
+        <h5 class="text-overflow mb-0 pb-1">
           Gevonden
           <span class="text-danger">0</span>
           resultaten

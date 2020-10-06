@@ -2,8 +2,9 @@
 ////////////////////////////////////////////////////                       To credit function                       //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function Credit(orderId) {
-    alert(' Crediteren' + orderId);
+function Credit(event,orderId) {
+    event.preventDefault();
+    alert(' Crediteren : ' + orderId);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,20 +108,18 @@ function returnOrders() {
                 data: null,
                 orderable: false,
                 "render": function (data, type, row) {
-                    var package = 0;
-                    $.each(row.order_items, function (key, order_item) {
-                        if (order_item.product.package == 1) package = 1;
-                    });
-                    var temp = '<ul class="action-list">';
-                    temp = temp.concat('<li><button class="postnl-btn btn btn-xs btn-primary" onclick="Credit(' + row.id + ')"><i class="fa fa-envelope-o"></i> Crediteren</button></li>');
-                    temp = temp.concat('<li><button class="box-btn btn btn-xs btn-primary" onclick="ChangeOrderStatus(' + row.id + ',1,this)"><i class="fa fa-archive"></i> Omzetten naar nieuw</button></li>');
-                    temp = temp.concat('<li><a href="/orders/order/' + row.id + '" class="btn btn-xs btn-info "><i class="fa fa-edit"></i> bekijken / bewerken</a></li>');
-                    temp = temp.concat('</ul>');
-                    return temp;
+                    return (
+                        '<a href="" class="action-icon font-20" target="_blank" title="Crediteren" onclick="Credit(event,' + row.id + ')" data-toggle="tooltip" data-placement="top" data-original-title="Crediteren" title=""> <i class=" text-warning  uil-euro-circle"></i></a>' +
+                        '<a href="" class="action-icon font-20" target="_blank" title="Crediteren" onclick="ChangeOrderStatus(event,' + row.id + ',1,this)" data-toggle="tooltip" data-placement="top" data-original-title="Omzetten naar nieuw" title=""> <i class=" text-success uil-refresh"></i></a>' +
+                        '<a href="/orders/order/' + row.id + '" class="action-icon font-20" target="_blank" data-toggle="tooltip" data-placement="top" data-original-title="Bewerken / Bekijken" title=""> <i class="mdi mdi-square-edit-outline text-dark"></i></a>'
+                    );
                 }
             }
         ],
     });
+    all_return_orders.on( 'draw', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    } );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,6 +189,9 @@ function waitSupplierOrders() {
             }
         ],
     });
+    all_wait_supplier_orders.on( 'draw', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    } );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
