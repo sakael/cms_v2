@@ -326,7 +326,7 @@ class order
             'updated_at' => $udpatedAt], 'id=%s', $id);
 
         UserActivity::Record('Change Status to ' . $status['title'] . ' (' . $status_id . ')', $id, 'Orders');
-        UserActivity::RecordOrderStatus($order['status_id'],$status_id, $id);
+        UserActivity::RecordOrderStatus($order['status_id'], $status_id, $id);
         //event call
         $event = new Event();
         $event->orderStatusBol($id);
@@ -336,7 +336,6 @@ class order
         } else {
             return $check;
         }
-        
     }
 
     /**************************************************************************************************************************************************
@@ -427,8 +426,10 @@ class order
         $order['payment'] = json_decode($order['payment'], true);
 
         //client old orders
-        $clinetsOrders = DB::query(
-            'SELECT ' . self::$table . '.id,' . self::$table . '.status_id,' . self::$table_shops . '.domain,' . self::$table . '.created_at
+        $clinetsOrders = '';
+        if (isset($order['order_details']['customerEmail'])) {
+            $clinetsOrders = DB::query(
+                'SELECT ' . self::$table . '.id,' . self::$table . '.status_id,' . self::$table_shops . '.domain,' . self::$table . '.created_at
          from ' . self::$table . '
          LEFT JOIN  ' . self::$table_shops . ' on  ' . self::$table . '.shop_id = ' . self::$table_shops . '.id
          WHERE  ' . self::$table . '.id != %i
@@ -436,12 +437,13 @@ class order
          and " . self::$table . ".order_details->>'$.address.payment.houseNumber'= %s
          and " . self::$table . ".order_details->>'$.address.payment.street'= %s)
          or (" . self::$table . ".order_details->>'$.customerEmail' = %s))",
-            $id,
-            $order['order_details']['address']['payment']['zipcode'],
-            $order['order_details']['address']['payment']['houseNumber'],
-            $order['order_details']['address']['payment']['street'],
-            $order['order_details']['customerEmail']
-        );
+                $id,
+                $order['order_details']['address']['payment']['zipcode'],
+                $order['order_details']['address']['payment']['houseNumber'],
+                $order['order_details']['address']['payment']['street'],
+                $order['order_details']['customerEmail']
+            );
+        }
         $order['clinetsOrders'] = $clinetsOrders;
         return $order;
     }

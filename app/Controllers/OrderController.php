@@ -358,6 +358,24 @@ class OrderController extends Controller
         return $this->view->render($response, 'orders/other_tabs_index.tpl', ['active_menu' => 'orders',
             'page_title' => 'Resterende Orders Tabs', 'orderTab' => $orderTab]);
     }
+    /**
+     * ordersGetRemainingIndex function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
+    public function ordersGetRemainingIndex($request, $response, $args)
+    {
+        if ($request->getParam('orderTab')) {
+            $orderTab = $request->getParam('orderTab');
+        } else {
+            $orderTab = '';
+        }
+        return $this->view->render($response, 'orders/homepage_links_tabs.tpl', ['active_menu' => 'orders',
+            'page_title' => 'Resterende Orders Tabs', 'orderTab' => $orderTab]);
+    }
     public function ordersGetBol($request, $response, $args)
     {
         die('w00t');
@@ -836,7 +854,68 @@ class OrderController extends Controller
         ];
         return json_encode($returndata);
     }
+    /**
+     * getAllRemainingTabs data function
+     *
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return void
+     */
+    public function getAllRemainingTabs($request, $response, $args)
+    {
+        $paid = $request->getParam('showPaidOrders', 0);
+        if ($paid == 1) {
+            $paid = " AND ispaid = '0'";
+        } else {
+            $paid = " AND ispaid != '0'";
+        }
 
+        $status = $request->getParam('status', 4);
+ 
+        $query = 'SELECT ' . Order::$table . '.id,' . Order::$table . '.shop_id,' . Order::$table .
+             '.status_id,JSON_UNQUOTE(' . Order::$table . '.payment) as payment,JSON_UNQUOTE(' . Order::$table . '.order_details) as order_details,' . Order::$table . '.created_at,' . Order::$table_status . '.title as status_title, ' . Order::$table_shops . '.domain as shop_name  from ' . Order::$table . '
+       LEFT JOIN ' . Order::$table_status . ' on ' . Order::$table_status . '.id=' . Order::$table . '.status_id
+       LEFT JOIN ' . Order::$table_shops . ' on ' . Order::$table_shops . '.id=' . Order::$table . '.shop_id
+       where ' . Order::$table . '.status_id=%i ' . $paid;
+ 
+        $ordersTemp = DB::query($query, $status);
+ 
+        $orderIds = [];
+        $orders = [];
+        foreach ($ordersTemp as $key => $order) {
+            $orderIds[] = $order['id'];
+            $orders[$order['id']] = $order;
+        }
+        $order_items = DB::query('SELECT * from ' . Order::$table_order_items . '
+       where ' . Order::$table_order_items . ".order_id IN ('" . implode("','", $orderIds) . "')
+                                               ");
+        foreach ($order_items as $item) {
+            $product = Product::getProduct($item['product_id']);
+            $item['product'] = $product;
+            $orders[$item['order_id']]['order_items'][] = $item;
+        }
+        $index = 0;
+        $ordersTemp = $orders;
+        $orders = [];
+        Order::SetColorsData();
+        $colors = Order::$colors;
+ 
+        foreach ($ordersTemp as $key => $order) {
+            ////Adding Colors to order list
+            $orders[$index] = $order;
+            $orders[$index]['colors'] = $colors;
+            $index++;
+        }
+        $returndata = [
+             'draw' => null,
+             'cached' => null,
+             'recordsTotal' => count($orders),
+             'recordsFiltered' => count($orders),
+             'data' => $orders
+         ];
+        return json_encode($returndata);
+    }
     /**
      * claimSingle function, Claim order by id
      *
@@ -1121,7 +1200,7 @@ where id = %i', $request->getParam('id'));
         DB::insert(Order::$table, ['shop_id' => $request->getParam('shop'), 'user_id' => Auth::user_id(), 'status_id' => 1, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]);
         $id = DB::insertId();
         if ($id) {
-            return $response->withRedirect($this->router->pathFor('OrdersGetSingle', ['id' => $id]));
+            return $response->withRedirect($this->router->pathFor('OrdersGetSingleEdit', ['id' => $id]));
         } else {
             $this->container->flash->addMessage('error', 'Er is een probleem opgetreden. Probeer het opnieuw of neem contact op met het administratiebureau.');
             return $response->withRedirect($this->router->pathFor('Orders.GetNew'));

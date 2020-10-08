@@ -6,7 +6,7 @@ use App\Middleware\AuthMiddleware as Auth;
 $app->group('/orders', function () use ($app, $container) {
     $app->get('', 'OrderController:ordersGetIndex')->setName('OrdersIndex');
     $app->get('/other', 'OrderController:ordersGetOtherIndex')->setName('OrdersOtherIndex');
-
+    $app->get('/remaining', 'OrderController:ordersGetRemainingIndex')->setName('OrdersRemainingIndex');
     // Bol.com  @ line 280 OC
     $app->get('/bol', 'OrderController:ordersGetBol')->setName('OrdersBol');
 
@@ -19,6 +19,9 @@ $app->group('/orders', function () use ($app, $container) {
     $app->get('/wait_external_supplier/data', 'OrderController:getAllWaitExternalSupplier')->setName('OrdersWaitExternalSupplierGetAll');
     $app->get('/wait_customer/data', 'OrderController:getAllWaitCustomer')->setName('OrdersWaitCustomerGetAll');
     $app->get('/credit/data', 'OrderController:getAllCredit')->setName('OrdersCreditGetAll');
+    $app->get('/return_exchange/data', 'OrderController:getAllRemainingTabs')->setName('OrdersReturnExchangeGetAll');
+    $app->get('/return_shipment_credit/data', 'OrderController:getAllRemainingTabs')->setName('OrdersReturnShipmentCreditGetAll');
+    $app->get('/wait_payment/data', 'OrderController:getAllRemainingTabs')->setName('OrdersWaitPaymentGetAll');
 
 
     //Single requests

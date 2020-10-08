@@ -30,11 +30,11 @@
                     <span class="badge badge-secondary badge-pill">{{(orders.returnOrders | length)}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                     <a class="text-secondary" href="#">Retour | Omruil</a>
+                     <a class="text-secondary" href="{{path_for('OrdersRemainingIndex')}}?orderTab=returnExchange">Retour | Omruil</a>
                     <span class="badge badge-warning badge-pill">{{(orders.returnChange | length)}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                     <a class="text-secondary" href="#">Retour | Credit</a>
+                     <a class="text-secondary" href="{{path_for('OrdersRemainingIndex')}}?orderTab=returnShipmentCredit">Retour | Credit</a>
                     <span class="badge badge-danger badge-pill">{{(orders.returnCredite | length)}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -42,7 +42,7 @@
                     <span class="badge badge-info badge-pill">{{(orders.waitSupplierOrders | length)}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                     <a class="text-secondary" href="#">Wacht op betaling</a>
+                     <a class="text-secondary" href="{{path_for('OrdersRemainingIndex')}}?orderTab=waitPayment">Wacht op betaling</a>
                     <span class="badge badge-info badge-pill">{{(orders.waitPaymentOrders | length)}}</span>
                 </li>
             </ul>
