@@ -155,14 +155,7 @@
 				</li>
 			{% endif %}
 			<li class="side-nav-title side-nav-item mt-3">Persoonlijk</li>
-			<li class="side-nav-item">
-					<a href="{{path_for('BarcodeGet')}}" class="side-nav-link">
-						<i class="mdi mdi-barcode-scan"></i>
-						<span>
-							Barcode
-						</span>
-					</a>
-				</li>
+			
 			<li class=" side-nav-item  ">
 				<a href="{{path_for('notes.all')}}" class="side-nav-link ">
 					<i class="mdi mdi-message-processing-outline"></i>

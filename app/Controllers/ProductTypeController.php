@@ -40,7 +40,7 @@ class ProductTypeController extends Controller
     public function typesGetData($request, $response, $args)
     {
         $columns = array('0' => 'product_brand_type.id', '1' => 'product_brand_type.name', '2' => 'product_brand.brand_name', '3' => 'product_brand_type.popular_list',
-        '4' => 'product_brand_type.active_menu', '5' => 'product_brand_type.active_feed','6' => 'product_brand_type.updated_at', '7' => 'product_brand_type.created_at');
+        '4' => 'product_brand_type.active_menu', '5' => 'product_brand_type.active_feed','6'=>'count_product','7' => 'product_brand_type.updated_at', '8' => 'product_brand_type.created_at');
   
         //get order by and order direction
         $orderBy = $columns[$request->getParam('order')[0]['column']];
@@ -68,9 +68,11 @@ class ProductTypeController extends Controller
             $types = DB::query("SELECT product_brand_type.id,product_brand_type.product_brand_id,product_brand_type.main_category_id,product_brand_type.name,
             JSON_UNQUOTE(JSON_EXTRACT(product_brand_type.slug, '$." . language . "')) as slug,
             product_brand_type.active_menu,product_brand_type.active_feed,product_brand_type.staff_pick,product_brand_type.kb_options,product_brand_type.created_at,
-            product_brand_type.updated_at,product_brand_type.popular_list,product_brand_type.photo,product_brand.name as brand_name FROM product_brand_type
+            product_brand_type.updated_at,product_brand_type.popular_list,product_brand_type.photo,product_brand.name as brand_name ,count(product_child.id) as count_product FROM product_brand_type
+            LEFT JOIN product_child on product_child.product_brand_type_id = product_brand_type.id
             LEFT JOIN product_brand ON product_brand.id = product_brand_type.product_brand_id
             where (product_brand_type.id=%i) or (product_brand_type.name like %s) or (product_brand.name like %s)
+            GROUP BY product_brand_type.id
             order by $orderBy $orderDir limit %i offset %i", $search, '%'.$search.'%', '%'.$search.'%', $limit, $offset);
         } else {
             //get count of all types in table
@@ -81,8 +83,10 @@ class ProductTypeController extends Controller
             $types = DB::query("SELECT product_brand_type.id,product_brand_type.product_brand_id,product_brand_type.main_category_id,product_brand_type.name,
             JSON_UNQUOTE(JSON_EXTRACT(product_brand_type.slug, '$." . language . "')) as slug,
             product_brand_type.active_menu,product_brand_type.active_feed,product_brand_type.staff_pick,product_brand_type.kb_options,product_brand_type.created_at,
-            product_brand_type.updated_at,product_brand_type.popular_list,product_brand_type.photo,product_brand.name as brand_name FROM product_brand_type
+            product_brand_type.updated_at,product_brand_type.popular_list,product_brand_type.photo,product_brand.name as brand_name ,count(product_child.id) as count_product FROM product_brand_type
+            LEFT JOIN product_child on product_child.product_brand_type_id = product_brand_type.id
             LEFT JOIN product_brand ON product_brand.id = product_brand_type.product_brand_id
+            GROUP BY product_brand_type.id
             order by $orderBy $orderDir limit %i offset %i", $limit, $offset);
         }
 

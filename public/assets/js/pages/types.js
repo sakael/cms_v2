@@ -51,6 +51,11 @@ $(document).ready(function () {
           return data == 1 ? '<i class="uil uil-check fs-26 text-success"></i>' : '<span class="badge badge-danger"></span>';
         },
       },
+      {
+        data: "count_product",
+        className: "text-center",
+        orderable: true,
+      },
       { orderable: true, data: "updated_at" },
       { orderable: true, data: "created_at" },
       {

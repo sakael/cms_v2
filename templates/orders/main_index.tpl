@@ -85,6 +85,12 @@
 	<script src="dist/assets/js/vendor/dataTables.bootstrap4.js"></script>
 	<script src="dist/assets/js/vendor/dataTables.responsive.min.js"></script>
 	<script src="dist/assets/js/vendor/responsive.bootstrap4.min.js"></script>
+	<script src="/js/DYMO.Label.Framework.latest.js" type="text/javascript" charset="UTF-8"></script>
+	<script type='text/javascript' src="/js/picklist/StarWebPrintBuilder.js"></script>
+    <script type='text/javascript' src="/js/picklist/StarWebPrintTrader.js"></script>
+    <script src="/js/DYMO.Label.Framework.latest.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="/js/labels/base64.js" type="text/javascript"> </script>
+    <script src="/js/labels/printLabel.js"></script>
 	<!-- specific page js file -->
 	<script type="text/javascript">
 		var image_url ="{{ IMAGE_PATH }}";{% if orderTab !='' %}var orderTab ='{{ orderTab }}';

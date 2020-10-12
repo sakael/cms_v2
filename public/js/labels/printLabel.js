@@ -105,8 +105,8 @@ var currentPrinterModelName='';
     // loads settings
     Settings.prototype.load = function()
     {
-        var currentPrinterName = Cookie.get('currentPrinterName');
-        var printerUris = Cookie.get('printerUris');
+        var currentPrinterName = Cookies.get('currentPrinterName');
+        var printerUris = Cookies.get('printerUris');
 
         if (currentPrinterName)
             this.currentPrinterName = currentPrinterName;
@@ -117,8 +117,8 @@ var currentPrinterModelName='';
 
     Settings.prototype.save = function()
     {
-        Cookie.set('currentPrinterName', this.currentPrinterName, 24*365);
-        Cookie.set('printerUris', this.printerUris.join('|'), 24*365);
+        Cookies.set('currentPrinterName', this.currentPrinterName, 24*365);
+        Cookies.set('printerUris', this.printerUris.join('|'), 24*365);
     }
 
         var printersComboBox = document.getElementById('printersComboBox');

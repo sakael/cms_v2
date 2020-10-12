@@ -43,6 +43,7 @@
 									<th>Populaire</th>
 									<th>Actief menu</th>
 									<th>Actief feed</th>
+									<th>Products</th>
 									<th>Bijgewerkt om</th>
 									<th>Gemaakt op</th>
 									<th>
