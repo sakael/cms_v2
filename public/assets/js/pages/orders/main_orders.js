@@ -103,10 +103,14 @@ function Parcel(event,orderId, package){
     axios.get("/orders/print/post?id=" + id + "&package=0&type=post")
     .then(function (response) {
         if (response.data.response == 'True') {
-            var status = global_print(response.data);
             axios.get("/orders/print/parcel?id="+id)
                 .then(function (response_2) {
-
+                    if (response_2.data.response == 'True') {
+                        var status = global_print(response.data);
+                        toastr.success(response_2.data.msg);
+                    } else if (response_2.data.response == 'False') {
+                        toastr.info(response_2.data.msg);
+                    }
                 }).catch(function (error) {
                         console.log(error);
                 });

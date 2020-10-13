@@ -406,7 +406,7 @@ class LabelController extends Controller
     /**************************************************************************************************************************************************
      *********************************************************************(Print parcel)***************************************************************
      **************************************************************************************************************************************************/
-    public function printLabelParcel($request, $response, $args)
+    public function printLabelParcels($request, $response, $args)
     {
         $order = $request->getParam('id');
         $URL = 'http://parcel.123bestdeal.nl/orders/create-shipment-new?order_id=' . $order . '&print=true';
@@ -427,5 +427,84 @@ class LabelController extends Controller
         curl_close($ch);
         $return = ['status' => 'True', 'msg' => 'Order is gevonden !!'];
         return $response->withJson($return);
+    }
+    public function printLabelParcel($request, $response, $args)
+    {
+        $print=true;
+        $orderId = $request->getParam('id');
+        $orderdata = Order::GetSingle($orderId);
+        if (!$orderdata) {
+            return $response->withJson(['response' => 'False', 'msg' => 'Order is niet gevonden !!']);
+        }
+
+        $shipment_name = $orderdata['order_details']['address']['shipping']['firstname']  . ' ' . $orderdata['order_details']['address']['shipping']['lastname'];
+        $shipment_address = $orderdata['order_details']['address']['shipping']['street'];
+        $shipment_zipcode = $orderdata['order_details']['address']['shipping']['zipcode'];
+        $shipment_city = $orderdata['order_details']['address']['shipping']['city'];
+        $shipment_country = $orderdata['order_details']['address']['shipping']['countryCode'];
+
+        $postdata = array(
+            'username' => 'bestdeal',
+            'password' => 'hippy777',
+            'countrycode' => $shipment_country,
+            'weight' => 1,
+            'servicecode' => 'A',
+            'quantity' => 1,
+            'shipto' => $shipment_name,
+            'street' => $shipment_address,
+            'postalcode' => $shipment_zipcode,
+            'city' => $shipment_city,
+            'reference' => $orderdata['id'],
+            'email' => $orderdata['order_details']['customerEmail'],
+            'emailnotification' => '0'
+        );
+
+        /*  if ($orderdata['company'] != "")
+              $postdata['shipto'] = $orderdata['company'];
+              $postdata['contact'] = $shipment_name;*/
+        //$postdata['servicecode'] = 'B';   // don't know if needed
+
+        $test = 'https://test.dpost.be/Api/post';
+        $live = 'https://www.dpost.be/Api/post';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $live);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $status = curl_exec($ch);
+        curl_close($ch);
+
+        $status = json_decode(json_encode(simplexml_load_string($status)), true);
+        DB::delete('dpost', "order_id=%i", $orderId);
+        DB::insert('dpost', array('order_id' => $orderId, 'content' => json_encode($status), 'track_code'=>$status['Success']['TrackingDetails']['ParcelNumber'],'track_url' => $status['Success']['TrackingDetails']['TrackingURL'],'created_at'=>date("Y-m-d h:m")));
+        
+        if (array_key_exists('Success', $status)) {
+            $status = $status['Success'];
+            $status['label'] = str_replace("LABEL URL: https", "http", $status['LabelURL']);
+            $status['parcel'] = str_replace("PARCEL NUMBER :", "", $status['TrackingDetails']['ParcelNumber']);
+            $status['tracking'] = str_replace("TRACKING URL: ", "", $status['TrackingDetails']['TrackingURL']);
+            unset($status['SuccessMessage']);
+            unset($status['Forwarder']);
+            unset($status['TrackingDetails']);
+            unset($status['LabelURL']);
+
+            // save the pdf so we can print it
+            $pdf = file_get_contents($status['label']);
+            $to_file = fopen(TMP_DIR.$status['parcel'].'.pdf', 'w');
+            fwrite($to_file, $pdf);
+            fclose($to_file);
+            if ($print) {
+                $fp = fsockopen('37.153.194.233', 9100, $errno, $errstr, 20);
+                if (!$fp) {
+                    echo "$errstr ($errno)<br>";
+                } else {
+                    fputs($fp, file_get_contents(TMP_DIR.$status['parcel'].'.pdf'), filesize(TMP_DIR.$status['parcel'].'.pdf'));
+                    fclose($fp);
+                }
+            }
+            return $response->withJson(['response' => 'True', 'msg' => 'Order is gevonden !!']);
+        }
+        return $response->withJson(['response' => 'False', 'msg' => 'There is a problem!!']);
     }
 }
