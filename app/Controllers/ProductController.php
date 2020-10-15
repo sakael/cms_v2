@@ -214,7 +214,39 @@ class ProductController extends Controller
 
     public function editProduct($request, $response, $args)
     {
-        return $this->getProduct($request, $response, $args, $template = 'product/product-edit.tpl');
+         // fetch productdata
+         $result = Product::getProduct($args['id']);
+         if (!$result)
+             throw new NotFoundException($request, $response);
+ 
+         // attributes
+         $attributes = Product::getAttributes($args['id']);
+ 
+         // categories
+         $categories = Product::getCategories($args['id']);
+ 
+         // webshops
+         $shops = Product::getWebshops($args['id']);
+ 
+         //history
+         $history = DB::query("select activity_log.task,activity_log.created_at,users.name,users.lastname from activity_log
+         left join users on users.id=user_id
+         where subject_type=%s and subject_id=%i and (task like '%Update%' or task like '%Delete%') order by created_at DESC", 'Products', $args['id']);
+ 
+         //print_r($shops); print_r($result); die();
+ 
+         //Brands
+         $brands = Brand::All();
+         return $this->view->render($response, 'product/product-edit.tpl', [
+           'product' => $result,
+           'attributes' => $attributes,
+           'categories' => $categories,
+           'shops' => $shops,
+           'active_menu' => 'products',
+           'brands' => $brands,
+           'history' => $history,
+           'page_title' => $result['contents']['title'] . ' - ' . $result['id']
+         ]);
     }
 
     /**

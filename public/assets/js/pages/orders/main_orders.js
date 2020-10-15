@@ -108,6 +108,8 @@ function Parcel(event,orderId, package){
                     if (response_2.data.response == 'True') {
                         var status = global_print(response.data);
                         toastr.success(response_2.data.msg);
+                        claimedOrders();
+                        ReadyForShippingOrders();
                     } else if (response_2.data.response == 'False') {
                         toastr.info(response_2.data.msg);
                     }

@@ -21,9 +21,20 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+    // check which order status
+    $( "#order_status" ).change(function() {
+        if(this.value == 4 || this.value == 14 ){
+            $( ".order_return_reasons" ).show();
+        }else{
+            $( ".order_return_reasons" ).hide();
+        }
+      });
     $("#StatusChanges").click(function(e) {
         e.preventDefault();
         var StatusId = $("#order_status").val();
+        var returnReason = $("#return_reason").val();
+        var returnNote = $("#return_note").val();
+        var shopId = $("#shop_id_hidden").val();
         var informUser=0;
         if($('#inform_user').prop("checked") == true){
             informUser=1;
@@ -31,7 +42,10 @@ $(document).ready(function() {
         axios.put('/orders/order/status/manually_update', {
                 id:orderId,
                 inform:informUser,
-                status_id: StatusId
+                status_id: StatusId,
+                return_reason: returnReason,
+                return_note: returnNote,
+                shop_id : shopId
             }).then(function(response) {
                 console.log(response);
             if (response.data.status == 'true') {
