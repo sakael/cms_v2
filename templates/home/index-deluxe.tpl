@@ -69,30 +69,30 @@
               <tbody>
                   <tr >
                       <td class="mb-5">Afgelopen 10 dagen</td>
-                      <td><span class="badge badge-dark">{{orders.tenDays | length}}</span></td>
-                      <td></td>
-                      <td></td>
+                      <td><span class="badge badge-dark">{{orders.tenDaysNl | length}}</span></td>
+                      <td><span class="badge badge-dark">{{orders.tenDaysCom | length}}</span></td>
+                      <td><span class="badge badge-dark">{{orders.tenDaysBol | length}}</span></td>
                       <td></td>
                   </tr>
                   <tr>
                       <td>Vandaag</td>
                       <td><span class="badge badge-success">{{orders.nlToday | length}}</span></td>
                       <td><span class="badge badge-success">{{orders.comToday | length}}</span></td>
-                      <td><span class="badge badge-success">0</span></td>
+                      <td><span class="badge badge-success">{{orders.bolToday | length}}</span></td>
                       <td><span class="badge badge-success">0</span></td>
                   </tr>
                   <tr>
                       <td>Gisteren</td>
                       <td><span class="badge badge-primary">{{orders.nlYesterday | length}}</span></td>
                       <td><span class="badge badge-primary">{{orders.comYesterday | length}}</span></td>
-                      <td><span class="badge badge-primary">0</td>
+                      <td><span class="badge badge-primary">{{orders.bolYesterday | length}}</td>
                       <td><span class="badge badge-primary">0</td>
                   </tr>
                   <tr>
                       <td>Eergisteren</td>
                       <td><span class="badge badge-info">{{orders.nlBeforeYesterday | length}}</span></td>
                       <td><span class="badge badge-info">{{orders.comBeforeYesterday | length}}</span></td>
-                      <td><span class="badge badge-info">0</span></td>
+                      <td><span class="badge badge-info">{{orders.bolBeforeYesterday | length}}</span></td>
                       <td><span class="badge badge-info">0</span></td>
                   </tr>
               </tbody>

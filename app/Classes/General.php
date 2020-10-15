@@ -17,7 +17,7 @@ class General
   }
   public static function getStatus()
   {
-    $status = DB::query('select id,title,template_id from order_status order by id');
+    $status = DB::query('select id,title,template_id from order_status order by title');
     $tempStatus = array();
     foreach ($status as $key => $value) {
       $tempStatus[$value['id']] = $value;

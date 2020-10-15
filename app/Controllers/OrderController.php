@@ -51,6 +51,7 @@ class OrderController extends Controller
         }
 
         $products = DB::query('select id,sku from product where active=1');
+        $returnReasons = DB::query('select * from return_reasons where active=1');
         $status = General::getStatus();
         Order::SetColorsData();
         $colors = Order::$colors;
@@ -73,7 +74,7 @@ class OrderController extends Controller
         return $this->view->render($response, $template, [
             'order' => $order, 'active_menu' => 'orders', 'products' => $products,
             'users' => $users, 'activities' => $history, 'orderStatus' => $status, 'colors' => $colors,
-            'allOrderChanges' => $allOrderChanges,
+            'allOrderChanges' => $allOrderChanges, 'returnReasons' =>$returnReasons,
             'sizes' => $sizes, 'popup' => $popup, 'page_title' => $order['id']
         ]);
     }
@@ -102,7 +103,7 @@ class OrderController extends Controller
             $this->container->flash->addMessage('error', 'Een bestelling met dit (' . $id . ') nummer is niet gevonden');
             throw new NotFoundException($request, $response);
         }
- 
+        $returnReasons = DB::query('select * from return_reasons where active=1');
         $products = DB::query('select id,sku from product where active=1');
         $status = General::getStatus();
         Order::SetColorsData();
@@ -126,7 +127,7 @@ class OrderController extends Controller
         return $this->view->render($response, 'orders/single/edit.tpl', [
              'order' => $order, 'active_menu' => 'orders', 'products' => $products,
              'users' => $users, 'activities' => $history, 'orderStatus' => $status, 'colors' => $colors,
-             'allOrderChanges' => $allOrderChanges,
+             'allOrderChanges' => $allOrderChanges,'returnReasons' =>$returnReasons,
              'sizes' => $sizes, 'popup' => $popup, 'page_title' => $order['id']
          ]);
     }
@@ -1079,6 +1080,20 @@ class OrderController extends Controller
         $inform = $request->getParam('inform', 0);
         $check = Order::ChangeStatus($request->getParam('id'), $request->getParam('status_id'), $inform);
         if ($check) {
+            //check if return reason is exist
+            if ($request->getParam('return_reason')) {
+                $returnReason = $request->getParam('return_reason');
+                $returnNote = $request->getParam('return_note', '');
+                $shopId = $request->getParam('shop_id', 0);
+                if ($returnReason > 0) {
+                    $returnReasonChecking = DB::query("SELECT * FROM return_reasons_orders WHERE order_id =%i", $request->getParam('id'));
+                    if ($returnReasonChecking) {
+                        DB::update('return_reasons_orders', ['reason_id' => $returnReason, 'note' => $returnNote, 'shop_id' => $shopId, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')], "order_id=%i", $request->getParam('id'));
+                    } else {
+                        DB::insert('return_reasons_orders', ['reason_id' => $returnReason,'note' => $returnNote,'order_id'=> $request->getParam('id'),'shop_id' => $shopId,'created_at'=>Carbon::now()->format('Y-m-d H:i:s')]);
+                    }
+                }
+            }
             $status = General::getStatus();
             $status = $status[$request->getParam('status_id')]['title'];
             $user = Auth::user();

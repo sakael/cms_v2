@@ -455,7 +455,6 @@ class order
     {
         UserActivity::Record('Update Order', $id, 'Orders');
         $order = DB::queryFirstRow('SELECT order_details  FROM ' . self::$table . ' where id=%i', $id);
-
         $check = DB::update(self::$table, [['order_details' => json_encode($this->order_details), 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')]], 'id=%i', $id);
         if ($check) {
             return true;

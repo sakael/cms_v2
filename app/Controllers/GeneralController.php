@@ -49,32 +49,47 @@ class GeneralController extends Controller
         $yesterday6 = date('Y-m-d', strtotime('-6 days', $time));
         $orders['nlToday'] = Order::allPaidOrdersCountByDateShop(1, $today, 'LIKE');
         $orders['comToday'] = Order::allPaidOrdersCountByDateShop(2, $today, 'LIKE');
+        $orders['bolToday'] = Order::allPaidOrdersCountByDateShop(3, $today, 'LIKE');
         //yesterda
         $orders['nlYesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday, 'LIKE');
         $orders['comYesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday, 'LIKE');
+        $orders['bolYesterday'] = Order::allPaidOrdersCountByDateShop(3, $yesterday, 'LIKE');
         //day before yesterday
         $orders['nlBeforeYesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday1, 'LIKE');
         $orders['comBeforeYesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday1, 'LIKE');
+        $orders['bolBeforeYesterday'] = Order::allPaidOrdersCountByDateShop(3, $yesterday1, 'LIKE');
         //day before 3
         $orders['nlBefore3Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday3, 'LIKE');
         $orders['comBefore3Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday3, 'LIKE');
+        $orders['bolBefore3Yesterday'] = Order::allPaidOrdersCountByDateShop(3, $yesterday3, 'LIKE');
         //day before 4
         $orders['nlBefore4Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday4, 'LIKE');
         $orders['comBefore4Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday4, 'LIKE');
+        $orders['bolBefore4Yesterday'] = Order::allPaidOrdersCountByDateShop(3, $yesterday4, 'LIKE');
         //day before 5
         $orders['nlBefore5Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday5, 'LIKE');
         $orders['comBefore5Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday5, 'LIKE');
+        $orders['bolBefore5Yesterday'] = Order::allPaidOrdersCountByDateShop(3, $yesterday5, 'LIKE');
         //day before 6
         $orders['nlBefore6Yesterday'] = Order::allPaidOrdersCountByDateShop(1, $yesterday6, 'LIKE');
         $orders['comBefore6Yesterday'] = Order::allPaidOrdersCountByDateShop(2, $yesterday6, 'LIKE');
-
+        $orders['bolBefore6Yesterday'] = Order::allPaidOrdersCountByDateShop(3, $yesterday6, 'LIKE');
         //latestTenDays
-        $tenDays = Carbon::today()->subDays(1000);
-        $orders['tenDays'] = Order::allPaidOrdersCountByDateShop('shop_id', $tenDays, '>=');
-        $orders['sevenDaysCount'] = count($orders['nlToday']) + count($orders['comToday']) + count($orders['nlYesterday']) + count($orders['comYesterday']) + count($orders['nlBeforeYesterday']) + count($orders['comBeforeYesterday']) + count($orders['nlBefore3Yesterday']) + count($orders['comBefore3Yesterday']) + count($orders['nlBefore4Yesterday']) + count($orders['comBefore4Yesterday']) + count($orders['nlBefore5Yesterday']) + count($orders['comBefore5Yesterday']) + count($orders['nlBefore6Yesterday']) + count($orders['comBefore6Yesterday']);
-        $orders['todayCount'] = count($orders['nlToday']) + count($orders['comToday']);
-        $orders['yesterdayCount'] = count($orders['nlYesterday']) + count($orders['comYesterday']);
-        $orders['beforeYesterdayCount'] = count($orders['nlBeforeYesterday']) + count($orders['comBeforeYesterday']);
+        $tenDays = Carbon::today()->subDays(10);
+        $orders['tenDaysNl'] = Order::allPaidOrdersCountByDateShop('1', $tenDays, '>=');
+        $orders['tenDaysCom'] = Order::allPaidOrdersCountByDateShop('2', $tenDays, '>=');
+        $orders['tenDaysBol'] = Order::allPaidOrdersCountByDateShop('3', $tenDays, '>=');
+
+        $orders['sevenDaysCount'] = count($orders['nlToday']) + count($orders['comToday']) + 
+        count($orders['nlYesterday']) + count($orders['comYesterday']) + 
+        count($orders['nlBeforeYesterday']) + count($orders['comBeforeYesterday']) + count($orders['bolBeforeYesterday']) +
+        count($orders['nlBefore3Yesterday']) + count($orders['comBefore3Yesterday']) + count($orders['bolBefore3Yesterday']) +
+        count($orders['nlBefore4Yesterday']) + count($orders['comBefore4Yesterday']) + count($orders['bolBefore4Yesterday']) +
+        count($orders['nlBefore5Yesterday']) + count($orders['comBefore5Yesterday']) + count($orders['bolBefore5Yesterday']) +
+        count($orders['nlBefore6Yesterday']) + count($orders['comBefore6Yesterday']) + count($orders['bolBefore6Yesterday']);
+        $orders['todayCount'] = count($orders['nlToday']) + count($orders['comToday']) + count($orders['bolToday']);
+        $orders['yesterdayCount'] = count($orders['nlYesterday']) + count($orders['comYesterday']) + count($orders['bolYesterday']);
+        $orders['beforeYesterdayCount'] = count($orders['nlBeforeYesterday']) + count($orders['comBeforeYesterday']) + count($orders['cbolBeforeYesterday']);
 
         //yearly
         $monthlyOrders = DB::query("SELECT count(*) as orders,DATE_FORMAT(created_at,'%m') as date from " . Order::$table . "

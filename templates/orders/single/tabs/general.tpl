@@ -1,9 +1,10 @@
 <!-- Tab main_types_tab -->
 <div class="tab-pane fade active show mt-3" id="general" role="tabpanel">
-		<div id="orderRows">
-			<order-rows-component  @row-updated="rows=$event" :rows="rows" :products="products" :order_id="order_id" :shop_id="shop_id" :IMAGE_PATH="IMAGE_PATH" :url="url"></order-rows-component>
-		</div>
-	</form>
+	<!-- Hidde fields -->
+	<input type="hidden" value="{{order.shop_id}}" name="shop_id_hidden" id="shop_id_hidden">
+ 	<div id="orderRows">
+		<order-rows-component  @row-updated="rows=$event" :rows="rows" :products="products" :order_id="order_id" :shop_id="shop_id" :IMAGE_PATH="IMAGE_PATH" :url="url"></order-rows-component>
+	</div>
 	<div class="row equal">
 		<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12  order-1 d-flex">
 			<div class="card">
@@ -82,7 +83,7 @@
 						<div class="col-9">
 							<select name="order_status" class="form-control" id="order_status">
 								{% for status in orderStatus %}
-									<option value="{{ status.id }}" {% if status.id==Order.status_id %} selected="selected" {% endif %}>{{ status.title }}</option>
+									<option value="{{ status.id }}" {% if status.id == order.status_id %} selected="selected" {% endif %}>{{ status.title }}</option>
 								{% endfor %}
 							</select>
 							{% if errors.order_status %}
@@ -90,11 +91,35 @@
 							{% endif %}
 						</div>
 					</div>
+					<div class="order_return_reasons">
+						<div class="form-group row mb-3 {{ errors.return_reason ? ' has-danger': '' }} pt-0">
+							<label for="return_reason" class="col-3 col-form-label">Reden</label>
+							<div class="col-9">
+								<select name="return_reason" class="form-control" id="return_reason">
+									{% for returnReason in returnReasons %}
+										<option value="{{ returnReason.id }}">{{ returnReason.title }}</option>
+									{% endfor %}
+								</select>
+								{% if errors.return_reason %}
+									<small class="form-control-feedback ml-2">{{ errors.return_reason |first }}</small>
+								{% endif %}
+							</div>
+						</div>
+						<div class="form-group row mb-3 {{ errors.return_note ? ' has-danger': '' }} pt-0">
+							<label for="return_note" class="col-3 col-form-label">Notitie</label>
+							<div class="col-9">
+								<textarea name="return_note" class="form-control" id="return_note" row="2"></textarea>
+								{% if errors.return_note %}
+									<small class="form-control-feedback ml-2">{{ errors.return_note |first }}</small>
+								{% endif %}
+							</div>
+						</div>
+					</div>
 					<div class="form-group row mb-3 justify-content-end">
 						<div class="col-9">
 							<div class="custom-control custom-checkbox col-12">
-								<input ame="inform_user" id="inform_user" alue="1" type="checkbox" class="custom-control-input" id="order_status">
-								<label class="custom-control-label" for="order_status">klant informeren over wijziging</label>
+								<input name="inform_user" id="inform_user" value="1" type="checkbox" class="custom-control-input" id="order_status">
+								<label class="custom-control-label" for="inform_user">klant informeren over wijziging</label>
 							</div>
 						</div>
 					</div>
