@@ -89,7 +89,7 @@ while(true){
         $images = $p_xml->addChild('images');
         foreach($product['meta'] as $image){
             if ($image['non_image'] == 1) continue;
-            $i = $images->addChild('url',$image['url']);
+            $i = $images->addChild('url','https://ams3.cdn.123bestdeal.nl/'.$image['url']);
             $i->addAttribute('main', ($image['main'] == 1 ? 'true' : 'false'));
             $i->addAttribute('main_ext', ($image['main_ext'] == 1 ? 'true' : 'false'));
             $i->addAttribute('sort_order', $image['sort_order']);
@@ -133,8 +133,6 @@ while(true){
                 $c->addCData($usp);
             }
 
-            print_r($product['attributes']);
-
             $attributes_entries = $language_child->addChild('attributes');
             foreach ($product['attributes'] as $attribute){
 
@@ -147,15 +145,14 @@ while(true){
             }
 
 
-            print_r($xml->asXML());
-            fwrite($file, $xml->asXML());
-            die();
 
         }
 
     }
 
-
+    print_r($xml->asXML());
+    fwrite($file, $xml->asXML());
+    die();
 
     $limit+=100;
 
