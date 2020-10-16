@@ -1,5 +1,10 @@
 <script src = "/js/dropzone.js"></script> 
-<script src = "https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- third party js -->
+	<script src="/dist/assets/js/vendor/jquery.dataTables.min.js"></script>
+	<script src="/dist/assets/js/vendor/dataTables.bootstrap4.js"></script>
+	<script src="/dist/assets/js/vendor/dataTables.responsive.min.js"></script>
+	<script src="/dist/assets/js/vendor/responsive.bootstrap4.min.js"></script>
+  <script src="/assets/js/jquery-ui.js"></script>
 <script type = "text/javascript">
 
   $(document).ready(function () {
@@ -221,61 +226,82 @@ function removeType(id) {
       }
     })
 }
-
-function add_child_func(typeID, brandID) {
-  returnaxios.post("{{ path_for('Product.ProductChildsUpdate')}}", {
-      'brandID': brandID,
-      'product_id': {{product.id}},
-      'typeID': typeID,
-      '_METHOD': 'POST'
-    })
-    .then(function (response) {
-      if (response.data.status == 'true') {
-        toastr.success(response.data.msg);
-        $('#main_connections_tab_table').DataTable().ajax.reload();
-        $('#main_generate_tab_table').DataTable().ajax.reload();
-      } else {
-        console.log(response);
-        toastr.warning(response.data.msg);
-      }
-    })
+function add_child_func(thisId,typeID, brandID){
+    if (document.getElementById(thisId).checked) 
+    {
+      return axios.post("{{ path_for('Product.ProductChildsUpdate')}}", {
+        'brandID': brandID,
+        'product_id': {{product.id}},
+        'typeID': typeID,
+        '_METHOD': 'POST'
+      })
+      .then(function (response) {
+        if (response.data.status == 'true') {
+          toastr.success(response.data.msg);
+          $('#main_connections_tab_table').DataTable().ajax.reload();
+          $('#main_generate_tab_table').DataTable().ajax.reload();
+        } else {
+          console.log(response);
+          toastr.warning(response.data.msg);
+        }
+      })
+    } else {
+        axios.delete("{{ path_for('Product.ProductChildsDelete')}}", {
+        data: {
+          'product_id': {{product.id}},
+          'type': 'type',
+          'id': typeID,
+        }
+      })
+      .then(function (response) {
+        if (response.data.status == 'true') {
+          toastr.success(response.data.msg);
+          $('#main_connections_tab_table').DataTable().ajax.reload();
+          $('#main_generate_tab_table').DataTable().ajax.reload();
+        } else {
+          console.log(response);
+          toastr.warning(response.data.msg);
+        }
+      })
+    }
+    
 }
 
 async function format(d) {
+  console.log(d);
     try {
         var dataTable='';
-       let res = await axios.get("{{ path_for('Product.ProductGetChildrenEan')}}" + "?product_id={{product.id}}&type_id="+ d.type)
+       let res = await axios.get("{{ path_for('Product.ProductGetChildrenEan')}}" + "?product_id={{product.id}}&type_id="+ d.type_id)
         .then(function (response) {
             if (response.data.status == 'true') {
                 //console.log(response.data);
                 dataTable=response.data.data;
                 if(dataTable != ''){
-                    var tableData = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;width:100%">';
+                    var tableData = '<table class="table table-warning">';
                         dataTable.forEach(function(ean){
                         tableData +='<tr>' +
-                        '<td>variatie:</td>' +
-                        '<td><b>'+ean.varation_name+'</b></td>' +
-                        '<td>sub variatie:</td>' +
-                        '<td><b>'+ean.varation_name+'</b></td>' +
-                        '<td>EAN:</td>' +
-                        '<td><b>'+ean.EAN+'</b></td>' +
+                        '<td></td>' +
+                        '<td></td>' +
+                        '<td>variatie:<b class="ml-3">'+ean.varation_name+'</b></td>' +
+                        '<td>sub variatie:<b class="ml-3">'+ean.varation_sub_name+'</b></td>' +
+                        '<td>EAN:<b class="ml-3">'+ean.EAN+'</b></td>' +
                         '</tr>';
                         });
                         tableData +='</table>';
                         return tableData;
                 }else{
-                    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;width:100%">'+
+                    return '<table class="table table-warning">'+
                         '<tr>' +
-                        '<td colspan="6">Geen Ean</td>' +
+                        '<td colspan="5">Geen Ean</td>' +
                         '</tr>'+
                         '</table>';
                 }
             } else {
                 console.log(response);
                 toastr.warning(response.data.msg);
-                return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;width:100%">'+
+                return '<table class="table table-warning">'+
                         '<tr>' +
-                        '<td colspan="6">Error</td>' +
+                        '<td colspan="5">Error</td>' +
                         '</tr>'+
                         '</table>';
             }
@@ -301,13 +327,22 @@ $(document).ready(function () {
           complete: function (data, textStatus, jqXHR) {
           }
         },
-        autoWidth: false,
+        language: {
+          url: "/assets/js/datatable-langauge.json",
+        },
+        pageLength: 20,
         responsive: 'true',
-        columns: [{
-            "className": 'details-control',
-            "orderable": false,
+        columns: [
+          {
             "data": null,
-            "defaultContent": ''
+            "orderable": false,
+            "className": 'details-control',
+            "render": function (data, type, row) {
+              return (
+                '<div class="text-center show-row-details"><span class="text-success font-20 hand"><i class="dripicons-plus"></i></span></div>'+
+                '<div class="text-center hide-row-details" style="display:none"><span class="text-warning font-20 hand"><i class="dripicons-minus"></i></span></div>'
+              );
+            }
           },
           {
             "data": "id"
@@ -319,30 +354,25 @@ $(document).ready(function () {
             "data": "type"
           },
           {
-            "data": "action",
+            "data": null,
             "orderable": false,
+            className: "text-center",
             "render": function (data, type, row) {
-              var temp = '<ul class="action-list">';
-              temp = temp.concat('<li><div class="btn btn-xs btn-danger remove_type" onclick="removeType(' + row.id + ')">Ontkoppelen</div></li>');
-              temp = temp.concat('</ul>');
-              return temp;
+              return (
+                '<span  class="action-icon hand remove_type" onclick="removeType(' + row.id + ')" data-toggle="tooltip" data-placement="top" data-original-title="Ontkoppelen"><i class="mdi mdi-link-variant-off"></i></span>'
+              );
             }
           }
         ],
-        columnDefs: [{
-            "width": "100px",
-            "targets": 4
-          },
-          {
-            className: "text-center",
-            "targets": [4]
-          }
-        ],
-        "order": [
-          [3, 'asc']
+         order: [
+          [2, 'asc'],[ 3, 'asc' ]
         ],
       });
+      main_connections_tab_table.on( 'draw', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
     }
+
   }
 
   // Add event listener for opening and closing details
@@ -350,18 +380,17 @@ $(document).ready(function () {
     var tr = $(this).closest('tr');
     var row = main_connections_tab_table.row(tr);
     if (row.child.isShown()) {
-      // This row is already open - close it
       row.child.hide();
       tr.removeClass('shown');
+      $(this).find('.hide-row-details').hide();
+      $(this).find('.show-row-details').show();
     } else {
-      // Open this row
-
-      var tmp='';
       format(row.data()).then(res => {
-      row.child(res).show();
-      tr.addClass('shown');
+        row.child(res).show();
+        tr.addClass('shown');
       });
-
+      $(this).find('.show-row-details').hide();
+      $(this).find('.hide-row-details').show();
     }
   });
 
@@ -422,45 +451,29 @@ $(document).ready(function () {
           url: '{{ path_for('ProductGetTypesGenerate',{'id':product.id} ) }}',
           complete: function (data, textStatus, jqXHR) {}
         },
-        autoWidth: false,
-        responsive: 'true',
-        columns: [{
-            "data": "id"
-          },
+        language: {
+          url: "/assets/js/datatable-langauge.json",
+        },
+        columns: [
+          { orderable: true, data: "brand" },
+          { orderable: true, data: "name" },
+          {orderable: true,data: "kb"},
           {
-            "data": "brand"
-          },
-          {
-            "data": "name"
-          },
-          {
-            "data": "kb"
-          },
-          {
-            "data": "yes",
-            "orderable": false,
-            "render": function (data, type, row) {
-              var temp = '<ul class="action-list">';
-              if (data == 0) {
-                temp = temp.concat('<li><div class="btn btn-xs btn-danger" style="width:150px" onclick="add_child_func(' + row.id + ',' + row.brand_id + ')">Nee</div></li>');
-              } else {
-                temp = temp.concat('<li><div class="btn btn-xs btn-success remove_type" style="width:150px">Ja</div></li>');
-              }
-              temp = temp.concat('</ul>');
-              return temp;
+            data: 'yes',
+            orderable: false,
+            className: "text-center",
+            render: function(data,type,row){
+                if(data==0){
+                    return '<input type="checkbox" id="type_'+row.id+'_'+row.brand_id+'"  data-switch="bool" onclick="add_child_func(this.id,' + row.id + ',' + row.brand_id + ')"/><label for="type_'+row.id+'_'+row.brand_id+'" data-on-label="Ja" data-off-label="nee"></label>';
+                }else{
+                    return '<input type="checkbox" id="type_'+row.id+'_'+row.brand_id+'" checked data-switch="bool" onclick="add_child_func(this.id,' + row.id + ',' + row.brand_id + ')"/><label for="type_'+row.id+'_'+row.brand_id+'" data-on-label="Ja" data-off-label="nee"></label>';
+                }
             }
           }
         ],
-        columnDefs: [{
-            "width": "100px",
-            "targets": 4
-          },
-          {
-            className: "text-center",
-            "targets": [4]
-          }
+         order: [
+           [0, 'asc'],[ 1, 'asc' ]
         ],
-
       });
     }
   }
@@ -567,8 +580,6 @@ $(document).ready(function () {
       })
 
   });
-
-
 }); 
 </script>
 
@@ -698,4 +709,23 @@ bol_com_descr_uni
         });
     });
   }); 
+
+  $(document).ready(function () {
+    $(".datepicker").datepicker({
+      startDate: "today",
+      format: "yyyy-mm-dd",
+    });
+
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    {% if  product.delivery_at %}
+     var d = '{{product.delivery_at}}';
+      d = d.split(' ')[0];
+      $(".datepicker").datepicker("setDate", d);
+     {% else %}
+       $(".datepicker").datepicker("setDate", today);
+    {% endif %}
+    
+  }); 
   </script>
+  

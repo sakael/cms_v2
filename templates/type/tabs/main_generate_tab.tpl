@@ -17,14 +17,6 @@
 						</table>
 					</div>
 				</div>
-				<div class="card-footer">
-					<div class="pull-right text-right mt-2">
-						<span class="fa fa-info-circle text-blue"></span>
-						<small>
-							De informatie in de tabellen wordt weergegeven met een maximale vertraging van 5 minuten.
-						</small>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>

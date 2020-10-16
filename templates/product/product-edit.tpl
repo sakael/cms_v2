@@ -155,10 +155,5 @@
 {% endblock %}
 {% block javascript %}
 	{% include 'partials/tinymce.tpl' %}
-	<!-- third party js -->
-	<script src="/dist/assets/js/vendor/jquery.dataTables.min.js"></script>
-	<script src="/dist/assets/js/vendor/dataTables.bootstrap4.js"></script>
-	<script src="/dist/assets/js/vendor/dataTables.responsive.min.js"></script>
-	<script src="/dist/assets/js/vendor/responsive.bootstrap4.min.js"></script>
 	{% include 'product/partials/product_footer.tpl' %}
 {% endblock %}

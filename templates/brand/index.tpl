@@ -42,7 +42,7 @@
 									<th>Actief feed</th>
 									<th>Typen in</th>
 									<th>Gemaakt op</th>
-									<th>
+									<th class="table-action text-center">
 										<i class="fa fa-cog"></i>
 									</th>
 								</tr>
@@ -71,7 +71,7 @@
 										<td>
 											{{brand.created_at}}
 										</td>
-										<td class="table-action">
+										<td class="table-action text-center">
 											<a href="{{ path_for('Brands.GetSingle',{'id':brand.id}) }}" class="action-icon" target="_blank">
 												<i class="mdi mdi-square-edit-outline"></i>
 											</a>

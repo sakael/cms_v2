@@ -33,7 +33,7 @@
                         <th>id</th>
                         <th>titel</th>
                         <th>Attribuut groep</th>
-                        <th><i class="fa fa-cog"></i></th>
+                       <th class="table-action text-center"><i class="fa fa-cog"></i></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -48,7 +48,7 @@
                         <td>
                             {{attribute.attribute_group_name}}
                         </td>
-                        <td class="table-action">
+                        <td class="table-action text-center">
                            <a href="{{ path_for('Attributes.GetSingle',{'id':attribute.id}) }}" class="action-icon" target="_blank"> <i class="mdi mdi-square-edit-outline"></i></a>
                         </td>
                      </tr>

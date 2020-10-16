@@ -1,7 +1,7 @@
 <div class="tab-pane fade" id="main_connections_tab" role="tabpanel">
-	<div class="card no-margin">
+	<div class="card">
 		<div class="card-body">
-			<ul class="nav nav-pills bg-nav-pills nav-justified">
+			<ul class="nav nav-tabs  nav-bordered mb-3">
 				<li class="nav-item-types">
 					<a class="nav-link active" data-toggletab="main_types_tab" data-toggle="tab" href="#main_types_tab" role="tab">Types</a>
 				</li>
@@ -12,10 +12,10 @@
 			<!-- Tab panels -->
 			<div class="tab-content">
 				<div class="tab-pane fade in show active" id="main_types_tab" role="tabpanel">
-					<div class="card no-margin">
-						<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
 							<div class="table-responsive">
-								<table width="100%" class="table table-centered w-100 dt-responsive nowrap" id="main_connections_tab_table">
+								<table width="100%" class="table dt-responsive nowrap" id="main_connections_tab_table">
 									<thead class="thead-light text-sm">
 										<tr>
 											<th></th>
@@ -23,21 +23,10 @@
 											<th>merk</th>
 											<th>type</th>
 											<th>
-												<span data-toggle="tooltip" title="Aanpassen" class="fa fa-wrench"></span>
+												<i class="fa fa-cog"></i>
 											</th>
 										</tr>
 									</thead>
-									<tfoot>
-										<tr>
-											<th></th>
-											<th>id</th>
-											<th>merk</th>
-											<th>type</th>
-											<th>
-												<span data-toggle="tooltip" title="Aanpassen" class="fa fa-wrench"></span>
-											</th>
-										</tr>
-									</tfoot>
 								</table>
 								<div class="col-12 mt-3">
 									<div class="row">
@@ -71,19 +60,20 @@
 				</div>
 				<!-- Tab main_types_tab -->
 				<div class="tab-pane fade" id="main_generate_tab" role="tabpanel">
-					<div class="card no-margin">
-						<div class="card-body">
-							<table width="100%" class="table table-striped table-bordered table-hover no-wrap  dt-responsive" id="main_generate_tab_table">
-								<thead>
-									<tr>
-										<th>id</th>
-										<th>merk</th>
-										<th>type</th>
-										<th>aansl.</th>
-										<th>gekoppeld?</th>
-									</tr>
-								</thead>
-							</table>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<table width="100%" class="table table-centered w-100 dt-responsive nowrap" id="main_generate_tab_table">
+									<thead>
+										<tr>
+											<th>merk</th>
+											<th>type</th>
+											<th>aansl.</th>
+											<th>gekoppeld?</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>

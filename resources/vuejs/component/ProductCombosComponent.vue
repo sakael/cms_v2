@@ -1,51 +1,48 @@
 <template>
   <div>
-    <table width="100%" class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>Product ID</th>
-            <th>Combo ID</th>
-            <th>Combo Title</th>
-            <th>Combo SKU</th>
-            <th>Datum</th>
-            <th>&nbsp;</th>
-        </tr>
-        </thead>
-        <draggable v-model="product_combos" tag="tbody" @end="updateItemOrder">
-            <tr v-for="(productCombo,index) in product_combos">
-                <td>{{ productCombo.product_id }}</td>
-                <td>{{ productCombo.id }}</td>
-                <td>{{ productCombo.product_title }}</td>
-                <td >
-                  <select v-model="productCombo.product_id" class="form-control" @change="onChange(index,$event)" :key="productCombo.sort">
-                    <option  value="">Please select one</option>
-                    <option v-for="(product) in products" :value="product.id">{{product.sku}}</option>
-                  </select>
+    <div class="table-responsive">
+      <table width="100%" class="table">
+          <thead>
+          <tr>
+              <th>Product ID</th>
+              <th>Combo ID</th>
+              <th>Combo Title</th>
+              <th>Combo SKU</th>
+              <th>Datum</th>
+              <th>&nbsp;</th>
+          </tr>
+          </thead>
+          <draggable v-model="product_combos" tag="tbody" @end="updateItemOrder">
+              <tr v-for="(productCombo,index) in product_combos">
+                  <td>{{ productCombo.product_id }}</td>
+                  <td>{{ productCombo.id }}</td>
+                  <td>{{ productCombo.product_title }}</td>
+                  <td >
+                    <select v-model="productCombo.product_id" class="form-control form-control-sm" @change="onChange(index,$event)" :key="productCombo.sort">
+                      <option  value="">Please select one</option>
+                      <option v-for="(product) in products" :value="product.id">{{product.sku}}</option>
+                    </select>
 
+                  </td>
+                  <td><span  class="mt-2">{{ productCombo.created_at}}</span></td>
+                  <td>
+                     <span class="text-danger font-20 hand"  v-on:click.stop.prevent="remove(index,productCombo.id)"><i class="dripicons-minus"></i></span>
+                  </td>
+              </tr>
+          </draggable>
+          <tfoot>
+              <tr>
+                <td colspan="6">
+                    <div class="text-center ">
+                      <a class="text-success font-24 hand" @click="addRow()">
+                        <i class="dripicons-plus"></i>
+                      </a>
+                    </div>
                 </td>
-                <td><span  class="mt-2">{{ productCombo.created_at}}</span></td>
-                <td>
-                  <input class="form-control border-0 btn-danger" type="button"  name="remove-btn[]" value="-" v-on:click="remove(index,productCombo.id)">
-                </td>
-            </tr>
-        </draggable>
-        <tfoot>
-            <tr>
-              <td colspan="6">
-                <div class="col-md-3 text-center mx-auto">
-                  <div class="form-control border-0  btn-info text-center" @click="addRow()">
-                    <i class="fa fa-plus" ></i>
-                  </div>
-                </div>
-              </td>
-            </tr>
-        </tfoot>
-        </tbody>
-    </table>
-    <hr>
-    <small>
-
-    </small>
+              </tr>
+          </tfoot>
+      </table>
+    </div>
   </div>
 </template>
 <script>

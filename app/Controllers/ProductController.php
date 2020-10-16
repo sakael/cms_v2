@@ -179,8 +179,9 @@ class ProductController extends Controller
     {
         // fetch productdata
         $result = Product::getProduct($args['id']);
-        if (!$result)
+        if (!$result) {
             throw new NotFoundException($request, $response);
+        }
 
         // attributes
         $attributes = Product::getAttributes($args['id']);
@@ -214,30 +215,31 @@ class ProductController extends Controller
 
     public function editProduct($request, $response, $args)
     {
-         // fetch productdata
-         $result = Product::getProduct($args['id']);
-         if (!$result)
-             throw new NotFoundException($request, $response);
+        // fetch productdata
+        $result = Product::getProduct($args['id']);
+        if (!$result) {
+            throw new NotFoundException($request, $response);
+        }
  
-         // attributes
-         $attributes = Product::getAttributes($args['id']);
+        // attributes
+        $attributes = Product::getAttributes($args['id']);
  
-         // categories
-         $categories = Product::getCategories($args['id']);
+        // categories
+        $categories = Product::getCategories($args['id']);
  
-         // webshops
-         $shops = Product::getWebshops($args['id']);
+        // webshops
+        $shops = Product::getWebshops($args['id']);
  
-         //history
-         $history = DB::query("select activity_log.task,activity_log.created_at,users.name,users.lastname from activity_log
+        //history
+        $history = DB::query("select activity_log.task,activity_log.created_at,users.name,users.lastname from activity_log
          left join users on users.id=user_id
          where subject_type=%s and subject_id=%i and (task like '%Update%' or task like '%Delete%') order by created_at DESC", 'Products', $args['id']);
  
-         //print_r($shops); print_r($result); die();
+        //print_r($shops); print_r($result); die();
  
-         //Brands
-         $brands = Brand::All();
-         return $this->view->render($response, 'product/product-edit.tpl', [
+        //Brands
+        $brands = Brand::All();
+        return $this->view->render($response, 'product/product-edit.tpl', [
            'product' => $result,
            'attributes' => $attributes,
            'categories' => $categories,
@@ -311,10 +313,11 @@ class ProductController extends Controller
     public function getChildren($request, $response, $args)
     {
         $children = DB::query("
-                    SELECT pc.id, pbt.name as type, pb.name as brand FROM product_child pc
+                    SELECT pc.id,pc.product_brand_type_id as type_id, pbt.name as type, pb.name as brand FROM product_child pc
                     LEFT JOIN product_brand_type pbt ON pbt.id = pc.product_brand_type_id
                     LEFT JOIN product_brand pb ON pb.id = pbt.product_brand_id
                     WHERE product_id=%i", $args['id']);
+
         return json_encode(array('data' => $children));
     }
 
@@ -483,14 +486,14 @@ class ProductController extends Controller
             return $response->withJson(['status' => 'false', 'msg' => 'Product data klopt niet !!']);
         }
 
-        $OtherInfo = $request->getParam('otherInfo');
+        $otherInfo = $request->getParam('otherInfo');
         $product = Product::getProduct($request->getParam('productId'));
-        $check = DB::update('product', array('classification' => $OtherInfo['classification'], 'location' => $OtherInfo['location'], 'package' => $OtherInfo['package'], 'stocklevel' => $OtherInfo['stocklevel'], 'active' => $OtherInfo['active'], 'comment' => $OtherInfo['comment']), 'id=%i', $request->getParam('productId'));
+        $check = DB::update('product', array('classification' => $otherInfo['classification'], 'location' => $otherInfo['location'], 'package' => $otherInfo['package'], 'stocklevel' => $otherInfo['stocklevel'],'delivery_at' => $otherInfo['delivery_at'], 'active' => $otherInfo['active'], 'comment' => $otherInfo['comment']), 'id=%i', $request->getParam('productId'));
         if ($check) {
             //run event
             $event = new Event();
             $event->productUpdated($request->getParam('productId'), '', 'content');
-            updateProductStockStatus($request->getParam('productId'), $OtherInfo['stocklevel'], $product['stocklevel']);
+            updateProductStockStatus($request->getParam('productId'), $otherInfo['stocklevel'], $product['stocklevel']);
             UserActivity::Record('Update OtherInfo', $request->getParam('productId'), 'Products');
             return $response->withJson(['status' => 'true', 'msg' => 'Het product is gewijzigd !!']);
         }
@@ -585,6 +588,9 @@ class ProductController extends Controller
         if ($validation->failed()) {
             return $response->withJson(['status' => 'false', 'msg' => 'Product data klopt niet !!']);
         }
+        // check if exist
+        $check = DB::query('select product_id from product_child where product_id = %i and product_brand_type_id = %i',$request->getParam('product_id'),$request->getParam('typeID'));
+        if($check) return $response->withJson(['status' => 'false', 'msg' => 'Al gekoppeld !!']);
         $check = DB::insert('product_child', array(
           [
             'product_id' => $request->getParam('product_id'),
@@ -599,7 +605,7 @@ class ProductController extends Controller
         $event = new Event();
         $event->productChildsUpdated($request->getParam('product_id'), $request->getParam('typeID'));
         $event->productUpdated($request->getParam('product_id'), '', 'child');
-        gereateEanForType($request->getParam('typeID'), $request->getParam('product_id'));
+        $check = gereateEanForType($request->getParam('typeID'), $request->getParam('product_id'));
         return $response->withJson(['status' => 'true', 'msg' => 'Het is toegevoegd !!']);
     }
 
@@ -636,6 +642,7 @@ class ProductController extends Controller
         }
         //run event
         $event = new Event();
+
         $event->productChildsUpdated($request->getParam('product_id'), $typeId);
         $event->productUpdated($request->getParam('product_id'), '', 'child');
         return $response->withJson(['status' => 'true', 'msg' => 'Heeft ontkoppeld']);
@@ -803,7 +810,8 @@ class ProductController extends Controller
     {
         $dateFrom = $request->getParam('data_from'). ' 00:00:01';
         $dateTo = $request->getParam('data_to').' 23:59:59';
-        $products = DB::query("
+        $products = DB::query(
+            "
         SELECT t3.sku,t2.product_id,t3.contents->>'$." . language . ".title' as title, SUM(t2.totalprice) as totaal, SUM(t2.count) as aantal
                     FROM orders t1
                     LEFT JOIN order_item t2 ON t2.order_id = t1.id

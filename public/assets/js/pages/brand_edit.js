@@ -1,7 +1,7 @@
 $(document).ready(function () {
   "use strict";
   // Default Datatable
-  $("#all_brand_types_table").DataTable({
+  var all_brand_types_table = $("#all_brand_types_table").DataTable({
     processing: true,
     serverSide: true,
     ajax: {
@@ -61,7 +61,7 @@ $(document).ready(function () {
       {
         data: null,
         orderable: false,
-        className: "table-action",
+        className: "table-action text-center",
         render: function (data, type, row) {
           return (
             '<a href="' +
@@ -69,11 +69,11 @@ $(document).ready(function () {
             row.brand_name +
             "/" +
             row.slug +
-            '" class="action-icon" target="_blank" title="Open"> <i class="mdi mdi-eye"></i></a>' +
+            '" class="action-icon" target="_blank" title="Open" data-toggle="tooltip" data-placement="top" data-original-title="Open"> <i class="mdi mdi-eye"></i></a>' +
             '<a href="/product-info/types/type/' +
             row.id +
-            '" class="action-icon " target="_blank" title="Bewerk"> <i class="mdi mdi-square-edit-outline"></i></a>' +
-            '<a href="#" class="action-icon remove_type" data-id="'+row.id+'" title="Ontkoppelen"> <i class="mdi mdi-link-variant-off"></i></a>'
+            '" class="action-icon " target="_blank" title="Bewerk" data-toggle="tooltip" data-placement="top" data-original-title="Bewerk"> <i class="mdi mdi-square-edit-outline"></i></a>' +
+            '<a href="#" class="action-icon remove_type" data-id="'+row.id+'" title="Ontkoppelen" data-toggle="tooltip" data-placement="top" data-original-title="Ontkoppelen"> <i class="mdi mdi-link-variant-off"></i></a>'
           );
         },
       },
@@ -84,6 +84,9 @@ $(document).ready(function () {
     },
   });
 
+  all_brand_types_table.on( 'draw', function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
 
   $("#all_brand_types_table").on("click", ".remove_type", function(e){
       e.preventDefault();

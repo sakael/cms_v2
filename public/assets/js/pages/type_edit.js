@@ -9,7 +9,6 @@ $(document).ready(function () {
         data: {
           type_id: type_id,
         },
-        complete: function (data, textStatus, jqXHR) {},
       },
       language: {
         url: "/assets/js/datatable-langauge.json",
@@ -20,8 +19,9 @@ $(document).ready(function () {
         { orderable: true, data: "sku" },
         {orderable: true,data: "title",},
         {
-            "data": "yes",
+            "data": null,
             "orderable": false,
+            className: "text-center",
             "render": function(data,type,row){
                 if(data==0){
                     return '<input type="checkbox" id="type_'+row.product_id+'_'+type_id+'_'+brand_id+'"  data-switch="bool" onclick="add_child_func(this.id,' + row.product_id +','+type_id+','+brand_id+')"/><label for="type_'+row.product_id+'_'+type_id+'_'+brand_id+'" data-on-label="Ja" data-off-label="nee"></label>';

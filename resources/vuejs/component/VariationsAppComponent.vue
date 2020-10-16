@@ -5,15 +5,14 @@
       <div class="col-md-2">
           <div class="form-group">
               <label>Variaties Groep</label>
-
-              <select v-if="product_variation.new==1" class="form-control variations-group" name="variations-group[]" @change="variationsGroupSelected(index, $event)" >
+              <select v-if="product_variation.new==1" class="form-control form-control-sm variations-group" name="variations-group[]" @change="variationsGroupSelected(index, $event)" >
                 <option value="" selected>---</option>
                 <option  v-for="(item, index)  in variationsGroup" :value="index" :selected="item.id==product_variation.variationGroupId">
                     {{index}}
                 </option>
               </select>
 
-              <select v-else disabled class="form-control variations-group" name="variations-group[]" @change="variationsGroupSelected(index, $event)" >
+              <select v-else disabled class="form-control form-control-sm variations-group" name="variations-group[]" @change="variationsGroupSelected(index, $event)" >
                 <option value="" selected>---</option>
                 <option  v-for="(item, index)  in variationsGroup" :value="index" :selected="item.id==product_variation.variationGroupId">
                     {{index}}
@@ -24,12 +23,12 @@
       <div class="col-md-2">
           <div class="form-group" v-if="product_variation.new==1" >
               <label>Variaties</label>
-              <select v-if="Object.keys(product_variation.variations).length > 0" class="form-control variations" name="variations[]" @change="variationselected(index, $event)">
+              <select v-if="Object.keys(product_variation.variations).length > 0" class="form-control form-control-sm variations" name="variations[]" @change="variationselected(index, $event)">
                 <option selected>
                 </option>
                 <option  v-for="(item, index)  in product_variation.variations" :value="item.id" :selected="item.id==product_variation.variationId" >{{item.name}}</option>
              </select>
-            <select  class="form-control variations" name="variations[]" v-else @change="variationselected(index, $event)">
+            <select  class="form-control form-control-sm variations" name="variations[]" v-else @change="variationselected(index, $event)">
               <option selected></option>
                 <option  v-for="(item, index)  in product_variation.variations" :value="item.id">{{item.name}}</option>
             </select>
@@ -37,12 +36,12 @@
 
           <div class="form-group" v-else>
               <label>Variaties</label>
-              <select disabled v-if="Object.keys(product_variation.variations).length > 0" class="form-control variations" name="variations[]" @change="variationselected(index, $event)">
+              <select disabled v-if="Object.keys(product_variation.variations).length > 0" class="form-control  form-control-sm variations" name="variations[]" @change="variationselected(index, $event)">
                 <option selected>
                 </option>
                 <option  v-for="(item, index)  in product_variation.variations" :value="item.id" :selected="item.id==product_variation.variationId" >{{item.name}}</option>
              </select>
-            <select disabled class="form-control variations" name="variations[]" v-else @change="variationselected(index, $event)">
+            <select disabled class="form-control form-control-sm variations" name="variations[]" v-else @change="variationselected(index, $event)">
               <option selected></option>
                 <option  v-for="(item, index)  in product_variation.variations" :value="item.id">{{item.name}}</option>
             </select>
@@ -52,14 +51,14 @@
       <div class="col-md-2">
           <div class="form-group">
               <label>Variaties Sub Groep</label>
-              <select v-if="product_variation.new==1" class="form-control sub-variations-group" name="sub-variations-group[]" @change="subVariationsGroupSelected(index, $event)" >
+              <select v-if="product_variation.new==1" class="form-control form-control-sm sub-variations-group" name="sub-variations-group[]" @change="subVariationsGroupSelected(index, $event)" >
                 <option value="null" selected>---</option>
                 <option  v-for="(item, index)  in variationsGroup" :value="index" :selected="item.id==product_variation.subVariationGroupId">
                     {{index}}
                 </option>
               </select>
 
-              <select v-else  disabled class="form-control sub-variations-group" name="sub-variations-group[]" @change="subVariationsGroupSelected(index, $event)" >
+              <select v-else  disabled class="form-control form-control-sm sub-variations-group" name="sub-variations-group[]" @change="subVariationsGroupSelected(index, $event)" >
                 <option value="null" selected>---</option>
                 <option  v-for="(item, index)  in variationsGroup" :value="index" :selected="item.id==product_variation.subVariationGroupId">
                     {{index}}
@@ -70,14 +69,14 @@
       <div class="col-md-2">
           <div class="form-group" v-if="product_variation.new==1">
               <label>Variaties Sub</label>
-              <select v-if="Object.keys(product_variation.subVariations).length> 0" class="form-control sub-variations" name="sub-variations[]" @change="subVariationselected(index, $event)">
+              <select v-if="Object.keys(product_variation.subVariations).length> 0" class="form-control form-control-sm sub-variations" name="sub-variations[]" @change="subVariationselected(index, $event)">
                 <option selected value="null">
                 </option>
                 <option  v-for="(item, index)  in product_variation.subVariations" :value="item.id" :selected="item.id==product_variation.subVariationId">
                   {{item.name}}
                 </option>
              </select>
-            <select  class="form-control sub-variations" name="sub-variations[]" v-else @change="subVariationselected(index, $event)">
+            <select  class="form-control form-control-sm sub-variations" name="sub-variations[]" v-else @change="subVariationselected(index, $event)">
               <option selected value="null">
               </option>
                 <option  v-for="(item, index)  in product_variation.subVariations" :value="item.id">
@@ -88,14 +87,14 @@
 
           <div class="form-group" v-else>
               <label>Variaties Sub</label>
-              <select disabled v-if="Object.keys(product_variation.subVariations).length> 0" class="form-control sub-variations" name="sub-variations[]" @change="subVariationselected(index, $event)">
+              <select disabled v-if="Object.keys(product_variation.subVariations).length> 0" class="form-control form-control-sm sub-variations" name="sub-variations[]" @change="subVariationselected(index, $event)">
                 <option selected value="null">
                 </option>
                 <option  v-for="(item, index)  in product_variation.subVariations" :value="item.id" :selected="item.id==product_variation.subVariationId">
                   {{item.name}}
                 </option>
              </select>
-            <select disabled class="form-control sub-variations" name="sub-variations[]" v-else @change="subVariationselected(index, $event)">
+            <select disabled class="form-control  form-control-sm sub-variations" name="sub-variations[]" v-else @change="subVariationselected(index, $event)">
               <option selected value="null">
               </option>
                 <option  v-for="(item, index)  in product_variation.subVariations" :value="item.id">
@@ -107,7 +106,7 @@
       <div class="col-md-2">
           <div class="form-group">
               <label>afbeelding id</label>
-              <select class="form-control variation-image" name="variation-image[]" v-model="product_variation.image_id">
+              <select class="form-control form-control-sm variation-image" name="variation-image[]" v-model="product_variation.image_id">
                 <option value="">
                 </option>
                 <option  v-for="(item, index)  in images" :value="item.id" :selected="item.id==product_variation.image_id">
@@ -119,13 +118,13 @@
       <div class="col-md-1">
           <div class="form-group">
               <label>Prijs</label>
-            <input type="number" class="form-control" min="0" name="variation-prijs[]" v-model="product_variation.price"/>
+            <input type="number" class="form-control form-control-sm" min="0" name="variation-prijs[]" v-model="product_variation.price"/>
           </div>
       </div>
       <div class="col-md-1" style="display:none">
           <div class="form-group">
               <label>EAN</label>
-            <input type="text" class="form-control"  name="variation-prijs[]" v-model="product_variation.ean"/>
+            <input type="text" class="form-control form-control-sm"  name="variation-prijs[]" v-model="product_variation.ean"/>
           </div>
       </div>
 
@@ -133,18 +132,18 @@
         <div class="form-row">
           <div class="col-md-6">
                 <label>Active </label>
-              <input type="checkbox" style="width: auto;float: none;margin: 0 auto;" class="form-control "  name="variation-active[]" v-model="product_variation.active">
+              <input type="checkbox" style="width: auto;float: none;margin: 0 auto;" class="form-control form-control-sm"  name="variation-active[]" v-model="product_variation.active">
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
-        <input class="form-control border-0  btn-info" type="button" v-on:click="addRow"  name="add-btn" value="+">
+        <input class="form-control form-control-sm border-0  btn-info" type="button" v-on:click="addRow"  name="add-btn" value="+">
       </div>
       <div class="col-md-4"></div>
       <div class="col-md-4">
-        <input class="form-control border-0  btn-success" type="button" v-on:click="updateVariations"  name="add-btn" value="bijwerken">
+        <input class="form-control form-control-sm btn-sm border-0  btn-success" type="button" v-on:click="updateVariations"  name="add-btn" value="bijwerken">
       </div>
     </div>
   </div>

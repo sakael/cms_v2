@@ -61,7 +61,7 @@ $(document).ready(function () {
       {
         data: null,
         orderable: false,
-        className: "table-action",
+        className: "table-action text-center",
         render: function (data, type, row) {
           return (
             '<a href="' +

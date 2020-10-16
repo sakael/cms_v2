@@ -434,9 +434,9 @@ function gereateEanForType($typeId, $productId)
         $ean = new App\Classes\EAN();
         $return = $ean->generate($productId, $variation['id'], $typeId);
         if (!$return) {
-            return $response->withJson([
+            return [
                 'status' => 'false', 'msg' => 'EAN wordt niet gegenereerd voor Product:' . $productId . ', Variant:' . $variatonId
-                ]);
+                ];
         }
     }
 }

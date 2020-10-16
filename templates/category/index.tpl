@@ -39,7 +39,7 @@
 									<th>Titel</th>
 									<th>Actief</th>
 									<th>Gemaakt op</th>
-									<th>
+									<th class="table-action text-center">>
 										<i class="fa fa-cog"></i>
 									</th>
 								</tr>
@@ -61,7 +61,7 @@
 										<td>
 											{{category.created_at}}
 										</td>
-										<td class="table-action">
+										<td class="table-action text-center">>
 											<a href="{{ path_for('Categories.GetSingle',{'id':category.id}) }}" class="action-icon" target="_blank">
 												<i class="mdi mdi-square-edit-outline"></i>
 											</a>

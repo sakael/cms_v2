@@ -1,40 +1,44 @@
 <template>
   <div>
-    <table width="100%" class="table table-striped table-hover">
+    <div class="table-responsive">
+      <table width="100%" class="table">
         <thead>
-        <tr>
+          <tr>
             <th>id</th>
             <th>datum</th>
             <th>url</th>
-        </tr>
+          </tr>
         </thead>
         <tbody>
-            <tr v-for="productUrl in product_urls">
-                <td>{{ productUrl.id }}</td>
-                <td>{{ productUrl.created_at}}</td>
-                <td v-if="productUrl.new!=1"><a :href="'http://' + shop_domain+'/'+productUrl.slug+'.html'" target="_blank">{{ productUrl.slug }}.html</a></td>
-                <td v-else-if="productUrl.new==1"><input type="text" class="form-control"  v-model="productUrl.slug"/></td>
-                <td v-if="productUrl.new==1">
-                  <div name="add-btn" class="form-control border-0 btn-success text-center" @click="addUrl()">
-                    <i class="fa fa-check" ></i>
-                  </div>
-                </td>
-                <td v-else></td>
-            </tr>
-            <tr>
-              <td colspan="4">
-                <div class="col-md-3 text-center mx-auto">
-                  <div class="form-control border-0  btn-info text-center" @click="addRow()">
-                    <i class="fa fa-plus" ></i>
-                  </div>
-                </div>
-              </td>
-            </tr>
+          <tr v-for="productUrl in product_urls">
+            <td>{{ productUrl.id }}</td>
+            <td>{{ productUrl.created_at }}</td>
+            <td v-if="productUrl.new != 1">
+              <a :href="'http://' + shop_domain + '/' + productUrl.slug + '.html'" target="_blank">{{ productUrl.slug }}.html</a>
+            </td>
+            <td v-else-if="productUrl.new == 1"><input type="text" class="form-control" v-model="productUrl.slug" /></td>
+            <td v-if="productUrl.new == 1">
+              <div name="add-btn" class="form-control border-0 btn-success text-center" @click="addUrl()">
+                <i class="fa fa-check"></i>
+              </div>
+            </td>
+            <td v-else></td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <div class="text-center ">
+                <a class="text-success font-24 hand" @click="addRow()">
+                  <i class="dripicons-plus"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
         </tbody>
-    </table>
-    <hr>
+      </table>
+    </div>
+    <hr />
     <small>
-        De bovenste URL wordt gebruikt op de webshop, oudere URLS verwijzen automatisch naar de bovenste
+      De bovenste URL wordt gebruikt op de webshop, oudere URLS verwijzen automatisch naar de bovenste
     </small>
   </div>
 </template>

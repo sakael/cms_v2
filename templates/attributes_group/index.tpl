@@ -39,7 +39,7 @@
 									<th>titel</th>
 									<th>Multiselect</th>
 									<th>Attributen in</th>
-									<th>
+									<th class="text-center">
 										<i class="fa fa-cog"></i>
 									</th>
 								</tr>
@@ -59,7 +59,7 @@
 										<td>
 											{{attributeGroup.attributes_count}}
 										</td>
-										<td class="table-action">
+										<td class="table-action text-center">
 											<a href="{{ path_for('AttributeGroups.GetSingle',{'id':attributeGroup.id}) }}" class="action-icon" target="_blank">
 												<i class="mdi mdi-square-edit-outline"></i>
 											</a>

@@ -25,7 +25,7 @@ $(document).ready(function () {
       {
         data: null,
         orderable: false,
-        className: "table-action",
+        className: "table-action text-center",
         render: function (data, type, row) {
           return '<a href="#" class="action-icon remove_type text-danger" data-id="' + row.id + '"><i class="mdi mdi-delete-off-outline"></i></a>';
         },

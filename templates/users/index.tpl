@@ -41,7 +41,7 @@
 									<th>Email</th>
 									<th>Super</th>
 									<th>Gemaakt op</th>
-									<th>
+									<th class="text-center">
 										<i class="fa fa-cog"></i>
 									</th>
 								</tr>
@@ -69,7 +69,7 @@
 										<td>
 											{{user.created_at}}
 										</td>
-										<td class="table-action">
+										<td class="table-action text-center">
 											<a href="{{ path_for('users.userGet',{'id':user.id}) }}" class="action-icon" target="_blank">
 												<i class="mdi mdi-square-edit-outline"></i>
 											</a>
