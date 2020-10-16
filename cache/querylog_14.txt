@@ -1,5 +1,5 @@
-5.207062 - SELECT  COUNT(notes.id) as count from notes where notes.status =0 and notes.user_id_to=14
-861.523151 - SELECT *,
+5.666971 - SELECT  COUNT(notes.id) as count from notes where notes.status =0 and notes.user_id_to=14
+1085.091829 - SELECT *,
                 JSON_UNQUOTE(JSON_EXTRACT(contents, '$.nl.title')) as title
                 FROM product order by id
-6.482840 - SELECT * FROM product_combo where product_id=1 order by sort_order ASC
+5.635977 - SELECT * FROM product_combo where product_id=1 order by sort_order ASC

@@ -71,7 +71,7 @@
 	<!-- end row-->
 
 
-	<ul class="nav nav-pills bg-nav-pills nav-justifieds">
+	<ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
 		<li class="nav-item">
 			<a class="nav-link active" data-toggletab="main_information_tab" data-toggle="tab" href="#main_information_tab" role="tab">Hoofdinformatie</a>
 		</li>

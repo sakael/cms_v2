@@ -1,7 +1,7 @@
 <div class="tab-pane fade" id="main_connections_tab" role="tabpanel">
 	<div class="card no-margin">
 		<div class="card-body">
-			<ul class="nav nav-pills bg-nav-pills nav-justifieds">
+			<ul class="nav nav-pills bg-nav-pills nav-justified">
 				<li class="nav-item-types">
 					<a class="nav-link active" data-toggletab="main_types_tab" data-toggle="tab" href="#main_types_tab" role="tab">Types</a>
 				</li>
