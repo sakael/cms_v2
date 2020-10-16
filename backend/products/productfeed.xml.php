@@ -28,8 +28,6 @@ $attribute_groups = DB::query("SELECT id,name FROM attribute_group");
 foreach ($attribute_groups as $g_id => $g){ $attribute_groups[$g_id]['name'] = json_decode($g['name'],true); }
 $attribute_groups = DBHelper::reIndex($attribute_groups, 'id');
 
-print_r($attribute_groups);
-
 $limit = 0;
 while(true){
 
@@ -45,7 +43,6 @@ while(true){
         LEFT JOIN product_pricing pp ON pp.product_id = p.id
 
         LIMIT ".$limit.",100");
-
 
     foreach ($products as $product){
 
@@ -143,8 +140,6 @@ while(true){
                 $a->addAttribute('option', $attribute_group['name'][$lang]);
                 $a->addAttribute('value', $attribute_info['name'][$lang]);
             }
-
-
 
         }
 
