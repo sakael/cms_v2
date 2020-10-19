@@ -48,7 +48,7 @@ define('ROOT_DIR', __DIR__);
 //Set Image URL
 define('IMAGE_PATH', 'https://ams3.cdn.123bestdeal.nl');
 
-define('SITE_URL', 'https://beta.123bestdeal.nl');
+define('SITE_URL', 'http://cms.local:8899');
 
 //Set Zebra printers
 define('ZEBRA_IP_1', '10.0.0.24:6101');
@@ -61,7 +61,7 @@ if (!defined('SENDINBLUE_KEY')) {
 }
 
 ///MSP
-define('MSP_TEST_API', false);
+define('MSP_TEST_API', true);
 if (!defined('BASE_URL')) {
     if (isset($_SERVER['SERVER_PORT'])) {
         define('BASE_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://') . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['SCRIPT_NAME']) . "/");
@@ -109,10 +109,11 @@ if ($querylogging) {
         // ajax query, skip this
      //   return;
     }
-    if(isset($_SESSION['user_id'])){
+    if (isset($_SESSION['user_id'])) {
         $user_id_tmp =  $_SESSION['user_id'];
+    } else {
+        $user_id_tmp ='';
     }
-    else $user_id_tmp ='';
     // always clear the log
     $fh = fopen(__DIR__.'/cache/querylog_'.$user_id_tmp.'.txt', 'w+');
     fwrite($fh, null);
@@ -124,10 +125,11 @@ if ($querylogging) {
         if (substr($params['query'], 0, 6) == "INSERT") {
             return;
         }
-        if(isset($_SESSION['user_id'])){
+        if (isset($_SESSION['user_id'])) {
             $user_id_tmp =  $_SESSION['user_id'];
+        } else {
+            $user_id_tmp ='';
         }
-        else $user_id_tmp ='';
         $fh = fopen(__DIR__.'/cache/querylog_'.$user_id_tmp.'.txt', 'a+');
         fwrite($fh, $params['runtime'] . ' - ' . $params['query']."\r\n");
         fclose($fh);

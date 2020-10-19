@@ -59,7 +59,7 @@ function askForPayment(order){
 	var input = input.replace(",","");
 	var input = input.replace(".","");
 
-	var url = "https://beta.klanten.i12cover.nl/betaal/"+order+"/"+input;
+	var url = paymentRegistrationLink+'/clients/betaal/'+order+"/"+input;
 	prompt('Stuur de volgende link naar de klant',url);
 }
     /////////////////////////////////////////////// Force Payment //////////////////////////////////////////////

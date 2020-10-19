@@ -65,6 +65,7 @@
 	<!-- specific page js file -->
     <script>
         var orderId = {{order.id}};
+        var paymentRegistrationLink = '{{ SITE_URL }}';
     </script>
     <script src="/assets/js/pages/orders/single/index.js"></script>
 	<script src="/assets/js/pages/orders/single/edit.js"></script>

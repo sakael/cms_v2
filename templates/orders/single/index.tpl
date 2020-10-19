@@ -346,6 +346,7 @@
 {% block javascript %}
 	<script type="text/javascript">
 		var orderId = {{ order.id }};
+		var paymentRegistrationLink = '{{ SITE_URL }}';
 	</script>
 	<script src="/assets/js/pages/orders/single/index.js"></script>
 	<!-- specific page js file -->
