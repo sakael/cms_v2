@@ -67,8 +67,10 @@ while(true){
 
         LIMIT ".$limit.",100");
 
-    if (!$products || count($products) < 1)
+    if (!$products || count($products) < 1){
+        print_r("no more products\n");
         break;
+    }
 
     DB::debugMode(0);
 
@@ -79,7 +81,12 @@ while(true){
         $product['url'] = DB::queryFirstRow("SELECT * FROM product_url WHERE product_id=%i ORDER BY id DESC", $product['id']);
         $product['categories'] = DB::queryOneColumn("category_id","SELECT category_id FROM product_categories WHERE product_id=%i", $product['id']);
         $product['attributes'] = DB::queryOneColumn("attribute_id", "SELECT attribute_id FROM product_attribute WHERE product_id=%i AND attribute_id IS NOT NULL", $product['id']);
-        $product['children'] = DB::queryOneColumn("product_brand_type_id", "SELECT product_brand_type_id FROM product_child WHERE product_id=%i", $product['id']);
+        //$product['children'] = DB::queryOneColumn("product_brand_type_id", "SELECT product_brand_type_id FROM product_child WHERE product_id=%i", $product['id']);
+        //$product['variations'] = DB::query("SELECT variation_id, type_id, EAN FROM `EAN` WHERE product_id=%i", $product['id']);
+        
+        // For this feed, just get the Universal EAN
+        $product['ean'] = DB::queryFirstrow("SELECT EAN from EAN WHERE product_id=%i AND type_id=111", $product['id']);
+                
         $product['contents'] = json_decode($product['contents'],true);
         $product['measurements'] = json_decode($product['measurements'],true);
         $product['price'] = json_decode($product['price'],true);
@@ -87,6 +94,7 @@ while(true){
         $p = array(
             'id' => $product['id'],
             'sku' => $product['sku'],
+            'ean' => $product['ean']['EAN'],
             'active' => ($product['active'] == 1 ? 'true' : 'false'),
             'url' => 'https://123bestdeal.nl/'.$product['url']['slug'],
             'stock' => array(
