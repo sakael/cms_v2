@@ -58,6 +58,7 @@
 							<thead class="thead-light">
 								<tr>
 									<th>Item</th>
+									<th>SKU</th>
 									<th>Aantal</th>
 									<th>Prijs</th>
 									<th>Totaal</th>
@@ -77,13 +78,17 @@
 											{% endif %}
 											<p class="m-0 d-inline-block align-middle font-14">
 												<a href="{{ path_for('ProductGet',{'id':product.product_id })}}" class="text-info">{{product.product_name}}</a>
+												{% for attribute in product.attributes %}
+												| {{attribute.title}}
+												{% endfor %}
 											</p>
 
 										</td>
-										<td>{{product.count}}</td>
-										<td>€
+										<td class="pt-3">{{product.product.sku}}</td>
+										<td class="pt-3">{{product.count}}</td>
+										<td class="pt-3">€
 											{{product.price}}</td>
-										<td>€
+										<td class="pt-3">€
 											{{product.totalprice}}</td>
 									</tr>
 								{% endfor %}

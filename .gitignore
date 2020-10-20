@@ -1,6 +1,7 @@
 /vendor
 /node_modules
 /tmp/*
+/cache/*
 !tmp/.keep
 /logs
 .DS_Store
